@@ -1,4 +1,4 @@
-package libreria;
+package clases;
 
 public class Consultorio {
 	private int codConsultorio, piso, capacidad, estado;

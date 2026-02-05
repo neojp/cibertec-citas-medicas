@@ -1,4 +1,4 @@
-package libreria;
+package clases;
 
 public class Paciente {
 	private int codPaciente, edad, estado;

@@ -1,4 +1,4 @@
-package libreria;
+package clases;
 
 public class Cita {
 	private int numCita, codPaciente, codMedico, codConsultorio, estado;

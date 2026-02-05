@@ -1,4 +1,4 @@
-package libreria;
+package clases;
 
 public class Medico {
 	public int getCodMedico() {
