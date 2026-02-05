@@ -1,6 +1,8 @@
 package clases;
 
 public class Medico {
+	private int codMedico, estado;
+	private String nombres, apellidos, especialidad, cmp;
 	public int getCodMedico() {
 		return codMedico;
 	}
@@ -37,6 +39,4 @@ public class Medico {
 	public void setCmp(String cmp) {
 		this.cmp = cmp;
 	}
-	private int codMedico, estado;
-	private String nombres, apellidos, especialidad, cmp;
 }
