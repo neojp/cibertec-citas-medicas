@@ -75,7 +75,7 @@ public class Principal extends JFrame implements ActionListener {
 		mnRegistro.addActionListener(this);
 		mnBar.add(mnRegistro);
 		
-		mntmRegistro = new JMenuItem("Registro");
+		mntmRegistro = new JMenuItem("Registro de Citas");
 		mntmRegistro.addActionListener(this);
 		mnRegistro.add(mntmRegistro);
 		
@@ -83,7 +83,7 @@ public class Principal extends JFrame implements ActionListener {
 		mnConsulta.addActionListener(this);
 		mnBar.add(mnConsulta);
 		
-		mntmConsulta = new JMenuItem("Consulta");
+		mntmConsulta = new JMenuItem("Consulta de Citas");
 		mntmConsulta.addActionListener(this);
 		mnConsulta.add(mntmConsulta);
 		
@@ -91,7 +91,7 @@ public class Principal extends JFrame implements ActionListener {
 		mnReporte.addActionListener(this);
 		mnBar.add(mnReporte);
 		
-		mntmReporte = new JMenuItem("Reporte");
+		mntmReporte = new JMenuItem("Reporte de Citas");
 		mntmReporte.addActionListener(this);
 		mnReporte.add(mntmReporte);
 		
