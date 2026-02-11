@@ -16,11 +16,11 @@ public class Acerca extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblAutores;
 	private JLabel lblBraulio;
-	private JLabel lblDonnie;
 	private JLabel lblJoan;
+	private JLabel lblRosa;
 	private JButton btnCerrar;
-	private JSeparator separator;
 	private JLabel lblMicroprocesadores;
+	private JLabel lblAntonio;
 
 	/**
 	 * Launch the application.
@@ -40,7 +40,7 @@ public class Acerca extends JDialog implements ActionListener {
 	 */
 	public Acerca() {
 		setTitle("Acerca del Sistema");
-		setBounds(100, 100, 450, 254);
+		setBounds(100, 100, 450, 301);
 		getContentPane().setLayout(null);
 		{
 			lblMicroprocesadores = new JLabel("Sistema de Reserva de Citas Médicas");
@@ -55,32 +55,33 @@ public class Acerca extends JDialog implements ActionListener {
 		lblAutores.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblAutores.setBounds(180, 68, 79, 14);
 		getContentPane().add(lblAutores);
+		
+		lblAntonio = new JLabel("Antonio Javier Ceron Salcedo");
+		lblAntonio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAntonio.setBounds(121, 98, 192, 14);
+		getContentPane().add(lblAntonio);
 
-		lblBraulio = new JLabel("Braulio Saloma");
+		lblBraulio = new JLabel("Braulio Saloma Calderon");
 		lblBraulio.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBraulio.setBounds(168, 93, 102, 14);
+		lblBraulio.setBounds(121, 125, 192, 14);
 		getContentPane().add(lblBraulio);
 
-		lblDonnie = new JLabel("Joan Piedra");
-		lblDonnie.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDonnie.setBounds(168, 118, 102, 14);
-		getContentPane().add(lblDonnie);
-
-		lblJoan = new JLabel("Rosa Truyenque");
+		lblJoan = new JLabel("Joan Piedra Lau");
 		lblJoan.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJoan.setBounds(168, 143, 102, 14);
+		lblJoan.setBounds(121, 150, 192, 14);
 		getContentPane().add(lblJoan);
+
+		lblRosa = new JLabel("Rosa Truyenque Tanaka");
+		lblRosa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRosa.setBounds(121, 175, 192, 14);
+		getContentPane().add(lblRosa);
 
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.setBackground(new Color(128, 64, 64));
 		btnCerrar.setForeground(new Color(255, 255, 255));
 		btnCerrar.addActionListener(this);
-		btnCerrar.setBounds(178, 174, 89, 23);
+		btnCerrar.setBounds(172, 206, 89, 23);
 		getContentPane().add(btnCerrar);
-
-		separator = new JSeparator();
-		separator.setBounds(10, 54, 418, 2);
-		getContentPane().add(separator);
 	}
 
 	public void actionPerformed(ActionEvent e) {

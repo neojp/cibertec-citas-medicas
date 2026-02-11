@@ -133,21 +133,36 @@ public class Principal extends JFrame implements ActionListener {
 	}
 	protected void actionPerformedMntmPaciente(ActionEvent e) {
 		System.out.println("paciente");
+		MantenimientoPaciente ventana = new MantenimientoPaciente();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmMedico(ActionEvent e) {
 		System.out.println("medico");
+		MantenimientoMedico ventana = new MantenimientoMedico();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmConsultorio(ActionEvent e) {
 		System.out.println("consultorio");
+		MantenimientoConsultorio ventana = new MantenimientoConsultorio();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmRegistro(ActionEvent e) {
 		System.out.println("registro");
+		// TODO
 	}
 	protected void actionPerformedMntmConsulta(ActionEvent e) {
 		System.out.println("consulta");
+		// TODO
 	}
 	protected void actionPerformedMntmReporte(ActionEvent e) {
 		System.out.println("reporte");
+		// TODO
 	}
 	protected void actionPerformedMntmAcerca(ActionEvent e) {
 		System.out.println("acerca");

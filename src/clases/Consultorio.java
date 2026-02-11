@@ -1,8 +1,21 @@
 package clases;
 
 public class Consultorio {
+	// variables privadas
 	private int codConsultorio, piso, capacidad, estado;
 	private String nombre, ubicacion;
+	
+	// constructor
+	public Consultorio(int codConsultorio, int piso, int capacidad, int estado, String nombre, String ubicacion) {
+		this.codConsultorio = codConsultorio;
+		this.piso = piso;
+		this.capacidad = capacidad;
+		this.estado = estado;
+		this.nombre = nombre;
+		this.ubicacion = ubicacion;
+	}
+	
+	// getters & setters
 	public int getCodConsultorio() {
 		return codConsultorio;
 	}

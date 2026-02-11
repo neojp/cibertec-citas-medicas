@@ -1,8 +1,21 @@
 package clases;
 
 public class Medico {
+	// variables privadas
 	private int codMedico, estado;
 	private String nombres, apellidos, especialidad, cmp;
+	
+	// constructor
+	public Medico(int codMedico, int estado, String nombres, String apellidos, String especialidad, String cmp) {
+		this.codMedico = codMedico;
+		this.estado = estado;
+		this.nombres = nombres;
+		this.apellidos = apellidos;
+		this.especialidad = especialidad;
+		this.cmp = cmp;
+	}
+
+	// getters & setters
 	public int getCodMedico() {
 		return codMedico;
 	}

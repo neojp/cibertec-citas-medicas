@@ -1,8 +1,24 @@
 package clases;
 
 public class Cita {
+	// variables privadas
 	private int numCita, codPaciente, codMedico, codConsultorio, estado;
 	private String fecha, hora, motivo;
+	
+	// constructor
+	public Cita(int numCita, int codPaciente, int codMedico, int codConsultorio, int estado, String fecha, String hora,
+			String motivo) {
+		this.numCita = numCita;
+		this.codPaciente = codPaciente;
+		this.codMedico = codMedico;
+		this.codConsultorio = codConsultorio;
+		this.estado = estado;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.motivo = motivo;
+	}
+
+	// getters & setters
 	public int getNumCita() {
 		return numCita;
 	}
