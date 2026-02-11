@@ -5,8 +5,6 @@ import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -58,6 +56,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		
 		btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(this);
+
 		btnEditar.setBounds(109, 314, 89, 23);
 		getContentPane().add(btnEditar);
 		
@@ -76,7 +75,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		getContentPane().add(lblOpciones);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 572, 233);
+		scrollPane.setBounds(10, 45, 572, 270);
 		getContentPane().add(scrollPane);
 		
 		tblTabla = new JTable();
