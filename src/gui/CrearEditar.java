@@ -8,6 +8,9 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import clases.Medico;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -25,7 +28,7 @@ public class CrearEditar extends JDialog implements ActionListener {
 	private JTextField txtCodigo, txtNombre, txtNombres, txtApellidos, txtDNI, txtEdad, txtPiso,
 					txtEspecialidad, txtCMP, txtCelular, txtCorreo, txtUbicacion, txtCapacidad;
 	
-	private JComboBox<String> cboEstado;
+	private JComboBox<String> cboEspecialidad, cboEstado;
 	
 	private JButton btnAgregar, btnCancelar, btnEditar;
 	private JPanel buttonPane;
@@ -62,7 +65,7 @@ public class CrearEditar extends JDialog implements ActionListener {
 		
 		// creacion de filas
 		txtCodigo = new JTextField(15);
-		contentPanel.add(crearFila("Código " + type, txtCodigo));
+		contentPanel.add(crearFila("Código " + type + ":", txtCodigo));
 		contentPanel.add(Box.createVerticalStrut(8));
 		
 		if (esPaciente || esMedico) {
@@ -80,6 +83,10 @@ public class CrearEditar extends JDialog implements ActionListener {
 			contentPanel.add(crearFila("DNI", txtDNI));
 			contentPanel.add(Box.createVerticalStrut(8));
 			
+			if (action == "editar") {
+				txtDNI.setEditable(false);
+			}
+			
 			txtEdad = new JTextField(15);
 			contentPanel.add(crearFila("Edad:", txtEdad));
 			contentPanel.add(Box.createVerticalStrut(8));
@@ -96,7 +103,9 @@ public class CrearEditar extends JDialog implements ActionListener {
 		
 		if (esMedico) {
 			txtEspecialidad = new JTextField(15);
-			contentPanel.add(crearFila("Especialidad:", txtEspecialidad));
+			cboEspecialidad = new JComboBox<String>(Medico.especialidades);
+
+			contentPanel.add(crearFila("Especialidad:", cboEspecialidad));
 			contentPanel.add(Box.createVerticalStrut(8));
 
 			txtCMP = new JTextField(15);
