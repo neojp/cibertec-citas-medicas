@@ -160,6 +160,10 @@ public class Principal extends JFrame implements ActionListener {
 	protected void actionPerformedMntmConsulta(ActionEvent e) {
 		System.out.println("consulta");
 		// TODO
+		ConsultaCitas consultaCitas = new ConsultaCitas();
+		consultaCitas.setLocationRelativeTo(this);
+		consultaCitas.setModal(true);
+		consultaCitas.setVisible(true);
 	}
 	protected void actionPerformedMntmReporte(ActionEvent e) {
 		System.out.println("reporte");
