@@ -10,6 +10,7 @@ import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
 
 public class MantenimientoConsultorio extends JDialog implements ActionListener {
 
@@ -96,7 +97,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		getContentPane().add(btnBuscarCodigo);
 		
 		lblBuscar = new JLabel("Buscar por:");
-		lblBuscar.setBounds(332, 15, 58, 14);
+		lblBuscar.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblBuscar.setBounds(304, 15, 79, 14);
 		getContentPane().add(lblBuscar);
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -124,8 +126,38 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnBuscarCMP(ActionEvent e) {
+		// inicializar el JDialog en modo modal y espera a que se oculte
+		FormularioBuscarCMP ventana = new FormularioBuscarCMP();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
+		
+		if (ventana.getEmpezarBusqueda()) {
+			// este codigo espera a que la ventana se oculte
+			// se obtiene el codigo del JTextField en la ventana
+			String cmp = ventana.leerCMP();
+			System.out.println("Iniciar busqueda con CMP: " + cmp);
+		}
+		
+		// y ahora se cierra la ventana
+		ventana.dispose();
 	}
 	protected void actionPerformedBtnBuscarCodigo(ActionEvent e) {
+		// inicializar el JDialog en modo modal y espera a que se oculte
+		FormularioBuscarCodigo ventana = new FormularioBuscarCodigo();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
+		
+		if (ventana.getEmpezarBusqueda()) {
+			// este codigo espera a que la ventana se oculte
+			// se obtiene el codigo del JTextField en la ventana
+			String codigo = ventana.leerCodigo();
+			System.out.println("Iniciar busqueda con codigo: " + codigo);
+		}
+		
+		// y ahora se cierra la ventana
+		ventana.dispose();
 	}
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 	}

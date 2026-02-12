@@ -13,49 +13,36 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FormularioBuscarCodigo extends JDialog implements ActionListener {
+public class FormularioBuscarCMP extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtCodigo;
-	private JLabel lblCodigo;
+	private JTextField txtCMP;
+	private JLabel lblCMP;
 	private JButton btnBuscar;
 	
 	private Boolean empezarBusqueda = false;
 
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			FormularioBuscarCodigo dialog = new FormularioBuscarCodigo();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	/**
 	 * Create the dialog.
 	 */
-	public FormularioBuscarCodigo() {
-		setTitle("Buscar por Código");
+	public FormularioBuscarCMP() {
+		setTitle("Buscar por CMP");
 		setBounds(100, 100, 198, 110);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		txtCodigo = new JTextField();
-		txtCodigo.setBounds(88, 11, 86, 20);
-		contentPanel.add(txtCodigo);
-		txtCodigo.setColumns(10);
+		txtCMP = new JTextField();
+		txtCMP.setBounds(88, 11, 86, 20);
+		contentPanel.add(txtCMP);
+		txtCMP.setColumns(10);
 		
-		lblCodigo = new JLabel("Código");
-		lblCodigo.setLabelFor(txtCodigo);
-		lblCodigo.setBounds(10, 14, 68, 14);
-		contentPanel.add(lblCodigo);
+		lblCMP = new JLabel("CMP");
+		lblCMP.setLabelFor(txtCMP);
+		lblCMP.setBounds(10, 14, 68, 14);
+		contentPanel.add(lblCMP);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -77,11 +64,11 @@ public class FormularioBuscarCodigo extends JDialog implements ActionListener {
 	protected void actionPerformedBtnBuscar(ActionEvent e) {
 		empezarBusqueda = true;
 		setVisible(false);
-		System.out.println("Buscar -> " + leerCodigo());
+		System.out.println("Buscar -> " + leerCMP());
 	}
 	
-	public String leerCodigo() {
-		return txtCodigo.getText();
+	public String leerCMP() {
+		return txtCMP.getText();
 	}
 	
 	public Boolean getEmpezarBusqueda() {

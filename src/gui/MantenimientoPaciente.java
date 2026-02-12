@@ -75,7 +75,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		getContentPane().add(lblOpciones);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 572, 270);
+		scrollPane.setBounds(10, 45, 572, 233);
 		getContentPane().add(scrollPane);
 		
 		tblTabla = new JTable();
