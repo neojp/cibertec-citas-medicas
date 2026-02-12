@@ -138,7 +138,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		
 		if (ventana.getEmpezarBusqueda()) {
 			// este codigo espera a que la ventana se oculte
-			// se obtiene el codigo del JTextField en la ventana
+			// se obtiene el CMP del JTextField en la ventana
 			String cmp = ventana.leerCMP();
 			System.out.println("Iniciar busqueda con CMP: " + cmp);
 		}

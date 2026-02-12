@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
 
 public class MantenimientoPaciente extends JDialog implements ActionListener {
 
@@ -95,6 +96,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		getContentPane().add(btnBuscarCodigo);
 		
 		lblBuscar = new JLabel("Buscar por:");
+		lblBuscar.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblBuscar.setBounds(321, 15, 69, 14);
 		getContentPane().add(lblBuscar);
 	}
@@ -127,8 +129,38 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnBuscarDNI(ActionEvent e) {
+		// inicializar el JDialog en modo modal y espera a que se oculte
+		FormularioBuscarDNI ventana = new FormularioBuscarDNI();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
+		
+		if (ventana.getEmpezarBusqueda()) {
+			// este codigo espera a que la ventana se oculte
+			// se obtiene el DNI del JTextField en la ventana
+			String dni = ventana.leerDNI();
+			System.out.println("Iniciar busqueda con CMP: " + dni);
+		}
+		
+		// y ahora se cierra la ventana
+		ventana.dispose();
 	}
 	protected void actionPerformedBtnBuscarCodigo(ActionEvent e) {
+		// inicializar el JDialog en modo modal y espera a que se oculte
+		FormularioBuscarCodigo ventana = new FormularioBuscarCodigo();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
+		
+		if (ventana.getEmpezarBusqueda()) {
+			// este codigo espera a que la ventana se oculte
+			// se obtiene el codigo del JTextField en la ventana
+			String codigo = ventana.leerCodigo();
+			System.out.println("Iniciar busqueda con codigo: " + codigo);
+		}
+		
+		// y ahora se cierra la ventana
+		ventana.dispose();
 	}
 	protected void actionPerformedBtnEditar(ActionEvent e) {
 		CrearEditar creareditar = new CrearEditar("editar", "paciente");
