@@ -18,6 +18,7 @@ public class ConsultaCitas extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
+			JDialog.setDefaultLookAndFeelDecorated(true);
 			ConsultaCitas dialog = new ConsultaCitas();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

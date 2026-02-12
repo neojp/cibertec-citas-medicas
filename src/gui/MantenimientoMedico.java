@@ -118,6 +118,10 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
+		CrearEditar creareditar = new CrearEditar("crear", "medico");
+		creareditar.setLocationRelativeTo(this);
+		creareditar.setModal(true);
+		creareditar.setVisible(true);
 	}
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
@@ -128,5 +132,9 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnEditar(ActionEvent e) {
+		CrearEditar creareditar = new CrearEditar("editar", "medico");
+		creareditar.setLocationRelativeTo(this);
+		creareditar.setModal(true);
+		creareditar.setVisible(true);
 	}
 }

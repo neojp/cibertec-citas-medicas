@@ -122,6 +122,10 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		}
 	}
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
+		CrearEditar creareditar = new CrearEditar("crear", "consultorio");
+		creareditar.setLocationRelativeTo(this);
+		creareditar.setModal(true);
+		creareditar.setVisible(true);
 	}
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
@@ -162,5 +166,9 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnEditar(ActionEvent e) {
+		CrearEditar creareditar = new CrearEditar("editar", "consultorio");
+		creareditar.setLocationRelativeTo(this);
+		creareditar.setModal(true);
+		creareditar.setVisible(true);
 	}
 }
