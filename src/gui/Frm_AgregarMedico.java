@@ -134,6 +134,7 @@ public class Frm_AgregarMedico extends JDialog {
 		btnCancelarRegistro = new JButton("CANCELAR ");
 		btnCancelarRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 		btnCancelarRegistro.setBackground(new Color(178, 34, 34));

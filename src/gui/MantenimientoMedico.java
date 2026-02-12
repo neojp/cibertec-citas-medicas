@@ -120,10 +120,17 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
-		CrearEditar creareditar = new CrearEditar("agregar", "medico");
-		creareditar.setLocationRelativeTo(this);
-		creareditar.setModal(true);
-		creareditar.setVisible(true);
+		// codigo por Braulio
+//		CrearEditar creareditar = new CrearEditar("agregar", "medico");
+//		creareditar.setLocationRelativeTo(this);
+//		creareditar.setModal(true);
+//		creareditar.setVisible(true);
+		
+		// codigo por Javier
+		Frm_AgregarMedico ventana = new Frm_AgregarMedico();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
