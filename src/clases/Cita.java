@@ -5,6 +5,16 @@ public class Cita {
 	private int numCita, codPaciente, codMedico, codConsultorio, estado;
 	private String fecha, hora, motivo;
 	
+	// variables estaticas privadas
+	private static int indice = 0;
+	
+	// variables estaticas publicas
+	public static String[] estados = new String[] {
+		"Pendiente",
+		"Atendida",
+		"Cancelada"
+	};
+	
 	// constructor
 	public Cita(int numCita, int codPaciente, int codMedico, int codConsultorio, int estado, String fecha, String hora,
 			String motivo) {
@@ -66,5 +76,10 @@ public class Cita {
 	}
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
+	}
+	
+	// metodos estaticos publicos
+	public static int generarNumCita() {
+		return indice + 1;
 	}
 }

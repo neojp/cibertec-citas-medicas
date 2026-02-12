@@ -5,6 +5,41 @@ public class Medico {
 	private int codMedico, estado;
 	private String nombres, apellidos, especialidad, cmp;
 	
+	// variables estaticas privadas
+	private static int indice = 500;
+	
+	// variables estaticas publicas
+	public static String[] especialidades = new String[] {
+		"Anestesiología",
+		"Cardiología",
+		"Cirugía General",
+		"Cirugía Plástica",
+		"Dermatología",
+		"Endocrinología",
+		"Gastroenterología",
+		"Ginecología y Obstetricia",
+		"Medicina Familiar",
+		"Medicina Física y Rehabilitación",
+		"Medicina General",
+		"Medicina Interna",
+		"Nefrología",
+		"Neumología",
+		"Neurología",
+		"Oftalmología",
+		"Oncología",
+		"Otorrinolaringología",
+		"Pediatría",
+		"Psiquiatría",
+		"Radiología",
+		"Traumatología",
+		"Urología"
+	};
+	
+	public static String[] estados = new String[] {
+		"Inactivo",
+		"Activo"
+	};
+	
 	// constructor
 	public Medico(int codMedico, int estado, String nombres, String apellidos, String especialidad, String cmp) {
 		this.codMedico = codMedico;
@@ -51,5 +86,10 @@ public class Medico {
 	}
 	public void setCmp(String cmp) {
 		this.cmp = cmp;
+	}
+	
+	// metodos estaticos publicos
+	public static int generarCodMedico() {
+		return indice + 1;
 	}
 }

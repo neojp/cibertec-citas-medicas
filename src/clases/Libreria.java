@@ -20,4 +20,10 @@ public class Libreria {
 	private static String redondear(double num) {
 		return String.format("%.2f", num);
 	}
+	
+	// redondear números enteros a 2 decimales
+	private static String getLabelEstado(int estado) {
+		if (estado == 0) return "Inactivo";
+		else return "Activo";
+	}
 }

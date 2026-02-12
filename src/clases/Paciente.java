@@ -5,6 +5,15 @@ public class Paciente {
 	private int codPaciente, edad, estado;
 	private String nombres, apellidos, dni, celular, correo;
 	
+	// variables estaticas privadas
+	private static int indice = 1000;
+	
+	// variables estaticas publicas
+	public static String[] estados = new String[] {
+		"Inactivo",
+		"Activo"
+	};
+	
 	// constructor
 	public Paciente(int codPaciente, int edad, int estado, String nombres, String apellidos, String dni, String celular,
 			String correo) {
@@ -68,5 +77,12 @@ public class Paciente {
 		this.correo = correo;
 	}
 	
+	// metodos estaticos publicos
+	public static int generarCodPaciente() {
+		return indice + 1;
+	}
 	
+	public static boolean validarEdad(int edad) {
+		return edad >= 0;
+	}
 }

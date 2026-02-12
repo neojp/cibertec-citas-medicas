@@ -4,7 +4,16 @@ public class Consultorio {
 	// variables privadas
 	private int codConsultorio, piso, capacidad, estado;
 	private String nombre, ubicacion;
+
+	// variables estaticas privadas
+	private static int indice = 300;
 	
+	// variables estaticas publicas
+	public static String[] estados = new String[] {
+		"Inactivo",
+		"Activo"
+	};
+
 	// constructor
 	public Consultorio(int codConsultorio, int piso, int capacidad, int estado, String nombre, String ubicacion) {
 		this.codConsultorio = codConsultorio;
@@ -14,7 +23,7 @@ public class Consultorio {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 	}
-	
+
 	// getters & setters
 	public int getCodConsultorio() {
 		return codConsultorio;
@@ -51,5 +60,14 @@ public class Consultorio {
 	}
 	public void setUbicacion(String ubicacion) {
 		this.ubicacion = ubicacion;
+	}
+	
+	// metodos estaticos publicos
+	public static int generarCodConsultorio() {
+		return indice + 1;
+	}
+	
+	public static boolean validarPiso(int piso) {
+		return piso >= 0;
 	}
 }
