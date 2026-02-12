@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +11,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.FlowLayout;
 
 public class Principal extends JFrame implements ActionListener {
 
@@ -32,6 +36,7 @@ public class Principal extends JFrame implements ActionListener {
 	private JMenuItem mntmReporteMedico;
 	private JMenuItem mntmReporteConsultorio;
 	private JMenuItem mntmReporteFecha;
+	private JLabel lblBgImage;
 
 	/**
 	 * Launch the application.
@@ -53,7 +58,7 @@ public class Principal extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Principal() {
-		setTitle("Sistema de Reserva de Citas Médicas");
+		setTitle("Sistema de Reserva de Citas Médicas - Clínica San Felipe");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 686, 480);
 		
@@ -119,8 +124,13 @@ public class Principal extends JFrame implements ActionListener {
 		mntmAcerca.addActionListener(this);
 		mnAyuda.add(mntmAcerca);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		lblBgImage = new JLabel(new ImageIcon(Principal.class.getResource("/main/resources/images/bg.jpg")));
+		lblBgImage.setBounds(0, 0, 800, 486);
+		contentPane.add(lblBgImage);
 
 	}
 
