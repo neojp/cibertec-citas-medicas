@@ -5,11 +5,17 @@ import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import arreglo.ArregloConsultorio;
+import clases.Consultorio;
+import clases.Libreria;
+
 import javax.swing.SwingConstants;
 
 public class MantenimientoConsultorio extends JDialog implements ActionListener {
@@ -25,6 +31,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
 	private JTable tblTabla;
+	private DefaultTableModel modelo;
+	private ArregloConsultorio arr = new ArregloConsultorio();
 
 	/**
 	 * Launch the application.
@@ -80,15 +88,16 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		scrollPane.setBounds(10, 45, 572, 233);
 		getContentPane().add(scrollPane);
 		
-		tblTabla = new JTable();
-		tblTabla.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Código", "Nombre", "Piso", "Ubicación", "Capacidad", "Estado"
-			}
-		));
-		tblTabla.setFillsViewportHeight(true);
+		modelo = Libreria.crearModelo(new String[] {
+			"Código",
+			"Nombre",
+			"Piso",
+			"Ubicación",
+			"Capacidad",
+			"Estado"
+		});
+		tblTabla = Libreria.crearTabla();
+		tblTabla.setModel(modelo);
 		scrollPane.setViewportView(tblTabla);
 		
 		btnBuscarCodigo = new JButton("Código");
@@ -100,6 +109,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		lblBuscar.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblBuscar.setBounds(304, 15, 79, 14);
 		getContentPane().add(lblBuscar);
+		
+		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEliminar) {
@@ -166,9 +177,39 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnEditar(ActionEvent e) {
-		CrearEditar creareditar = new CrearEditar("editar", "consultorio");
-		creareditar.setLocationRelativeTo(this);
-		creareditar.setModal(true);
-		creareditar.setVisible(true);
+		// mostrar formulario si una fila esta seleccionada
+		int indice = tblTabla.getSelectedRow();
+		if (indice != -1) {
+			// obtener consultorio por codigo
+			int codigo = (int) modelo.getValueAt(indice, 0);
+			Consultorio consultorio = arr.buscarCodConsultorio(codigo);
+			
+			// TODO: llenar formulario con estos datos
+			
+			// abrir formulario
+			CrearEditar creareditar = new CrearEditar("editar", "consultorio");
+			creareditar.setLocationRelativeTo(this);
+			creareditar.setModal(true);
+			creareditar.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(this, "Seleccione una fila");
+		}
+	}
+	
+	// actualizar tabla con contenido
+	void listar() {
+		System.out.println("listar " + arr.tamano() + " consultorios");
+		modelo.setRowCount(0);
+		for (int i = 0; i < arr.tamano(); i++) {
+			Object[] fila = {
+				arr.obtener(i).getCodConsultorio(),
+				arr.obtener(i).getNombre(),
+				arr.obtener(i).getPiso(),
+				arr.obtener(i).getUbicacion(),
+				arr.obtener(i).getCapacidad(),
+				Consultorio.estados[arr.obtener(i).getEstado()]
+			};
+			modelo.addRow(fila);
+		}
 	}
 }

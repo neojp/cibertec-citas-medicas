@@ -1,0 +1,2 @@
+42;1;1;0;Nombre;Ubicacion
+55;3;130;1;Nombre 2;Ubicacion 2

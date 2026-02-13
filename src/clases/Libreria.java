@@ -2,6 +2,8 @@ package clases;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Libreria {
 	// centra la ventana relativa al padre, la hace modal y la hace visible
@@ -17,13 +19,40 @@ public class Libreria {
 	}
 	
 	// redondear números enteros a 2 decimales
-	private static String redondear(double num) {
+	public static String redondear(double num) {
 		return String.format("%.2f", num);
 	}
 	
 	// redondear números enteros a 2 decimales
-	private static String getLabelEstado(int estado) {
+	public static String getLabelEstado(int estado) {
 		if (estado == 0) return "Inactivo";
 		else return "Activo";
+	}
+	
+	// tablas
+	public static JTable crearTabla() {
+		JTable tblTabla = new JTable();
+		tblTabla.setFocusable(false);
+		tblTabla.setFillsViewportHeight(true);
+		tblTabla.setColumnSelectionAllowed(false);
+		tblTabla.setRowSelectionAllowed(true);
+		return tblTabla;
+	}
+
+	// modelo para tablas
+	public static DefaultTableModel crearModelo(String[] columnas) {
+		return new DefaultTableModel(
+			// datos
+			new Object[][] {
+			},
+			// columnas
+			columnas
+		) {
+			// no dejar que las celdas sean editables
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 	}
 }
