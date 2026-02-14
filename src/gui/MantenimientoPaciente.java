@@ -124,10 +124,10 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
-		CrearEditar creareditar = new CrearEditar("agregar", "paciente");
-		creareditar.setLocationRelativeTo(this);
-		creareditar.setModal(true);
-		creareditar.setVisible(true);
+		FormularioPaciente ventana = new FormularioPaciente();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
@@ -185,10 +185,10 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnEditar(ActionEvent e) {
-		CrearEditar creareditar = new CrearEditar("editar", "paciente");
-		creareditar.setLocationRelativeTo(this);
-		creareditar.setModal(true);
-		creareditar.setVisible(true);
+		FormularioPaciente ventana = new FormularioPaciente("editar");
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 
 	protected void actionPerformedBtnEliminar(ActionEvent e) {

@@ -105,7 +105,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnEditar(ActionEvent e) {
-		FormularioCita ventana = new FormularioCita();
+		FormularioCita ventana = new FormularioCita("editar");
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);

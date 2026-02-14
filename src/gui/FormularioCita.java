@@ -7,11 +7,19 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import clases.Cita;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class FormularioCita extends JDialog implements ActionListener {
 
@@ -20,34 +28,46 @@ public class FormularioCita extends JDialog implements ActionListener {
 	private JTextField txtNumCita;
 	private JLabel lblCita;
 	private JLabel lblPaciente;
-	private JTextField txtPaciente;
 	private JLabel lblMedico;
-	private JTextField txtMedico;
 	private JLabel lblConsultorio;
-	private JTextField txtConsultorio;
 	private JLabel lblFecha;
-	private JTextField txtFecha;
 	private JLabel lblHora;
-	private JTextField txtHora;
 	private JLabel lblEstado;
-	private JTextField txtMotivo;
 	private JLabel lblMotivo;
 	private JComboBox cboEstado;
 	private JButton btnCancelar;
 	private JButton btnAceptar;
+	private JSpinner spnHoras;
+	private JSpinner spnMinutos;
+	private JSpinner spnDia;
+	private JSpinner spnMes;
+	private JSpinner spnAno;
+	private JComboBox cboConsultorio;
+	private JComboBox cboMedico;
+	private JComboBox cboPaciente;
+	private JScrollPane scp;
+	private JTextArea txtMotivo;
 
 	/**
 	 * Create the dialog.
 	 */
 	public FormularioCita() {
+		this("crear");
+	}
+	/**
+	 * 
+	 * @param action "crear" "editar"
+	 */
+	public FormularioCita(String action) {
 		setTitle("Cita");
-		setBounds(100, 100, 368, 321);
+		setBounds(100, 100, 368, 387);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		txtNumCita = new JTextField();
+		txtNumCita.setEditable(false);
 		txtNumCita.setBounds(157, 11, 186, 20);
 		contentPanel.add(txtNumCita);
 		txtNumCita.setColumns(10);
@@ -56,67 +76,89 @@ public class FormularioCita extends JDialog implements ActionListener {
 		lblCita.setBounds(10, 14, 137, 14);
 		contentPanel.add(lblCita);
 		
-		lblPaciente = new JLabel("Codigo de Paciente:");
+		lblPaciente = new JLabel("Paciente:");
 		lblPaciente.setBounds(10, 45, 137, 14);
 		contentPanel.add(lblPaciente);
 		
-		txtPaciente = new JTextField();
-		txtPaciente.setColumns(10);
-		txtPaciente.setBounds(157, 42, 186, 20);
-		contentPanel.add(txtPaciente);
-		
-		lblMedico = new JLabel("Código de Médico:");
+		lblMedico = new JLabel("Médico:");
 		lblMedico.setBounds(10, 73, 137, 14);
 		contentPanel.add(lblMedico);
 		
-		txtMedico = new JTextField();
-		txtMedico.setColumns(10);
-		txtMedico.setBounds(157, 70, 186, 20);
-		contentPanel.add(txtMedico);
-		
-		lblConsultorio = new JLabel("Código de Consultorio:");
+		lblConsultorio = new JLabel("Consultorio:");
 		lblConsultorio.setBounds(10, 101, 137, 14);
 		contentPanel.add(lblConsultorio);
-		
-		txtConsultorio = new JTextField();
-		txtConsultorio.setColumns(10);
-		txtConsultorio.setBounds(157, 98, 186, 20);
-		contentPanel.add(txtConsultorio);
 		
 		lblFecha = new JLabel("Fecha (dd/mm/aa):");
 		lblFecha.setBounds(10, 129, 137, 14);
 		contentPanel.add(lblFecha);
 		
-		txtFecha = new JTextField();
-		txtFecha.setColumns(10);
-		txtFecha.setBounds(157, 126, 186, 20);
-		contentPanel.add(txtFecha);
-		
 		lblHora = new JLabel("Hora (hh:mm):");
 		lblHora.setBounds(10, 157, 137, 14);
 		contentPanel.add(lblHora);
 		
-		txtHora = new JTextField();
-		txtHora.setColumns(10);
-		txtHora.setBounds(157, 154, 186, 20);
-		contentPanel.add(txtHora);
-		
 		lblEstado = new JLabel("Estado:");
 		lblEstado.setBounds(10, 185, 137, 14);
 		contentPanel.add(lblEstado);
-		
-		txtMotivo = new JTextField();
-		txtMotivo.setColumns(10);
-		txtMotivo.setBounds(157, 210, 186, 20);
-		contentPanel.add(txtMotivo);
 		
 		lblMotivo = new JLabel("Motivo:");
 		lblMotivo.setBounds(10, 213, 137, 14);
 		contentPanel.add(lblMotivo);
 		
 		cboEstado = new JComboBox();
+		lblEstado.setLabelFor(cboEstado);
+		cboEstado.setModel(new DefaultComboBoxModel(Cita.estados));
 		cboEstado.setBounds(157, 181, 186, 22);
 		contentPanel.add(cboEstado);
+		
+		spnHoras = new JSpinner();
+		spnHoras.setModel(new SpinnerNumberModel(0, 0, 23, 1));
+		spnHoras.setBounds(157, 154, 45, 20);
+		contentPanel.add(spnHoras);
+		
+		spnMinutos = new JSpinner();
+		spnMinutos.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+		spnMinutos.setBounds(212, 154, 45, 20);
+		contentPanel.add(spnMinutos);
+		
+		spnDia = new JSpinner();
+		spnDia.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+		spnDia.setBounds(157, 126, 45, 20);
+		contentPanel.add(spnDia);
+		
+		spnMes = new JSpinner();
+		spnMes.setModel(new SpinnerNumberModel(1, 1, 12, 1));
+		spnMes.setBounds(212, 126, 45, 20);
+		contentPanel.add(spnMes);
+		
+		spnAno = new JSpinner();
+		spnAno.setModel(new SpinnerNumberModel(26, 26, 30, 1));
+		spnAno.setBounds(267, 126, 45, 20);
+		contentPanel.add(spnAno);
+		
+		cboConsultorio = new JComboBox();
+		lblConsultorio.setLabelFor(cboConsultorio);
+		cboConsultorio.setModel(new DefaultComboBoxModel(new String[] {"1", "2"}));
+		cboConsultorio.setBounds(157, 97, 186, 22);
+		contentPanel.add(cboConsultorio);
+		
+		cboMedico = new JComboBox();
+		lblMedico.setLabelFor(cboMedico);
+		cboMedico.setModel(new DefaultComboBoxModel(new String[] {"1", "2"}));
+		cboMedico.setBounds(157, 69, 186, 22);
+		contentPanel.add(cboMedico);
+		
+		cboPaciente = new JComboBox();
+		lblPaciente.setLabelFor(cboPaciente);
+		cboPaciente.setModel(new DefaultComboBoxModel(new String[] {"1"}));
+		cboPaciente.setBounds(157, 41, 186, 22);
+		contentPanel.add(cboPaciente);
+		
+		scp = new JScrollPane();
+		scp.setBounds(157, 213, 185, 91);
+		contentPanel.add(scp);
+		
+		txtMotivo = new JTextArea();
+		scp.setViewportView(txtMotivo);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

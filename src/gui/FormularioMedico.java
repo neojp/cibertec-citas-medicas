@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Cita;
 import clases.Medico;
-import clases.Paciente;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -21,56 +20,52 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-public class FormularioPaciente extends JDialog implements ActionListener {
+public class FormularioMedico extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtCodPaciente;
-	private JLabel lblCodPaciente;
+	private JTextField txtCodMedico;
+	private JLabel lblCodMedico;
 	private JLabel lblNombres;
 	private JLabel lblApellidos;
-	private JLabel lblDni;
-	private JLabel lblEdad;
+	private JLabel lblEspecialidad;
+	private JLabel lblCmp;
 	private JLabel lblEstado;
 	private JComboBox cboEstado;
 	private JButton btnCancelar;
 	private JButton btnAceptar;
 	private JTextField txtNombres;
 	private JTextField txtApellidos;
-	private JTextField txtDni;
-	private JSpinner spnCapacidad;
-	private JLabel lblCelular;
-	private JTextField txtCelular;
-	private JLabel lblCorreo;
-	private JTextField txtCorreo;
+	private JComboBox cboEspecialidad;
+	private JTextField txtCmp;
 
 	/**
 	 * Create the dialog.
 	 */
-	public FormularioPaciente() {
+	public FormularioMedico() {
 		this("agregar");
 	}
 	/**
 	 * 
 	 * @param action "agregar" "editar"
 	 */
-	public FormularioPaciente(String action) {
-		setTitle("Paciente");
-		setBounds(100, 100, 368, 318);
+	public FormularioMedico(String action) {
+		setTitle("Médico");
+		setBounds(100, 100, 368, 261);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		txtCodPaciente = new JTextField();
-		txtCodPaciente.setEditable(false);
-		txtCodPaciente.setBounds(157, 11, 186, 20);
-		contentPanel.add(txtCodPaciente);
-		txtCodPaciente.setColumns(10);
+		txtCodMedico = new JTextField();
+		txtCodMedico.setEditable(false);
+		txtCodMedico.setBounds(157, 11, 186, 20);
+		contentPanel.add(txtCodMedico);
+		txtCodMedico.setColumns(10);
 		
-		lblCodPaciente = new JLabel("Código de Paciente:");
-		lblCodPaciente.setBounds(10, 14, 137, 14);
-		contentPanel.add(lblCodPaciente);
+		lblCodMedico = new JLabel("Código de Médico:");
+		lblCodMedico.setBounds(10, 14, 137, 14);
+		contentPanel.add(lblCodMedico);
 		
 		lblNombres = new JLabel("Nombres:");
 		lblNombres.setBounds(10, 45, 137, 14);
@@ -80,22 +75,22 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		lblApellidos.setBounds(10, 73, 137, 14);
 		contentPanel.add(lblApellidos);
 		
-		lblDni = new JLabel("DNI:");
-		lblDni.setBounds(10, 101, 137, 14);
-		contentPanel.add(lblDni);
+		lblEspecialidad = new JLabel("Especialidad:");
+		lblEspecialidad.setBounds(10, 101, 137, 14);
+		contentPanel.add(lblEspecialidad);
 		
-		lblEdad = new JLabel("Edad:");
-		lblEdad.setBounds(10, 129, 137, 14);
-		contentPanel.add(lblEdad);
+		lblCmp = new JLabel("CMP:");
+		lblCmp.setBounds(10, 129, 137, 14);
+		contentPanel.add(lblCmp);
 		
 		lblEstado = new JLabel("Estado:");
-		lblEstado.setBounds(10, 214, 137, 14);
+		lblEstado.setBounds(10, 158, 137, 14);
 		contentPanel.add(lblEstado);
 		
 		cboEstado = new JComboBox();
 		lblEstado.setLabelFor(cboEstado);
-		cboEstado.setModel(new DefaultComboBoxModel(Paciente.estados));
-		cboEstado.setBounds(157, 210, 186, 22);
+		cboEstado.setModel(new DefaultComboBoxModel(Medico.estados));
+		cboEstado.setBounds(157, 154, 186, 22);
 		contentPanel.add(cboEstado);
 		
 		txtNombres = new JTextField();
@@ -109,34 +104,15 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		txtApellidos.setBounds(157, 70, 186, 20);
 		contentPanel.add(txtApellidos);
 		
-		txtDni = new JTextField();
-		txtDni.setColumns(10);
-		txtDni.setBounds(157, 98, 186, 20);
-		if (action == "editar") txtDni.setEditable(false);
-		contentPanel.add(txtDni);
+		cboEspecialidad = new JComboBox();
+		cboEspecialidad.setModel(new DefaultComboBoxModel(Medico.especialidades));
+		cboEspecialidad.setBounds(157, 97, 186, 22);
+		contentPanel.add(cboEspecialidad);
 		
-		spnCapacidad = new JSpinner();
-		spnCapacidad.setModel(new SpinnerNumberModel(0, 0, 110, 1));
-		spnCapacidad.setBounds(157, 126, 45, 20);
-		contentPanel.add(spnCapacidad);
-		
-		lblCelular = new JLabel("Celular:");
-		lblCelular.setBounds(10, 157, 137, 14);
-		contentPanel.add(lblCelular);
-		
-		txtCelular = new JTextField();
-		txtCelular.setColumns(10);
-		txtCelular.setBounds(157, 154, 186, 20);
-		contentPanel.add(txtCelular);
-		
-		lblCorreo = new JLabel("Correo:");
-		lblCorreo.setBounds(10, 185, 137, 14);
-		contentPanel.add(lblCorreo);
-		
-		txtCorreo = new JTextField();
-		txtCorreo.setColumns(10);
-		txtCorreo.setBounds(157, 182, 186, 20);
-		contentPanel.add(txtCorreo);
+		txtCmp = new JTextField();
+		txtCmp.setColumns(10);
+		txtCmp.setBounds(157, 126, 186, 20);
+		contentPanel.add(txtCmp);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

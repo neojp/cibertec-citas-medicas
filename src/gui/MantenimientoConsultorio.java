@@ -133,10 +133,10 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		}
 	}
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
-		CrearEditar creareditar = new CrearEditar("agregar", "consultorio");
-		creareditar.setLocationRelativeTo(this);
-		creareditar.setModal(true);
-		creareditar.setVisible(true);
+		FormularioConsultorio ventana = new FormularioConsultorio();
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
 	}
 	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
@@ -187,10 +187,10 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 			// TODO: llenar formulario con estos datos
 			
 			// abrir formulario
-			CrearEditar creareditar = new CrearEditar("editar", "consultorio");
-			creareditar.setLocationRelativeTo(this);
-			creareditar.setModal(true);
-			creareditar.setVisible(true);
+			FormularioConsultorio ventana = new FormularioConsultorio("editar");
+			ventana.setLocationRelativeTo(this);
+			ventana.setModal(true);
+			ventana.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(this, "Seleccione una fila");
 		}
