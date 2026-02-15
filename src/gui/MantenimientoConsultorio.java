@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.JTable;
@@ -17,12 +18,13 @@ import clases.Consultorio;
 import clases.Libreria;
 
 import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class MantenimientoConsultorio extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnNuevo;
-	private JButton btnConsultar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
 	private JButton btnBuscarCMP;
@@ -33,6 +35,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	private JTable tblTabla;
 	private DefaultTableModel modelo;
 	private ArregloConsultorio arr = new ArregloConsultorio();
+	private JPanel pnlOpciones;
 
 	/**
 	 * Launch the application.
@@ -51,6 +54,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	 * Create the dialog.
 	 */
 	public MantenimientoConsultorio() {
+		setResizable(false);
 		setTitle("Mantenimiento - Consultorio");
 		setBounds(100, 100, 608, 387);
 		getContentPane().setLayout(null);
@@ -60,20 +64,21 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		btnNuevo.setBounds(10, 11, 138, 23);
 		getContentPane().add(btnNuevo);
 		
-		btnConsultar = new JButton("Consultar");
-		btnConsultar.addActionListener(this);
-		btnConsultar.setBounds(10, 314, 89, 23);
-		getContentPane().add(btnConsultar);
+		pnlOpciones = new JPanel();
+		pnlOpciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Opciones de filas seleccionadas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlOpciones.setBounds(10, 289, 572, 48);
+		getContentPane().add(pnlOpciones);
+		pnlOpciones.setLayout(null);
 		
 		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(10, 16, 89, 23);
+		pnlOpciones.add(btnEditar);
 		btnEditar.addActionListener(this);
-		btnEditar.setBounds(109, 314, 89, 23);
-		getContentPane().add(btnEditar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(109, 16, 89, 23);
+		pnlOpciones.add(btnEliminar);
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(209, 314, 89, 23);
-		getContentPane().add(btnEliminar);
 		
 		btnBuscarCMP = new JButton("CMP");
 		btnBuscarCMP.addActionListener(this);
@@ -125,9 +130,6 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		if (e.getSource() == btnBuscarCMP) {
 			actionPerformedBtnBuscarCMP(e);
 		}
-		if (e.getSource() == btnConsultar) {
-			actionPerformedBtnConsultar(e);
-		}
 		if (e.getSource() == btnNuevo) {
 			actionPerformedBtnNuevo(e);
 		}
@@ -137,8 +139,6 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
-	}
-	protected void actionPerformedBtnConsultar(ActionEvent e) {
 	}
 	protected void actionPerformedBtnBuscarCMP(ActionEvent e) {
 		// inicializar el JDialog en modo modal y espera a que se oculte

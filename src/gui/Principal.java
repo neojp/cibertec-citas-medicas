@@ -31,11 +31,8 @@ public class Principal extends JFrame implements ActionListener {
 	private JMenuItem mntmConsultorio;
 	private JMenuItem mntmRegistro;
 	private JMenuItem mntmConsulta;
-	private JMenuItem mntmReportePaciente;
+	private JMenuItem mntmReporteCitas;
 	private JMenuItem mntmAcerca;
-	private JMenuItem mntmReporteMedico;
-	private JMenuItem mntmReporteConsultorio;
-	private JMenuItem mntmReporteFecha;
 	private JLabel lblBgImage;
 
 	/**
@@ -100,21 +97,9 @@ public class Principal extends JFrame implements ActionListener {
 		mnReporte.addActionListener(this);
 		mnBar.add(mnReporte);
 		
-		mntmReportePaciente = new JMenuItem("Reporte por Paciente");
-		mntmReportePaciente.addActionListener(this);
-		mnReporte.add(mntmReportePaciente);
-		
-		mntmReporteMedico = new JMenuItem("Reporte por Médico");
-		mntmReporteMedico.addActionListener(this);
-		mnReporte.add(mntmReporteMedico);
-		
-		mntmReporteConsultorio = new JMenuItem("Reporte por Consultorio");
-		mntmReporteConsultorio.addActionListener(this);
-		mnReporte.add(mntmReporteConsultorio);
-		
-		mntmReporteFecha = new JMenuItem("Reporte por Fecha");
-		mntmReporteFecha.addActionListener(this);
-		mnReporte.add(mntmReporteFecha);
+		mntmReporteCitas = new JMenuItem("Reporte de Citas");
+		mntmReporteCitas.addActionListener(this);
+		mnReporte.add(mntmReporteCitas);
 		
 		mnAyuda = new JMenu("Ayuda");
 		mnAyuda.addActionListener(this);
@@ -135,20 +120,11 @@ public class Principal extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == mntmReporteFecha) {
-			actionPerformedMntmReporteFecha(e);
-		}
-		if (e.getSource() == mntmReporteConsultorio) {
-			actionPerformedMntmReporteConsultorio(e);
-		}
-		if (e.getSource() == mntmReporteMedico) {
-			actionPerformedMntmReporteMedico(e);
-		}
 		if (e.getSource() == mntmAcerca) {
 			actionPerformedMntmAcerca(e);
 		}
-		if (e.getSource() == mntmReportePaciente) {
-			actionPerformedMntmReportePaciente(e);
+		if (e.getSource() == mntmReporteCitas) {
+			actionPerformedMntmReporteCitas(e);
 		}
 		if (e.getSource() == mntmConsulta) {
 			actionPerformedMntmConsulta(e);
@@ -208,30 +184,9 @@ public class Principal extends JFrame implements ActionListener {
 		acer.setModal(true);
 		acer.setVisible(true);
 	}
-	protected void actionPerformedMntmReportePaciente(ActionEvent e) {
-		System.out.println("reporte por paciente");
-		CitasporPaciente ventana = new CitasporPaciente();
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
-	}
-	protected void actionPerformedMntmReporteMedico(ActionEvent e) {
-		System.out.println("reporte por medico");
-		CitasporMedico ventana = new CitasporMedico();
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
-	}
-	protected void actionPerformedMntmReporteConsultorio(ActionEvent e) {
-		System.out.println("reporte por consultorio");
-		CitasporConsultorio ventana = new CitasporConsultorio();
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
-	}
-	protected void actionPerformedMntmReporteFecha(ActionEvent e) {
-		System.out.println("reporte por fecha");
-		CitasporFecha ventana = new CitasporFecha();
+	protected void actionPerformedMntmReporteCitas(ActionEvent e) {
+		System.out.println("reporte de citas");
+		Reporte ventana = new Reporte();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);

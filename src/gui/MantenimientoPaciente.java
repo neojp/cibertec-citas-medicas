@@ -12,22 +12,26 @@ import javax.swing.table.DefaultTableModel;
 import arreglo.ArregloPaciente;
 
 import javax.swing.SwingConstants;
+import java.awt.Panel;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
 
 public class MantenimientoPaciente extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnNuevo;
-	private JButton btnConsultar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
 	private JButton btnBuscarDNI;
-	private JLabel lblOpciones;
-	private JScrollPane scrollPane;
+	private JScrollPane scp;
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
 	private JTable tblTabla;
 	private DefaultTableModel modelo;
 	private ArregloPaciente arr = new ArregloPaciente();
+	private JPanel pnlOpciones;
 
 	/**
 	 * Launch the application.
@@ -46,50 +50,47 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public MantenimientoPaciente() {
+		setResizable(false);
 		setTitle("Mantenimiento - Paciente");
-		setBounds(100, 100, 608, 387);
+		setBounds(100, 100, 608, 386);
 		getContentPane().setLayout(null);
 
 		btnNuevo = new JButton("Agregar Nuevo");
 		btnNuevo.addActionListener(this);
 		btnNuevo.setBounds(10, 11, 138, 23);
 		getContentPane().add(btnNuevo);
-
-		btnConsultar = new JButton("Consultar");
-		btnConsultar.addActionListener(this);
-		btnConsultar.setBounds(10, 314, 89, 23);
-		getContentPane().add(btnConsultar);
-
+		
+		pnlOpciones = new JPanel();
+		pnlOpciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Opciones de filas seleccionadas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlOpciones.setBounds(10, 289, 572, 48);
+		getContentPane().add(pnlOpciones);
+		pnlOpciones.setLayout(null);
+		
 		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(10, 16, 89, 23);
+		pnlOpciones.add(btnEditar);
 		btnEditar.addActionListener(this);
-
-		btnEditar.setBounds(109, 314, 89, 23);
-		getContentPane().add(btnEditar);
-
+		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(109, 16, 89, 23);
+		pnlOpciones.add(btnEliminar);
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(209, 314, 89, 23);
-		getContentPane().add(btnEliminar);
 
 		btnBuscarDNI = new JButton("DNI");
 		btnBuscarDNI.addActionListener(this);
 		btnBuscarDNI.setBounds(493, 11, 89, 23);
 		getContentPane().add(btnBuscarDNI);
 
-		lblOpciones = new JLabel("Opciones de las filas seleccionadas");
-		lblOpciones.setBounds(10, 289, 288, 14);
-		getContentPane().add(lblOpciones);
-
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 572, 233);
-		getContentPane().add(scrollPane);
+		scp = new JScrollPane();
+		scp.setBounds(10, 45, 572, 233);
+		getContentPane().add(scp);
 
 		modelo = new DefaultTableModel(new Object[][] {},
 				new String[] { "Código", "Nombres", "Apellidos", "DNI", "Edad", "Celular", "Correo", "Estado" });
 		tblTabla = new JTable();
 		tblTabla.setModel(modelo);
 		tblTabla.setFillsViewportHeight(true);
-		scrollPane.setViewportView(tblTabla);
+		scp.setViewportView(tblTabla);
 
 		btnBuscarCodigo = new JButton("Código");
 		btnBuscarCodigo.addActionListener(this);
@@ -115,9 +116,6 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		if (e.getSource() == btnBuscarDNI) {
 			actionPerformedBtnBuscarDNI(e);
 		}
-		if (e.getSource() == btnConsultar) {
-			actionPerformedBtnConsultar(e);
-		}
 		if (e.getSource() == btnNuevo) {
 			actionPerformedBtnNuevo(e);
 		}
@@ -128,24 +126,6 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
-	}
-
-	protected void actionPerformedBtnConsultar(ActionEvent e) {
-		System.out.println("Consultar");
-		modelo.setRowCount(0);
-		for (int i = 0; i < arr.tamano(); i++) {
-			Object[] fila = {
-					arr.obtener(i).getCodPaciente(),
-					arr.obtener(i).getNombres(),
-					arr.obtener(i).getApellidos(),
-					arr.obtener(i).getDni(),
-					arr.obtener(i).getEdad(),
-					arr.obtener(i).getCelular(),
-					arr.obtener(i).getCorreo(),
-					arr.obtener(i).getEstado()
-			};
-			modelo.addRow(fila);
-		}
 	}
 
 	protected void actionPerformedBtnBuscarDNI(ActionEvent e) {

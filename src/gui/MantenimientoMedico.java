@@ -3,12 +3,16 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class MantenimientoMedico extends JDialog implements ActionListener {
 
@@ -23,6 +27,7 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
 	private JTable tblTabla;
+	private JPanel pnlOpciones;
 
 	/**
 	 * Launch the application.
@@ -41,6 +46,7 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public MantenimientoMedico() {
+		setResizable(false);
 		setTitle("Mantenimiento - Médico");
 		setBounds(100, 100, 608, 387);
 		getContentPane().setLayout(null);
@@ -50,20 +56,21 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		btnNuevo.setBounds(10, 11, 138, 23);
 		getContentPane().add(btnNuevo);
 		
-		btnConsultar = new JButton("Consultar");
-		btnConsultar.addActionListener(this);
-		btnConsultar.setBounds(10, 314, 89, 23);
-		getContentPane().add(btnConsultar);
+		pnlOpciones = new JPanel();
+		pnlOpciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Opciones de filas seleccionadas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlOpciones.setBounds(10, 289, 572, 48);
+		getContentPane().add(pnlOpciones);
+		pnlOpciones.setLayout(null);
 		
 		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(10, 16, 89, 23);
+		pnlOpciones.add(btnEditar);
 		btnEditar.addActionListener(this);
-		btnEditar.setBounds(109, 314, 89, 23);
-		getContentPane().add(btnEditar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(109, 16, 89, 23);
+		pnlOpciones.add(btnEliminar);
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(209, 314, 89, 23);
-		getContentPane().add(btnEliminar);
 		
 		btnBuscarNombre = new JButton("Nombre");
 		btnBuscarNombre.addActionListener(this);
@@ -111,9 +118,6 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		}
 		if (e.getSource() == btnBuscarNombre) {
 			actionPerformedBtnBuscarNombre(e);
-		}
-		if (e.getSource() == btnConsultar) {
-			actionPerformedBtnConsultar(e);
 		}
 		if (e.getSource() == btnNuevo) {
 			actionPerformedBtnNuevo(e);

@@ -138,19 +138,19 @@ public class FormularioCita extends JDialog implements ActionListener {
 		
 		cboConsultorio = new JComboBox();
 		lblConsultorio.setLabelFor(cboConsultorio);
-		cboConsultorio.setModel(new DefaultComboBoxModel(new String[] {"1", "2"}));
+		cboConsultorio.setModel(new DefaultComboBoxModel(new String[] {"Nombre de Consultorio 1", "Nombre de Consultorio 2", "Nombre de Consultorio 3"}));
 		cboConsultorio.setBounds(157, 97, 186, 22);
 		contentPanel.add(cboConsultorio);
 		
 		cboMedico = new JComboBox();
 		lblMedico.setLabelFor(cboMedico);
-		cboMedico.setModel(new DefaultComboBoxModel(new String[] {"1", "2"}));
+		cboMedico.setModel(new DefaultComboBoxModel(new String[] {"Nombre de Médico 1", "Nombre de Médico 2", "Nombre de Médico 3"}));
 		cboMedico.setBounds(157, 69, 186, 22);
 		contentPanel.add(cboMedico);
 		
 		cboPaciente = new JComboBox();
 		lblPaciente.setLabelFor(cboPaciente);
-		cboPaciente.setModel(new DefaultComboBoxModel(new String[] {"1"}));
+		cboPaciente.setModel(new DefaultComboBoxModel(new String[] {"Nombre de Paciente 1", "Nombre de Paciente 2", "Nombre de Paciente 3"}));
 		cboPaciente.setBounds(157, 41, 186, 22);
 		contentPanel.add(cboPaciente);
 		
