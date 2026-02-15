@@ -88,6 +88,7 @@ public class ArregloConsultorio {
 		return null;
 	}
 	
+	// archivos de texto
 	private void cargar() {
 		try {
 			BufferedReader br;

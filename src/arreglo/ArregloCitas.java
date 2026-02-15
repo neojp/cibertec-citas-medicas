@@ -1,21 +1,29 @@
 package arreglo;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import clases.Cita;
+import clases.Consultorio;
 
 public class ArregloCitas {
 	// variables privadas
 	ArrayList<Cita> arr;
+	private String file = "src/main/resources/data/citas.txt";
 	
 	// constructor
 	public ArregloCitas() {
 		arr = new ArrayList<Cita>();
+		cargar();
 	}
 	
 	// operaciones públicas básicas
 	public void adicionar(Cita x) {
 		arr.add(x);
+		grabar();
 	}
 	
 	public int tamano() {
@@ -24,6 +32,11 @@ public class ArregloCitas {
 	
 	public Cita obtener(int i) {
 		return arr.get(i);
+	}
+	
+	public void eliminar(Cita x) {
+		arr.remove(x);
+		grabar();
 	}
 	
 	// buscar
@@ -89,5 +102,60 @@ public class ArregloCitas {
 				return obtener(i);
 
 		return null;
+	}
+	
+	// archivos de texto
+	private void cargar() {
+		try {
+			BufferedReader br;
+			String linea;
+			String[] s;
+			
+			// campos
+			int numCita, codPaciente, codMedico, codConsultorio, estado;
+			String fecha, hora, motivo;
+			
+			br = new BufferedReader(new FileReader(file));
+			while ((linea = br.readLine()) != null) {
+				s = linea.split(";");
+				numCita = Integer.parseInt(s[0].trim());
+				codPaciente = Integer.parseInt(s[1].trim());
+				codMedico = Integer.parseInt(s[2].trim());
+				codConsultorio = Integer.parseInt(s[3].trim());
+				estado = Integer.parseInt(s[4].trim());
+				fecha = s[5].trim();
+				hora = s[6].trim();
+				motivo = s[7].trim();
+				arr.add(new Cita(numCita, codPaciente, codMedico, codConsultorio, estado, fecha, hora, motivo));
+			}
+			br.close();
+		}
+		catch (Exception e) {
+			System.out.println("err" + e);
+		}
+	}
+	
+	private void grabar() {
+		try {
+			PrintWriter pw;
+			String linea;
+			Cita x;
+			pw = new PrintWriter(new FileWriter(file));
+			for (int i=0; i<tamano(); i++) {
+				x = obtener(i);
+				linea = x.numCita() + ";" +
+						x.getCodPaciente() + ";" +
+						x.getCodMedico() + ";" +
+						x.getCodConsultorio() + ";" +
+						x.getEstado() + ";" +
+						x.getFecha() + ";" +
+						x.getHora() + ";";
+						x.getMotivo();
+				pw.println(linea);
+			}
+			pw.close();
+		}
+		catch (Exception e) {
+		}
 	}
 }
