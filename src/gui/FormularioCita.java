@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -165,6 +166,8 @@ public class FormularioCita extends JDialog implements ActionListener {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnAceptar = new JButton("Aceptar");
+				btnAceptar.setForeground(new Color(255, 255, 255));
+				btnAceptar.setBackground(new Color(0, 64, 128));
 				btnAceptar.addActionListener(this);
 				btnAceptar.setActionCommand("OK");
 				buttonPane.add(btnAceptar);
@@ -172,6 +175,8 @@ public class FormularioCita extends JDialog implements ActionListener {
 			}
 			{
 				btnCancelar = new JButton("Cancelar");
+				btnCancelar.setForeground(new Color(255, 255, 255));
+				btnCancelar.setBackground(new Color(128, 64, 64));
 				btnCancelar.addActionListener(this);
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);

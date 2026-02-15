@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
+import java.awt.Color;
 
 public class Registro extends JDialog implements ActionListener {
 
@@ -51,6 +52,8 @@ public class Registro extends JDialog implements ActionListener {
 		getContentPane().add(cmbReporte);
 
 		btnGenerar = new JButton("Generar");
+		btnGenerar.setForeground(new Color(255, 255, 255));
+		btnGenerar.setBackground(new Color(0, 64, 128));
 		btnGenerar.setBounds(711, 30, 135, 23);
 		btnGenerar.addActionListener(this);
 		getContentPane().add(btnGenerar);
