@@ -17,10 +17,10 @@ public class Reporte extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnGenerar;
-	private JComboBox<String> cmbReporte;
-	private JTable table;
+	private JComboBox<String> cboReporte;
+	private JTable tblTabla;
 	private DefaultTableModel modelo;
-	private JScrollPane scrollPane;
+	private JScrollPane scp;
 
 		public static void main(String[] args) {
 		try {
@@ -42,14 +42,14 @@ public class Reporte extends JDialog implements ActionListener {
 		lblReporte.setBounds(155, 31, 135, 20);
 		getContentPane().add(lblReporte);
 
-		cmbReporte = new JComboBox<String>();
-		cmbReporte.setModel(new DefaultComboBoxModel<String>(new String[] {
+		cboReporte = new JComboBox<String>();
+		cboReporte.setModel(new DefaultComboBoxModel<String>(new String[] {
 			"Por Paciente", "Por Médico", "Por Consultorio", "Por Fecha", 
 			"Pacientes con citas Pendientes", "Citas por Médico", 
 			"Citas por Consultorio", "Agenda del día"
 		}));
-		cmbReporte.setBounds(300, 30, 260, 22);
-		getContentPane().add(cmbReporte);
+		cboReporte.setBounds(300, 30, 260, 22);
+		getContentPane().add(cboReporte);
 
 		btnGenerar = new JButton("Generar");
 		btnGenerar.setForeground(new Color(255, 255, 255));
@@ -59,10 +59,10 @@ public class Reporte extends JDialog implements ActionListener {
 		getContentPane().add(btnGenerar);
 
 		modelo = new DefaultTableModel();
-		table = new JTable(modelo);
-		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(36, 75, 810, 300);
-		getContentPane().add(scrollPane);
+		tblTabla = new JTable(modelo);
+		scp = new JScrollPane(tblTabla);
+		scp.setBounds(36, 75, 810, 300);
+		getContentPane().add(scp);
 		
 		generarReporte();
 	}
@@ -74,7 +74,7 @@ public class Reporte extends JDialog implements ActionListener {
 	}
 
 	private void generarReporte() {
-		int opcion = cmbReporte.getSelectedIndex();
+		int opcion = cboReporte.getSelectedIndex();
 		modelo.setRowCount(0);
 		modelo.setColumnCount(0);
 

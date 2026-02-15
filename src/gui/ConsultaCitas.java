@@ -27,9 +27,9 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 	private JPanel panelTipo, bodyPanel, buttonPane, panelBuscar;
 	private JLabel lblNewLabel, lblCodigo;
 	private JTextField txtCodigo;
-	private JComboBox<String> comboBox;
-	private JTable dataTable;
-	private JScrollPane scrollPanel;
+	private JComboBox<String> cboConsultar;
+	private JTable tblTabla;
+	private JScrollPane scp;
 
 	/**
 	 * Launch the application.
@@ -67,8 +67,8 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 
 		panelTipo.add(Box.createHorizontalStrut(100));
 
-		comboBox = new JComboBox<String>(new String[] { "paciente", "medico", "consultorio", "fecha"});
-		panelTipo.add(comboBox);
+		cboConsultar = new JComboBox<String>(new String[] { "Paciente", "Médico", "Consultorio", "Fecha"});
+		panelTipo.add(cboConsultar);
 		
 		contentPanel.add(Box.createVerticalStrut(10));
 		
@@ -109,11 +109,11 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 		};
 		
 		DefaultTableModel modelo = new DefaultTableModel(tempData, headerTable);
-		dataTable = new JTable(modelo);
-		scrollPanel = new JScrollPane(dataTable);
-		scrollPanel.setBorder(new EmptyBorder(20,0,20,0));
+		tblTabla = new JTable(modelo);
+		scp = new JScrollPane(tblTabla);
+		scp.setBorder(new EmptyBorder(20,0,20,0));
 		
-		bodyPanel.add(scrollPanel);
+		bodyPanel.add(scp);
 				
 		
 		// BOTONES

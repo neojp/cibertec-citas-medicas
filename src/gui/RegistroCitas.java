@@ -20,7 +20,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 	private JButton btnNuevo;
 	private JButton btnEditar;
 	private JButton btnEliminar;
-	private JScrollPane scrollPane;
+	private JScrollPane scp;
 	private JTable tblTabla;
 	private JPanel pnlOpciones;
 
@@ -71,9 +71,9 @@ public class RegistroCitas extends JDialog implements ActionListener {
 		btnEliminar.setBounds(209, 314, 89, 23);
 		getContentPane().add(btnEliminar);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 572, 233);
-		getContentPane().add(scrollPane);
+		scp = new JScrollPane();
+		scp.setBounds(10, 45, 572, 233);
+		getContentPane().add(scp);
 		
 		tblTabla = new JTable();
 		tblTabla.setModel(new DefaultTableModel(
@@ -84,7 +84,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 			}
 		));
 		tblTabla.setFillsViewportHeight(true);
-		scrollPane.setViewportView(tblTabla);
+		scp.setViewportView(tblTabla);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEliminar) {

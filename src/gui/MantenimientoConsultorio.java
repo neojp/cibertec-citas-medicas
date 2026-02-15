@@ -28,8 +28,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	private JButton btnEditar;
 	private JButton btnEliminar;
 	private JButton btnBuscarCMP;
-	private JLabel lblOpciones;
-	private JScrollPane scrollPane;
+	private JScrollPane scp;
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
 	private JTable tblTabla;
@@ -85,13 +84,9 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		btnBuscarCMP.setBounds(493, 11, 89, 23);
 		getContentPane().add(btnBuscarCMP);
 		
-		lblOpciones = new JLabel("Opciones de las filas seleccionadas");
-		lblOpciones.setBounds(10, 289, 288, 14);
-		getContentPane().add(lblOpciones);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 572, 233);
-		getContentPane().add(scrollPane);
+		scp = new JScrollPane();
+		scp.setBounds(10, 45, 572, 233);
+		getContentPane().add(scp);
 		
 		modelo = Libreria.crearModelo(new String[] {
 			"Código",
@@ -103,7 +98,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		});
 		tblTabla = Libreria.crearTabla();
 		tblTabla.setModel(modelo);
-		scrollPane.setViewportView(tblTabla);
+		scp.setViewportView(tblTabla);
 		
 		btnBuscarCodigo = new JButton("Código");
 		btnBuscarCodigo.addActionListener(this);

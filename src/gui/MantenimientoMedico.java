@@ -18,12 +18,10 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnNuevo;
-	private JButton btnConsultar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
 	private JButton btnBuscarNombre;
-	private JLabel lblOpciones;
-	private JScrollPane scrollPane;
+	private JScrollPane scp;
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
 	private JTable tblTabla;
@@ -77,13 +75,9 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		btnBuscarNombre.setBounds(493, 11, 89, 23);
 		getContentPane().add(btnBuscarNombre);
 		
-		lblOpciones = new JLabel("Opciones de las filas seleccionadas");
-		lblOpciones.setBounds(10, 289, 288, 14);
-		getContentPane().add(lblOpciones);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 572, 233);
-		getContentPane().add(scrollPane);
+		scp = new JScrollPane();
+		scp.setBounds(10, 45, 572, 233);
+		getContentPane().add(scp);
 		
 		tblTabla = new JTable();
 		tblTabla.setModel(new DefaultTableModel(
@@ -94,7 +88,7 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 			}
 		));
 		tblTabla.setFillsViewportHeight(true);
-		scrollPane.setViewportView(tblTabla);
+		scp.setViewportView(tblTabla);
 		
 		btnBuscarCodigo = new JButton("Código");
 		btnBuscarCodigo.addActionListener(this);
