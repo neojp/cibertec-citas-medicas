@@ -60,10 +60,10 @@ public class Frm_AgregarMedico extends JDialog implements ActionListener {
 		
 		JLabel lblEspecialidad = new JLabel("Especialidad :");
 		lblEspecialidad.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEspecialidad.setBounds(301, 37, 85, 22);
+		lblEspecialidad.setBounds(301, 37, 106, 22);
 		getContentPane().add(lblEspecialidad);
 		
-		JLabel lblCmp = new JLabel("CMP :");
+		JLabel lblCmp = new JLabel("CMP (opcional):");
 		lblCmp.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblCmp.setBounds(301, 69, 106, 22);
 		getContentPane().add(lblCmp);
@@ -85,7 +85,7 @@ public class Frm_AgregarMedico extends JDialog implements ActionListener {
 		// --- CAMPOS DE TEXTO ---
 		txtCodMedico = new JTextField();
 		txtCodMedico.setEditable(false); // BLOQUEADO: Se autogenera
-		txtCodMedico.setBounds(166, 39, 123, 18);
+		txtCodMedico.setBounds(166, 39, 130, 18);
 		getContentPane().add(txtCodMedico);
 		
 		txtNombre = new JTextField();
@@ -107,7 +107,7 @@ public class Frm_AgregarMedico extends JDialog implements ActionListener {
 		getContentPane().add(cboEstado);
 		
 		cboEspecialidad = new JComboBox<String>();
-		cboEspecialidad.setBounds(400, 39, 172, 20);
+		cboEspecialidad.setBounds(417, 39, 155, 20);
 		// LLENAR COMBOBOX  DESDE EL ARREGLO DE LA CLASE MEDICO
 		cboEspecialidad.addItem("Seleccione >>>");
 		for(String esp : Medico.especialidades) {
