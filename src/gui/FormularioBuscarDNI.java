@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -49,6 +50,8 @@ public class FormularioBuscarDNI extends JDialog implements ActionListener {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnBuscar = new JButton("Buscar");
+				btnBuscar.setBackground(new Color(64,64,128));
+				btnBuscar.setForeground(new Color(255,255,255));
 				btnBuscar.addActionListener(this);
 				btnBuscar.setActionCommand("OK");
 				buttonPane.add(btnBuscar);
