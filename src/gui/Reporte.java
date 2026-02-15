@@ -13,7 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
 import java.awt.Color;
 
-public class Registro extends JDialog implements ActionListener {
+public class Reporte extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnGenerar;
@@ -24,7 +24,7 @@ public class Registro extends JDialog implements ActionListener {
 
 		public static void main(String[] args) {
 		try {
-			Registro dialog = new Registro();
+			Reporte dialog = new Reporte();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -32,7 +32,7 @@ public class Registro extends JDialog implements ActionListener {
 		}
 	}
 
-	public Registro() {
+	public Reporte() {
 		setTitle("Reporte");
 		setBounds(100, 100, 900, 450);
 		getContentPane().setLayout(null);
@@ -63,6 +63,8 @@ public class Registro extends JDialog implements ActionListener {
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(36, 75, 810, 300);
 		getContentPane().add(scrollPane);
+		
+		generarReporte();
 	}
 
 	public void actionPerformed(ActionEvent e) {
