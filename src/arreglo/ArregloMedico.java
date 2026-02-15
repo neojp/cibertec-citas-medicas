@@ -26,14 +26,14 @@ public class ArregloMedico {
 		return arr.get(i);
 	}
 	
-	// buscar
+	/* buscar
 	public Medico buscarCodMedico(int codMedico) {
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getCodMedico() == codMedico)
 				return obtener(i);
 
 		return null;
-	}
+	}*/
 	
 	public Medico buscarEstado(int estado) {
 		for (int i = 0; i < tamano(); i++)

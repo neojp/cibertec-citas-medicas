@@ -2,13 +2,56 @@ package clases;
 
 public class Medico {
 	// variables privadas
-	private int codMedico, estado;
-	private String nombres, apellidos, especialidad, cmp;
+	private int  estado;
+	private String codMedico,nombres, apellidos, especialidad, cmp;
 	
 	// variables estaticas privadas
-	private static int indice = 500;
+	private static int contador = 1;
 	
-	// variables estaticas publicas
+	// 3. CONSTRUCTOR PARA NUEVOS REGISTROS
+	public Medico(String nombres, String apellidos, String especialidad, String cmp, int estado) {
+		this.codMedico = generarCorrelativo();
+		this.nombres = nombres;
+		this.apellidos = apellidos;
+		this.especialidad = especialidad;
+		this.cmp = cmp;
+		this.estado = estado;
+	}
+	
+	// 4. CONSTRUCTOR PARA CARGAR DESDE ARCHIVO (Recibe el código ya existente)
+		public Medico(String codMedico, String nombres, String apellidos, String especialidad, String cmp, int estado) {
+			this.codMedico = codMedico;
+			this.nombres = nombres;
+			this.apellidos = apellidos;
+			this.especialidad = especialidad;
+			this.cmp = cmp;
+			this.estado = estado;
+		}
+
+		//METODOS 
+		
+		//METODO QUE GENERA EL FORMATO M000001
+		private String generarCorrelativo() {
+			return String.format("M%05d", contador++);
+		}
+		
+		// Convierte el objeto a una línea de texto para el archivo .txt
+		public String aLinea() {
+			return codMedico + ";" + nombres + ";" + apellidos + ";" + especialidad + ";" + cmp + ";" + estado;
+		}
+		
+		
+		/* Devuelve el código que le tocaría al próximo medico 
+		pero sin aumentar el contador*/
+		public static String proximoCodigo() {
+			return String.format("M%05d", contador);
+		}
+		//método cambia manualmente el valor del contador valida el ultimo nro del contador 
+		public static void setContador(int nuevoValor) {
+			contador = nuevoValor;
+		}
+			
+	// variables estaticas publicas para el JCONBOBOX
 	public static String[] especialidades = new String[] {
 		"Anestesiología",
 		"Cardiología",
@@ -40,21 +83,11 @@ public class Medico {
 		"Activo"
 	};
 	
-	// constructor
-	public Medico(int codMedico, int estado, String nombres, String apellidos, String especialidad, String cmp) {
-		this.codMedico = codMedico;
-		this.estado = estado;
-		this.nombres = nombres;
-		this.apellidos = apellidos;
-		this.especialidad = especialidad;
-		this.cmp = cmp;
-	}
-
 	// getters & setters
-	public int getCodMedico() {
+	public String getCodMedico() {
 		return codMedico;
 	}
-	public void setCodMedico(int codMedico) {
+	public void setCodMedico(String codMedico) {
 		this.codMedico = codMedico;
 	}
 	public int getEstado() {
@@ -88,8 +121,4 @@ public class Medico {
 		this.cmp = cmp;
 	}
 	
-	// metodos estaticos publicos
-	public static int generarCodMedico() {
-		return indice + 1;
-	}
 }
