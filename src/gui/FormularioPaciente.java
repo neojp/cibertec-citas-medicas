@@ -173,6 +173,6 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		setVisible(false);
 	}
 	protected void actionPerformedBtnAceptar(ActionEvent e) {
-		
+		setVisible(false);
 	}
 }

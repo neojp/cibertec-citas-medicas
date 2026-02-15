@@ -106,6 +106,7 @@ public class FormularioCita extends JDialog implements ActionListener {
 		contentPanel.add(lblMotivo);
 		
 		cboEstado = new JComboBox();
+		if (action == "crear") cboEstado.setEnabled(false);
 		lblEstado.setLabelFor(cboEstado);
 		cboEstado.setModel(new DefaultComboBoxModel(Cita.estados));
 		cboEstado.setBounds(157, 181, 186, 22);

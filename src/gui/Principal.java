@@ -55,6 +55,7 @@ public class Principal extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setResizable(false);
 		setTitle("Sistema de Reserva de Citas Médicas - Clínica San Felipe");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 686, 480);
