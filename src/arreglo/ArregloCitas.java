@@ -57,18 +57,23 @@ public class ArregloCitas {
 		return null;
 	}
 	
-	public Cita buscarCodMedico(int codMedico) {
+	public Cita buscarCodMedico(String codMedico) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCodMedico() == codMedico)
+			if (obtener(i).getCodMedico().equalsIgnoreCase(codMedico))
 				return obtener(i);
 
 		return null;
 	}
 	
-	public Cita buscarCodConsultorio(int codConsultorio) {
+	public ArrayList<Cita> buscarCodConsultorio(int codConsultorio) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getCodConsultorio() == codConsultorio)
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
@@ -135,11 +140,11 @@ public class ArregloCitas {
 			BufferedReader br;
 			String linea;
 			String[] s;
-			
+
 			// campos
 			int numCita, codPaciente, codConsultorio, estado;
 			String codMedico, fecha, hora, motivo;
-			
+
 			br = new BufferedReader(new FileReader(file));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías

@@ -234,17 +234,21 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 
 			if (confirmar == 0) {
 				// validar si existen citas en el consultorio
-				ArrayList<Cita> citas = Principal.getArrCitas().buscarFuturasPorConsultorio(consultorio.getCodConsultorio());
-				if (citas != null) {
-					String msg = "El consultorio no puede ser eliminado porque tiene " + citas.size();
-					if (citas.size() == 1) msg += " cita futura";
+				ArrayList<Cita> citasFuturas = Principal.getArrCitas().buscarFuturasPorConsultorio(consultorio.getCodConsultorio());
+				if (citasFuturas != null) {
+					String msg = "El consultorio no puede ser eliminado porque tiene " + citasFuturas.size();
+					if (citasFuturas.size() == 1) msg += " cita futura";
 					else msg += " citas futuras";
 
 					JOptionPane.showMessageDialog(this, msg, "Error de validación", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
-				// TODO: eliminar las citas pasadas relacionadas a este consultorio
+				// eliminar las citas relacionadas a este consultorio
+				ArrayList<Cita> citas = Principal.getArrCitas().buscarCodConsultorio(consultorio.getCodConsultorio());
+				if (citas != null)
+					for (int i = 0; i < citas.size(); i++)
+						Principal.getArrCitas().eliminar(citas.get(i));
 				
 				// eliminar el consultorio
 				arr.eliminar(consultorio);
