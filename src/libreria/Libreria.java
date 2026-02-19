@@ -1,4 +1,4 @@
-package clases;
+package libreria;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,12 +21,6 @@ public class Libreria {
 	// redondear números enteros a 2 decimales
 	public static String redondear(double num) {
 		return String.format("%.2f", num);
-	}
-	
-	// redondear números enteros a 2 decimales
-	public static String getLabelEstado(int estado) {
-		if (estado == 0) return "Inactivo";
-		else return "Activo";
 	}
 	
 	// tablas

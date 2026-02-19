@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -15,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglo.ArregloConsultorio;
 import clases.Consultorio;
-import clases.Libreria;
+import libreria.Libreria;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
