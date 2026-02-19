@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import clases.Cita;
@@ -99,6 +101,30 @@ public class ArregloCitas {
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getMotivo().equalsIgnoreCase(motivo))
 				return obtener(i);
+
+		return null;
+	}
+	
+	public ArrayList<Cita> buscarFuturasPorConsultorio(int codConsultorio) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
+		for (int i = 0; i < tamano(); i++) {
+			if (obtener(i).getCodConsultorio() == codConsultorio) {
+				// generar un objeto de fecha con los datos de la cita
+				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
+				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
+				
+				// comparar con la fecha actual
+				LocalDateTime ahora = LocalDateTime.now();
+				if (fechaIngresada.isAfter(ahora)) {
+					aux.add(obtener(i));
+				}
+			}
+		}
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}

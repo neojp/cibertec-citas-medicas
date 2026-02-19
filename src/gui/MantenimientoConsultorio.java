@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import arreglo.ArregloConsultorio;
+import clases.Cita;
 import clases.Consultorio;
 import libreria.Libreria;
 
@@ -231,7 +233,16 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 			);
 
 			if (confirmar == 0) {
-				// TODO: validar si existen citas en el consultorio
+				// validar si existen citas en el consultorio
+				ArrayList<Cita> citas = Principal.getArrCitas().buscarFuturasPorConsultorio(consultorio.getCodConsultorio());
+				if (citas != null) {
+					String msg = "El consultorio no puede ser eliminado porque tiene " + citas.size();
+					if (citas.size() == 1) msg += " cita futura";
+					else msg += " citas futuras";
+
+					JOptionPane.showMessageDialog(this, msg, "Error de validación", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				
 				// TODO: eliminar las citas pasadas relacionadas a este consultorio
 				
@@ -241,10 +252,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 				// grabar al archivo de texto
 				arr.grabar();
 				
-				// remover de la tabla
-				int indice = tblTabla.getSelectedRow();
-				modelo.removeRow(indice);
-				// listar();
+				// actualizar la tabla
+				 listar();
 			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Seleccione una fila", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
