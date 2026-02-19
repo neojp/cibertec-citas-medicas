@@ -117,13 +117,16 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		ventana.setModal(true);
 		ventana.setVisible(true);
 		
-		// la ventana fue cerrada, revisar si se presiono el boton de aceptar
+		// la ventana fue cerrada, revisar si se presionó el botón de aceptar
 		if (ventana.getSuccess()) {
 			// agregar a la lista y grabar al archivo de texto
 			arr.adicionar(ventana.getConsultorio());
 			
 			// actualizar tabla
 			listar();
+			
+			// cerrar ventana
+			ventana.dispose();
 		}
 	}
 	
@@ -150,6 +153,9 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 				
 				// actualizar tabla
 				listar();
+				
+				// cerrar ventana
+				ventana.dispose();
 			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Seleccione una fila", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
@@ -171,7 +177,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 			);
 
 			if (confirmar == 0) {
-				// validar si existen citas en el consultorio
+				// validar si existen citas futuras
 				ArrayList<Cita> citasFuturas = Principal.getArrCitas().buscarFuturasPorConsultorio(consultorio.getCodConsultorio());
 				if (citasFuturas != null) {
 					String msg = "El consultorio no puede ser eliminado porque tiene " + citasFuturas.size();
@@ -181,12 +187,6 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 					JOptionPane.showMessageDialog(this, msg, "Error de validación", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
-				// eliminar las citas relacionadas a este consultorio
-				ArrayList<Cita> citas = Principal.getArrCitas().buscarCodConsultorio(consultorio.getCodConsultorio());
-				if (citas != null)
-					for (int i = 0; i < citas.size(); i++)
-						Principal.getArrCitas().eliminar(citas.get(i));
 				
 				// eliminar el consultorio
 				arr.eliminar(consultorio);

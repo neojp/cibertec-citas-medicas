@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Consultorio;
+import clases.Medico;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -64,7 +65,6 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 			setTitle("Agregar Consultorio");
 		else
 			setTitle("Editar Consultorio");
-		
 		
 		setBounds(100, 100, 368, 261);
 		getContentPane().setLayout(new BorderLayout());
@@ -178,7 +178,7 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 		// usar isSuccess para avisar a la ventana padre que se presionó este botón
 		this.isSuccess = true;
 		
-		// si la acción es agregar, crea un nuevo objeto deconsultorio
+		// si la acción es agregar, crea un nuevo objeto de consultorio
 		if ("agregar".equals(action))
 			this.consultorio = new Consultorio();
 		
@@ -198,7 +198,7 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 		return this.consultorio;
 	}
 	public boolean getSuccess() {
-		return isSuccess;
+		return this.isSuccess;
 	}
 
 	// método público para llenar el formulario cuando se esta editando
@@ -207,7 +207,7 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 		this.consultorio = x;
 
 		// llenar campos del formulario con datos de consultorio
-		txtCodConsultorio.setText(consultorio.getCodConsultorio() + ""); // convertir codigo en String
+		txtCodConsultorio.setText(consultorio.getCodConsultorio() + ""); // convertir código en String
 		txtNombre.setText(consultorio.getNombre());
 		txtUbicacion.setText(consultorio.getUbicacion());
 		spnPiso.setValue(consultorio.getPiso());
@@ -219,7 +219,7 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 	private boolean validarFormulario() {
 		try {
 			// validar si los campos estan vacíos 
-			if (txtNombre.getText().trim().isEmpty() || txtUbicacion.getText().trim().isEmpty()) {
+			if (leerNombre().isEmpty() || leerUbicacion().isEmpty()) {
 				throw new Exception("Campo no puede estar vacío");
 			}
 			
@@ -228,8 +228,13 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 				throw new Exception("Piso no puede ser menor a 1");
 			}
 			
-			// validar si el nombre es único
-			if (!Consultorio.validarNombreUnico(txtNombre.getText().trim())) {
+			// si es un nuevo consultorio, validar que el nombre sea único
+			if (action.equals("agregar") && !Consultorio.validarNombreUnico(leerNombre())) {
+				throw new Exception("Nombre debe ser único y no puede ser repetido en la lista");
+			}
+			
+			// si estamos editando, validar que el nombre sea único si no es el mismo
+			if (action.equals("editar") && !consultorio.getNombre().equalsIgnoreCase(leerNombre()) && !Consultorio.validarNombreUnico(leerNombre())) {
 				throw new Exception("Nombre debe ser único y no puede ser repetido en la lista");
 			}
 		} catch(Exception e) {
@@ -238,5 +243,13 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 			return false;
 		}
 		return true;
+	}
+
+	private String leerUbicacion() {
+		return txtUbicacion.getText().trim();
+	}
+
+	private String leerNombre() {
+		return txtNombre.getText().trim();
 	}
 }
