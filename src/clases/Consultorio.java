@@ -67,10 +67,10 @@ public class Consultorio {
 		this.ubicacion = ubicacion;
 	}
 	
-	// metodos estaticos publicos
+	// métodos estaticos públicos
 	// generar código de consultorio en base al último código disponible
 	public static int generarCodConsultorio() {
-		// siempre obtener la ultima version del arreglo
+		// siempre obtener la última versión del arreglo
 		// ordenar por código de forma ascendente
 		// y obtener el último código disponible para incrementar por 1
 		ArregloConsultorio arr = new ArregloConsultorio();
