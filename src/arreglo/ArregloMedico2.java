@@ -35,7 +35,7 @@ public class ArregloMedico2 {
 			// LEER EL ARCHIVO LINEA POR LINEA HASTA EL FINAL
 			while ((linea = br.readLine()) != null) {
 				// SEPARAR LOS DATOS USANDO ; 
-				String[] d = linea.split(";");
+				String[] d = linea.split(";", -1);  // partir a traves de punto y coma, permitir cadenas vacías
 				// CREA EL OBJETO MEDICO USANDO LOS DATOS LEIDOS DEL ARCHIVO
 				Medico m = new Medico(d[0], d[1], d[2], d[3], d[4], Integer.parseInt(d[5]));
 				arr.add(m);

@@ -117,7 +117,7 @@ public class ArregloCitas {
 			
 			br = new BufferedReader(new FileReader(file));
 			while ((linea = br.readLine()) != null) {
-				s = linea.split(";");
+				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
 				numCita = Integer.parseInt(s[0].trim());
 				codPaciente = Integer.parseInt(s[1].trim());
 				codMedico = Integer.parseInt(s[2].trim());
@@ -131,7 +131,7 @@ public class ArregloCitas {
 			br.close();
 		}
 		catch (Exception e) {
-			System.out.println("err" + e);
+			System.out.println("Error al cargar: " + e.getMessage());
 		}
 	}
 	
@@ -143,7 +143,7 @@ public class ArregloCitas {
 			pw = new PrintWriter(new FileWriter(file));
 			for (int i=0; i<tamano(); i++) {
 				x = obtener(i);
-				linea = x.numCita() + ";" +
+				linea = x.getNumCita() + ";" +
 						x.getCodPaciente() + ";" +
 						x.getCodMedico() + ";" +
 						x.getCodConsultorio() + ";" +
@@ -156,6 +156,7 @@ public class ArregloCitas {
 			pw.close();
 		}
 		catch (Exception e) {
+			System.out.println("Error al grabar: " + e.getMessage());
 		}
 	}
 }

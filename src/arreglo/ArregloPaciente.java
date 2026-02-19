@@ -116,7 +116,7 @@ public class ArregloPaciente {
 			
 			br = new BufferedReader(new FileReader(file));
 			while ((linea = br.readLine()) != null) {
-				s = linea.split(";");
+				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
 				codPaciente = Integer.parseInt(s[0].trim());
 				edad = Integer.parseInt(s[1].trim());
 				estado = Integer.parseInt(s[2].trim());
@@ -130,7 +130,7 @@ public class ArregloPaciente {
 			br.close();
 		}
 		catch (Exception e) {
-			System.out.println("err" + e);
+			System.out.println("Error al cargar: " + e.getMessage());
 		}
 	}
 	
@@ -155,6 +155,7 @@ public class ArregloPaciente {
 			pw.close();
 		}
 		catch (Exception e) {
+			System.out.println("Error al grabar: " + e.getMessage());
 		}
 	}
 }

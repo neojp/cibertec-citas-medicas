@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import clases.Consultorio;
 
@@ -88,6 +89,11 @@ public class ArregloConsultorio {
 		return null;
 	}
 	
+	// ordenar
+	public void ordenarPorCodigo() {
+		arr.sort(Comparator.comparingInt(Consultorio::getCodConsultorio));
+	}
+	
 	// archivos de texto
 	private void cargar() {
 		try {
@@ -101,7 +107,7 @@ public class ArregloConsultorio {
 			
 			br = new BufferedReader(new FileReader(file));
 			while ((linea = br.readLine()) != null) {
-				s = linea.split(";");
+				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
 				codConsultorio = Integer.parseInt(s[0].trim());
 				piso = Integer.parseInt(s[1].trim());
 				capacidad = Integer.parseInt(s[2].trim());
@@ -113,11 +119,11 @@ public class ArregloConsultorio {
 			br.close();
 		}
 		catch (Exception e) {
-			System.out.println("err" + e);
+			System.out.println("Error al cargar: " + e.getMessage());
 		}
 	}
 	
-	private void grabar() {
+	public void grabar() {
 		try {
 			PrintWriter pw;
 			String linea;
@@ -136,6 +142,7 @@ public class ArregloConsultorio {
 			pw.close();
 		}
 		catch (Exception e) {
+			System.out.println("Error al grabar: " + e.getMessage());
 		}
 	}
 }
