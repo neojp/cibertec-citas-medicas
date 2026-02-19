@@ -32,7 +32,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	private JLabel lblBuscar;
 	private JTable tblTabla;
 	private DefaultTableModel modelo;
-	private ArregloConsultorio arr = new ArregloConsultorio();
+	private ArregloConsultorio arr = Principal.getArrConsultorios();
 	private JPanel pnlOpciones;
 
 	/**
@@ -128,12 +128,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 			actionPerformedBtnNuevo(e);
 		}
 	}
-	protected void actionPerformedBtnNuevo(ActionEvent e) {
-		FormularioConsultorio ventana = new FormularioConsultorio();
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
-	}
+	
+	// TODO: filtrar la tabla por CMP
 	protected void actionPerformedBtnBuscarCMP(ActionEvent e) {
 		// inicializar el JDialog en modo modal y espera a que se oculte
 		FormularioBuscarCMP ventana = new FormularioBuscarCMP();
@@ -151,6 +147,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		// y ahora se cierra la ventana
 		ventana.dispose();
 	}
+
+	// TODO: filtrar la tabla por código
 	protected void actionPerformedBtnBuscarCodigo(ActionEvent e) {
 		// inicializar el JDialog en modo modal y espera a que se oculte
 		FormularioBuscarCodigo ventana = new FormularioBuscarCodigo();
@@ -168,42 +166,121 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		// y ahora se cierra la ventana
 		ventana.dispose();
 	}
-	protected void actionPerformedBtnEliminar(ActionEvent e) {
+	
+	// abre el formulario de agregar
+	protected void actionPerformedBtnNuevo(ActionEvent e) {
+		// abrir formulario en modo agregar
+		FormularioConsultorio ventana = new FormularioConsultorio();
+		
+		// posicionar ventana y esperar a que se cierre
+		ventana.setLocationRelativeTo(this);
+		ventana.setModal(true);
+		ventana.setVisible(true);
+		
+		// la ventana fue cerrada, revisar si se presiono el boton de aceptar
+		if (ventana.getSuccess()) {
+			// agregar a la lista y grabar al archivo de texto
+			arr.adicionar(ventana.getConsultorio());
+			
+			// actualizar tabla
+			listar();
+		}
 	}
+	
+	// abre el formulario de editar con datos del consultorio seleccionado 
 	protected void actionPerformedBtnEditar(ActionEvent e) {
-		// mostrar formulario si una fila esta seleccionada
-		int indice = tblTabla.getSelectedRow();
-		if (indice != -1) {
-			// obtener consultorio por codigo
-			int codigo = (int) modelo.getValueAt(indice, 0);
-			Consultorio consultorio = arr.buscarCodConsultorio(codigo);
-			
-			// TODO: llenar formulario con estos datos
-			
-			// abrir formulario
+		// obtener consultorio de la fila seleccionada en la tabla
+		Consultorio consultorio = obtenerConsultorio();
+		if (consultorio != null) {
+			// abrir formulario en modo editar
 			FormularioConsultorio ventana = new FormularioConsultorio("editar");
+
+			// llenar formulario con datos del consultorio
+			ventana.llenarFormulario(consultorio);
+			
+			// posicionar ventana y esperar a que se cierre
 			ventana.setLocationRelativeTo(this);
 			ventana.setModal(true);
 			ventana.setVisible(true);
+			
+			// la ventana fue cerrada, revisar si se presionó el botón de aceptar
+			if (ventana.getSuccess()) {
+				// grabar al archivo de texto
+				arr.grabar();
+				
+				// actualizar tabla
+				 listar();
+			}
 		} else {
-			JOptionPane.showMessageDialog(this, "Seleccione una fila");
+			JOptionPane.showMessageDialog(this, "Seleccione una fila", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	// elimina el consultorio seleccionado
+	protected void actionPerformedBtnEliminar(ActionEvent e) {
+		// obtener consultorio de la fila seleccionada en la tabla
+		Consultorio consultorio = obtenerConsultorio();
+		if (consultorio != null) {
+			// mostrar un dialogo de confirmación antes de eliminarlo
+			int confirmar = JOptionPane.showConfirmDialog(
+			    this, 
+			    "¿Está seguro que quiere borrar este consultorio?", 
+			    "Confirmar Eliminación", 
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE
+			);
+
+			if (confirmar == 0) {
+				// TODO: validar si existen citas en el consultorio
+				
+				// TODO: eliminar las citas pasadas relacionadas a este consultorio
+				
+				// eliminar el consultorio
+				arr.eliminar(consultorio);
+				
+				// grabar al archivo de texto
+				arr.grabar();
+				
+				// remover de la tabla
+				int indice = tblTabla.getSelectedRow();
+				modelo.removeRow(indice);
+				// listar();
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Seleccione una fila", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
 	// actualizar tabla con contenido
 	void listar() {
-		System.out.println("listar " + arr.tamano() + " consultorios");
+		// limpiar tabla
 		modelo.setRowCount(0);
+		
+		// iterar el arreglo y llenar la tabla con datos del consultorio
 		for (int i = 0; i < arr.tamano(); i++) {
+			// crear fila con datos del consultorio
 			Object[] fila = {
 				arr.obtener(i).getCodConsultorio(),
 				arr.obtener(i).getNombre(),
 				arr.obtener(i).getPiso(),
 				arr.obtener(i).getUbicacion(),
 				arr.obtener(i).getCapacidad(),
-				Consultorio.estados[arr.obtener(i).getEstado()]
+				Consultorio.estados[arr.obtener(i).getEstado()] // mostrar el label del estado
 			};
+			
+			// agregar fila
 			modelo.addRow(fila);
 		}
+	}
+	
+	// obtiene el consultorio seleccionado de la tabla por su índice
+	private Consultorio obtenerConsultorio() {
+		// obtener el índice de la fila seleccionada
+		int indice = tblTabla.getSelectedRow();
+		if (indice != -1) {
+			// obtener consultorio por indice
+			return arr.obtener(indice);
+		}
+		return null;
 	}
 }

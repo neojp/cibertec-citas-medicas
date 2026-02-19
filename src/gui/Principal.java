@@ -7,14 +7,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import arreglo.ArregloCitas;
+import arreglo.ArregloConsultorio;
+import arreglo.ArregloMedico;
+import arreglo.ArregloPaciente;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
 
 public class Principal extends JFrame implements ActionListener {
 
@@ -34,6 +37,12 @@ public class Principal extends JFrame implements ActionListener {
 	private JMenuItem mntmReporteCitas;
 	private JMenuItem mntmAcerca;
 	private JLabel lblBgImage;
+	
+	// arreglos
+	private static ArregloConsultorio arrConsultorios = new ArregloConsultorio();
+	private static ArregloCitas arrCitas = new ArregloCitas();
+	private static ArregloPaciente arrPacientes = new ArregloPaciente();
+	private static ArregloMedico arrMedicos = new ArregloMedico();
 
 	/**
 	 * Launch the application.
@@ -191,5 +200,21 @@ public class Principal extends JFrame implements ActionListener {
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
+	}
+
+	public static ArregloConsultorio getArrConsultorios() {
+		return arrConsultorios;
+	}
+
+	public static ArregloCitas getArrCitas() {
+		return arrCitas;
+	}
+
+	public static ArregloPaciente getArrPacientes() {
+		return arrPacientes;
+	}
+
+	public static ArregloMedico getArrMedicos() {
+		return arrMedicos;
 	}
 }

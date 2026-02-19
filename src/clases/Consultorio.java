@@ -1,5 +1,7 @@
 package clases;
 
+import arreglo.ArregloConsultorio;
+
 public class Consultorio {
 	// variables privadas
 	private int codConsultorio, piso, capacidad, estado;
@@ -15,6 +17,9 @@ public class Consultorio {
 	};
 
 	// constructor
+	public Consultorio() {
+		this(generarCodConsultorio(), 1, 1, 0, "", "");
+	}
 	public Consultorio(int codConsultorio, int piso, int capacidad, int estado, String nombre, String ubicacion) {
 		this.codConsultorio = codConsultorio;
 		this.piso = piso;
@@ -63,11 +68,25 @@ public class Consultorio {
 	}
 	
 	// metodos estaticos publicos
+	// generar código de consultorio en base al último código disponible
 	public static int generarCodConsultorio() {
-		return indice + 1;
+		// siempre obtener la ultima version del arreglo
+		// ordenar por código de forma ascendente
+		// y obtener el último código disponible para incrementar por 1
+		ArregloConsultorio arr = new ArregloConsultorio();
+		if (arr.tamano() > 0) {
+			arr.ordenarPorCodigo();
+			indice = arr.obtener(arr.tamano() - 1).getCodConsultorio();
+		}
+
+		// incrementar el indice por 1
+		indice++;
+
+		return indice;
 	}
 	
+	// validar que piso sea mayor a 0
 	public static boolean validarPiso(int piso) {
-		return piso >= 0;
+		return piso > 0;
 	}
 }
