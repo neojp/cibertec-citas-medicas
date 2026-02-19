@@ -15,8 +15,7 @@ public class Paciente {
 	};
 	
 	// constructor
-	public Paciente(int codPaciente, int edad, int estado, String nombres, String apellidos, String dni, String celular,
-			String correo) {
+	public Paciente(int codPaciente, int edad, int estado, String nombres, String apellidos, String dni, String celular, String correo) {
 		this.codPaciente = codPaciente;
 		this.edad = edad;
 		this.estado = estado;
