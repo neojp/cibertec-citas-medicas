@@ -144,8 +144,8 @@ public class ArregloCitas {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
 
 		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de consultorio
-			if (obtener(i).getCodConsultorio() == codConsultorio) {
+			// filtrar por código de consultorio y estado pendiente
+			if (obtener(i).getCodConsultorio() == codConsultorio && obtener(i).getEstado() == 0) {
 				// generar un objeto de fecha con los datos de la cita
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
@@ -169,8 +169,8 @@ public class ArregloCitas {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
 
 		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de medico
-			if (obtener(i).getCodMedico() == codMedico) {
+			// filtrar por código de medico y estado pendiente
+			if (obtener(i).getCodMedico() == codMedico && obtener(i).getEstado() == 0) {
 				// generar un objeto de fecha con los datos de la cita
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
@@ -194,8 +194,8 @@ public class ArregloCitas {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
 
 		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de paciente
-			if (obtener(i).getCodPaciente() == codPaciente) {
+			// filtrar por código de paciente y estado pendiente
+			if (obtener(i).getCodPaciente() == codPaciente && obtener(i).getEstado() == 0) {
 				// generar un objeto de fecha con los datos de la cita
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
