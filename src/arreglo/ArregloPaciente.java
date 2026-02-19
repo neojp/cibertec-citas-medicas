@@ -65,7 +65,7 @@ public class ArregloPaciente {
 	
 	public Paciente buscarNombres(String nombres) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getNombres() == nombres)
+			if (obtener(i).getNombres().equalsIgnoreCase(nombres))
 				return obtener(i);
 
 		return null;
@@ -73,7 +73,7 @@ public class ArregloPaciente {
 	
 	public Paciente buscarApellidos(String apellidos) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getApellidos() == apellidos)
+			if (obtener(i).getApellidos().equalsIgnoreCase(apellidos))
 				return obtener(i);
 
 		return null;
@@ -81,7 +81,7 @@ public class ArregloPaciente {
 	
 	public Paciente buscarDni(String dni) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getDni() == dni)
+			if (obtener(i).getDni().equalsIgnoreCase(dni))
 				return obtener(i);
 		
 		return null;
@@ -89,7 +89,7 @@ public class ArregloPaciente {
 	
 	public Paciente buscarCelular(String celular) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCelular() == celular)
+			if (obtener(i).getCelular().equalsIgnoreCase(celular))
 				return obtener(i);
 		
 		return null;
@@ -97,7 +97,7 @@ public class ArregloPaciente {
 	
 	public Paciente buscarCorreo(String correo) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCorreo() == correo)
+			if (obtener(i).getCorreo().equalsIgnoreCase(correo))
 				return obtener(i);
 		
 		return null;

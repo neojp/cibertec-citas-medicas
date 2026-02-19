@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import clases.Cita;
-import clases.Consultorio;
 
 public class ArregloCitas {
 	// variables privadas
@@ -82,7 +81,7 @@ public class ArregloCitas {
 	
 	public Cita buscarFecha(String fecha) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getFecha() == fecha)
+			if (obtener(i).getFecha().equalsIgnoreCase(fecha))
 				return obtener(i);
 
 		return null;
@@ -90,7 +89,7 @@ public class ArregloCitas {
 	
 	public Cita buscarHora(String hora) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getHora() == hora)
+			if (obtener(i).getHora().equalsIgnoreCase(hora))
 				return obtener(i);
 
 		return null;
@@ -98,7 +97,7 @@ public class ArregloCitas {
 	
 	public Cita buscarMotivo(String motivo) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getMotivo() == motivo)
+			if (obtener(i).getMotivo().equalsIgnoreCase(motivo))
 				return obtener(i);
 
 		return null;

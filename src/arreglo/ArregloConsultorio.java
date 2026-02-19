@@ -75,7 +75,7 @@ public class ArregloConsultorio {
 	
 	public Consultorio buscarNombre(String nombre) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getNombre().toUpperCase().equals(nombre.toUpperCase()))
+			if (obtener(i).getNombre().equalsIgnoreCase(nombre))
 				return obtener(i);
 
 		return null;
@@ -83,7 +83,7 @@ public class ArregloConsultorio {
 	
 	public Consultorio buscarUbicacion(String ubicacion) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getUbicacion().toUpperCase().equals(ubicacion.toUpperCase()))
+			if (obtener(i).getUbicacion().equalsIgnoreCase(ubicacion))
 				return obtener(i);
 
 		return null;

@@ -45,7 +45,7 @@ public class ArregloMedico {
 	
 	public Medico buscarNombres(String nombres) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getNombres() == nombres)
+			if (obtener(i).getNombres().equalsIgnoreCase(nombres))
 				return obtener(i);
 
 		return null;
@@ -53,7 +53,7 @@ public class ArregloMedico {
 	
 	public Medico buscarApellidos(String apellidos) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getApellidos() == apellidos)
+			if (obtener(i).getApellidos().equalsIgnoreCase(apellidos))
 				return obtener(i);
 
 		return null;
@@ -61,7 +61,7 @@ public class ArregloMedico {
 	
 	public Medico buscarEspecialidad(String especialidad) {
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getEspecialidad() == especialidad)
+			if (obtener(i).getEspecialidad().equalsIgnoreCase(especialidad))
 				return obtener(i);
 		
 		return null;
