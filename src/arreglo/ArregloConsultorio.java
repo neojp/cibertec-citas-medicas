@@ -17,7 +17,6 @@ public class ArregloConsultorio {
 	// constructor
 	public ArregloConsultorio() {
 		arr = new ArrayList<Consultorio>();
-		System.out.println("constructor");
 		cargar();
 	}
 	
