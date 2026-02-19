@@ -3,13 +3,23 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import arreglo.ArregloConsultorio;
+import arreglo.ArregloMedico;
+import clases.Cita;
+import clases.Consultorio;
+import clases.Medico;
+import libreria.Libreria;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -25,6 +35,8 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
 	private JTable tblTabla;
+	private DefaultTableModel modelo;
+	private ArregloMedico arr = Principal.getArrMedicos();
 	private JPanel pnlOpciones;
 
 	/**
@@ -79,15 +91,11 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		scp.setBounds(10, 45, 572, 233);
 		getContentPane().add(scp);
 		
-		tblTabla = new JTable();
-		tblTabla.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"C\u00F3digo", "Nombres", "Apellidos", "Especialidad", "CMP", "Estado"
-			}
-		));
-		tblTabla.setFillsViewportHeight(true);
+		modelo = Libreria.crearModeloTabla(new String[] {
+			"C\u00F3digo", "Nombres", "Apellidos", "Especialidad", "CMP", "Estado"
+		});
+		tblTabla = Libreria.crearTabla();
+		tblTabla.setModel(modelo);
 		scp.setViewportView(tblTabla);
 		
 		btnBuscarCodigo = new JButton("Código");
@@ -99,6 +107,8 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		lblBuscar.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblBuscar.setBounds(323, 15, 66, 14);
 		getContentPane().add(lblBuscar);
+		
+		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEliminar) {
@@ -117,27 +127,142 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 			actionPerformedBtnNuevo(e);
 		}
 	}
+	
+	// abre el formulario de agregar
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
-		// codigo por Braulio
-		// CrearEditar creareditar = new CrearEditar("agregar", "medico");
-		// creareditar.setLocationRelativeTo(this);
-		// creareditar.setModal(true);
-		// creareditar.setVisible(true);
+		// abrir formulario en modo agregar
+		FormularioMedico ventana = new FormularioMedico();
 		
-		// codigo por Javier
-		Frm_AgregarMedico ventana = new Frm_AgregarMedico();
+		// posicionar ventana y esperar a que se cierre
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 		
-		// codigo por Joan
-		// FormularioMedico ventana = new FormularioMedico();
-		// ventana.setLocationRelativeTo(this);
-		// ventana.setModal(true);
-		// ventana.setVisible(true);
+		// la ventana fue cerrada, revisar si se presiono el boton de aceptar
+		if (ventana.getSuccess()) {
+			// agregar a la lista y grabar al archivo de texto
+			arr.adicionar(ventana.getMedico());
+			
+			// actualizar tabla
+			listar();
+			
+			// cerrar ventana
+			ventana.dispose();
+		}
 	}
-	protected void actionPerformedBtnConsultar(ActionEvent e) {
+	
+	// abre el formulario de editar con datos del médico seleccionado 
+	protected void actionPerformedBtnEditar(ActionEvent e) {
+		// obtener médico de la fila seleccionada en la tabla
+		Medico medico = obtenerMedico();
+		if (medico != null) {
+			// abrir formulario en modo editar
+			FormularioMedico ventana = new FormularioMedico("editar");
+
+			// llenar formulario con datos del médico
+			ventana.llenarFormulario(medico);
+			
+			// posicionar ventana y esperar a que se cierre
+			ventana.setLocationRelativeTo(this);
+			ventana.setModal(true);
+			ventana.setVisible(true);
+			
+			// la ventana fue cerrada, revisar si se presionó el botón de aceptar
+			if (ventana.getSuccess()) {
+				// grabar al archivo de texto
+				arr.grabar();
+				
+				// actualizar tabla
+				listar();
+				
+				// cerrar ventana
+				ventana.dispose();
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Seleccione una fila", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
+	
+	// elimina el médico seleccionado
+	protected void actionPerformedBtnEliminar(ActionEvent e) {
+		// obtener médico de la fila seleccionada en la tabla
+		Medico medico = obtenerMedico();
+		if (medico != null) {
+			// mostrar un dialogo de confirmación antes de eliminarlo
+			int confirmar = JOptionPane.showConfirmDialog(
+				this, 
+				"¿Está seguro que quiere borrar este médico?", 
+				"Confirmar Eliminación", 
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE
+			);
+
+			if (confirmar == 0) {
+				// TODO: validar si existen citas futuras
+				ArrayList<Cita> citasFuturas = Principal.getArrCitas().buscarFuturasPorMedico(medico.getCodMedico());
+				if (citasFuturas != null) {
+					String msg = "El médico no puede ser eliminado porque tiene " + citasFuturas.size();
+					if (citasFuturas.size() == 1) msg += " cita futura";
+					else msg += " citas futuras";
+
+					JOptionPane.showMessageDialog(this, msg, "Error de validación", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				// eliminar las citas relacionadas a este médico
+				ArrayList<Cita> citas = Principal.getArrCitas().buscarCodMedico(medico.getCodMedico());
+				if (citas != null)
+					for (int i = 0; i < citas.size(); i++)
+						Principal.getArrCitas().eliminar(citas.get(i));
+				
+				// eliminar el médico
+				arr.eliminar(medico);
+				
+				// grabar al archivo de texto
+				arr.grabar();
+				
+				// actualizar la tabla
+				listar();
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Seleccione una fila", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	// actualizar tabla con contenido
+	void listar() {
+		// limpiar tabla
+		modelo.setRowCount(0);
+		
+		// iterar el arreglo y llenar la tabla con datos del médico
+		for (int i = 0; i < arr.tamano(); i++) {
+			// crear fila con datos del médico
+			Object[] fila = {
+				arr.obtener(i).getCodMedico(),
+				arr.obtener(i).getNombres(),
+				arr.obtener(i).getApellidos(),
+				arr.obtener(i).getEspecialidad(),
+				arr.obtener(i).getCmp(),
+				Medico.estados[arr.obtener(i).getEstado()] // mostrar el label del estado
+			};
+			
+			// agregar fila
+			modelo.addRow(fila);
+		}
+	}
+	
+	// obtiene el médico seleccionado de la tabla por su índice
+	private Medico obtenerMedico() {
+		// obtener el índice de la fila seleccionada
+		int indice = tblTabla.getSelectedRow();
+		if (indice != -1) {
+			// obtener médico por indice
+			return arr.obtener(indice);
+		}
+		return null;
+	}
+	
+	// TODO: filtrar la tabla por nombre
 	protected void actionPerformedBtnBuscarNombre(ActionEvent e) {
 		// inicializar el JDialog en modo modal y espera a que se oculte
 		FormularioBuscarNombre ventana = new FormularioBuscarNombre();
@@ -155,6 +280,7 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		// y ahora se cierra la ventana
 		ventana.dispose();
 	}
+	// TODO: filtrar la tabla por codigo
 	protected void actionPerformedBtnBuscarCodigo(ActionEvent e) {
 		// inicializar el JDialog en modo modal y espera a que se oculte
 		FormularioBuscarCodigo ventana = new FormularioBuscarCodigo();
@@ -171,13 +297,5 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		
 		// y ahora se cierra la ventana
 		ventana.dispose();
-	}
-	protected void actionPerformedBtnEliminar(ActionEvent e) {
-	}
-	protected void actionPerformedBtnEditar(ActionEvent e) {
-		FormularioMedico ventana = new FormularioMedico("editar");
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
 	}
 }

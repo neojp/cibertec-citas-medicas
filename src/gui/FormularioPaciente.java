@@ -8,10 +8,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import clases.Consultorio;
 import clases.Paciente;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -37,24 +39,37 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 	private JTextField txtNombres;
 	private JTextField txtApellidos;
 	private JTextField txtDni;
-	private JSpinner spnCapacidad;
+	private JSpinner spnEdad;
 	private JLabel lblCelular;
 	private JTextField txtCelular;
 	private JLabel lblCorreo;
 	private JTextField txtCorreo;
+	
+	// variables privadas
+	private Paciente paciente;
+	private Boolean isSuccess = false;
+	private String action = "agregar";
 
 	/**
-	 * Create the dialog.
+	 * Constructor por defecto que inicializa el formulario en modo agregar.
 	 */
 	public FormularioPaciente() {
 		this("agregar");
 	}
+
 	/**
-	 * 
-	 * @param action "agregar" "editar"
+	 * Muestra una ventana modal con un formulario para el Paciente.
+	 * * @param action El tipo de operación a realizar. 
+	 * Valores permitidos: "agregar" o "editar".
 	 */
 	public FormularioPaciente(String action) {
-		setTitle("Paciente");
+		this.action = action;
+
+		if ("agregar".equals(action))
+			setTitle("Agregar Paciente");
+		else
+			setTitle("Editar Paciente");
+
 		setBounds(100, 100, 368, 318);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,10 +129,10 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		if (action == "editar") txtDni.setEditable(false);
 		contentPanel.add(txtDni);
 		
-		spnCapacidad = new JSpinner();
-		spnCapacidad.setModel(new SpinnerNumberModel(0, 0, 110, 1));
-		spnCapacidad.setBounds(157, 126, 45, 20);
-		contentPanel.add(spnCapacidad);
+		spnEdad = new JSpinner();
+		spnEdad.setModel(new SpinnerNumberModel(0, 0, 110, 1));
+		spnEdad.setBounds(157, 126, 45, 20);
+		contentPanel.add(spnEdad);
 		
 		lblCelular = new JLabel("Celular:");
 		lblCelular.setBounds(10, 157, 137, 14);
@@ -158,6 +173,9 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 				buttonPane.add(btnCancelar);
 			}
 		}
+		
+		// agregar código autogenerado en el formulario
+		txtCodPaciente.setText(Paciente.generarCodPaciente() + "");
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAceptar) {
@@ -168,9 +186,136 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnCancelar(ActionEvent e) {
-		setVisible(false);
+		// al presionar el botón cancelar se ignora todo y se cierra la ventana
+		dispose();
 	}
 	protected void actionPerformedBtnAceptar(ActionEvent e) {
+		// validar formulario y detener el código acá si hay un error
+		if (!validarFormulario()) {
+			return;
+		}
+		
+		// usar isSuccess para avisar a la ventana padre que se presionó este botón
+		this.isSuccess = true;
+		
+		// si la acción es agregar, crea un nuevo objeto de consultorio
+		if ("agregar".equals(action))
+			this.paciente = new Paciente();
+		
+		// actualizar el objeto consultorio con los datos del formulario
+		this.paciente.setNombres(leerNombres());
+		this.paciente.setApellidos(leerApellidos());
+		this.paciente.setEdad(leerEdad());
+		this.paciente.setCelular(leerCelular());
+		this.paciente.setCorreo(leerCorreo());
+		this.paciente.setEstado(cboEstado.getSelectedIndex());
+		
+		// solo se edita el DNI al agregar
+		if ("agregar".equals(action))
+			this.paciente.setDni(leerDni());
+		
+		// ocultar la ventana modal y continuar con el código de la ventana padre
 		setVisible(false);
+	}
+	
+	// getters
+	public Paciente getPaciente() {
+		return this.paciente;
+	}
+	public boolean getSuccess() {
+		return this.isSuccess;
+	}
+	
+	// método público para llenar el formulario cuando se esta editando
+	public void llenarFormulario(Paciente x) {
+		// agregar paciente a variable global privada
+		this.paciente = x;
+
+		// llenar campos del formulario con datos de paciente
+		txtCodPaciente.setText(paciente.getCodPaciente() + ""); // convertir código en String
+		txtNombres.setText(paciente.getNombres());
+		txtApellidos.setText(paciente.getApellidos());
+		txtDni.setText(paciente.getDni());
+		spnEdad.setValue(paciente.getEdad());
+		txtCelular.setText(paciente.getCelular());
+		txtCorreo.setText(paciente.getCorreo());
+		cboEstado.setSelectedIndex(paciente.getEstado());
+	}
+	
+	// validar campos vacíos en formulario
+	private boolean validarFormulario() {
+		try {
+			// validar si los campos estan vacíos 
+			if (
+				leerNombres().isEmpty() ||
+				leerApellidos().isEmpty() ||
+				leerDni().isEmpty() ||
+				leerCelular().isEmpty() ||
+				leerCorreo().isEmpty()
+			)
+				throw new Exception("Campo no puede estar vacío");
+			
+			// si es un nuevo paciente, validar que el DNI sea único
+			if (action.equals("agregar")) {
+				// validar solo números
+				if (!leerDni().matches("\\d+"))
+					throw new Exception("DNI debe ser solo números");
+				
+				// validar que sean 8 números
+				if (leerDni().length() != 8)
+					throw new Exception("DNI debe ser 8 números");
+
+				// validar que sea único
+				if (!Paciente.validarDniUnico(leerDni()))
+					throw new Exception("DNI debe ser único y no puede ser repetido en la lista");
+			}
+			
+			// validar edad >= 0
+			if (!Paciente.validarEdad(leerEdad()))
+				throw new Exception("Edad debe ser mayor o igual a 0");
+			
+			// validar celular (solo permite números, espacios, puntos, guiones y paréntesis)
+			if (!leerCelular().matches("^[0-9\\+\\-\\(\\)\\.\\s]+$"))
+				throw new Exception("Celular inválido, solo se permiten números, espacios, puntos, guiones y paréntesis");
+			
+			// validar que el celular tenga al menos 9 números
+			if (((String) leerCelular().replaceAll("[^0-9]", "")).length() < 9)
+				throw new Exception("Celular debe tener al menos 9 números");
+			
+			// validar correo (solo se permiten letras, números, puntos, guiones y símbolos de suma)
+			if (!leerCorreo().matches("^[a-zA-Z0-9\\+._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z]{2,4}$"))
+				throw new Exception("Correo inválido, solo se permiten números, puntos, símbolo de suma y guiones");
+
+		} catch(Exception e) {
+			// mostrar error de validación
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
+	// métodos para leer campos de texto 
+	private String leerNombres() {
+		return txtNombres.getText().trim();
+	}
+
+	private String leerApellidos() {
+		return txtApellidos.getText().trim();
+	}
+
+	private String leerCorreo() {
+		return txtCorreo.getText().trim();
+	}
+
+	private String leerCelular() {
+		return txtCelular.getText().trim();
+	}
+
+	private String leerDni() {
+		return txtDni.getText().trim();
+	}
+
+	private int leerEdad() {
+		return (Integer) spnEdad.getValue();
 	}
 }

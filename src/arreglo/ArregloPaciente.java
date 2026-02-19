@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
+import clases.Consultorio;
 import clases.Paciente;
 
 public class ArregloPaciente {
@@ -47,34 +49,54 @@ public class ArregloPaciente {
 		return null;
 	}
 	
-	public Paciente buscarEdad(int edad) {
+	public ArrayList<Paciente> buscarEdad(int edad) {
+		ArrayList<Paciente> aux = new ArrayList<Paciente>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getEdad() == edad)
-				return obtener(i);
-		
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
+
 		return null;
 	}
 
-	public Paciente buscarEstado(int estado) {
+	public ArrayList<Paciente> buscarEstado(int estado) {
+		ArrayList<Paciente> aux = new ArrayList<Paciente>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getEstado() == estado)
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
 	
-	public Paciente buscarNombres(String nombres) {
+	public ArrayList<Paciente> buscarNombres(String nombres) {
+		ArrayList<Paciente> aux = new ArrayList<Paciente>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getNombres().equalsIgnoreCase(nombres))
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
 	
-	public Paciente buscarApellidos(String apellidos) {
+	public ArrayList<Paciente> buscarApellidos(String apellidos) {
+		ArrayList<Paciente> aux = new ArrayList<Paciente>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getApellidos().equalsIgnoreCase(apellidos))
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
@@ -101,6 +123,11 @@ public class ArregloPaciente {
 				return obtener(i);
 		
 		return null;
+	}
+	
+	// ordenar
+	public void ordenarPorCodigo() {
+		arr.sort(Comparator.comparingInt(Paciente::getCodPaciente));
 	}
 	
 	// archivos de texto
@@ -134,7 +161,7 @@ public class ArregloPaciente {
 		}
 	}
 	
-	private void grabar() {
+	public void grabar() {
 		try {
 			PrintWriter pw;
 			String linea;

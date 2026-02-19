@@ -49,22 +49,32 @@ public class ArregloCitas {
 		return null;
 	}
 	
-	public Cita buscarCodPaciente(int codPaciente) {
+	public ArrayList<Cita> buscarCodPaciente(int codPaciente) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getCodPaciente() == codPaciente)
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
 	
-	public Cita buscarCodMedico(String codMedico) {
+	public ArrayList<Cita> buscarCodMedico(int codMedico) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCodMedico().equalsIgnoreCase(codMedico))
-				return obtener(i);
+			if (obtener(i).getCodMedico() == codMedico)
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
-	
+
 	public ArrayList<Cita> buscarCodConsultorio(int codConsultorio) {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
 
@@ -78,34 +88,54 @@ public class ArregloCitas {
 		return null;
 	}
 	
-	public Cita buscarEstado(int estado) {
+	public ArrayList<Cita> buscarEstado(int estado) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getEstado() == estado)
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
 	
-	public Cita buscarFecha(String fecha) {
+	public ArrayList<Cita> buscarFecha(String fecha) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getFecha().equalsIgnoreCase(fecha))
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
 	
-	public Cita buscarHora(String hora) {
+	public ArrayList<Cita> buscarHora(String hora) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getHora().equalsIgnoreCase(hora))
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
 	
-	public Cita buscarMotivo(String motivo) {
+	public ArrayList<Cita> buscarMotivo(String motivo) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getMotivo().equalsIgnoreCase(motivo))
-				return obtener(i);
+				aux.add(obtener(i));
+
+		if (aux.size() > 0)
+			return aux;
 
 		return null;
 	}
@@ -114,7 +144,58 @@ public class ArregloCitas {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
 
 		for (int i = 0; i < tamano(); i++) {
+			// filtrar por código de consultorio
 			if (obtener(i).getCodConsultorio() == codConsultorio) {
+				// generar un objeto de fecha con los datos de la cita
+				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
+				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
+				
+				// comparar con la fecha actual
+				LocalDateTime ahora = LocalDateTime.now();
+				if (fechaIngresada.isAfter(ahora)) {
+					aux.add(obtener(i));
+				}
+			}
+		}
+
+		if (aux.size() > 0)
+			return aux;
+
+		return null;
+	}
+	
+	public ArrayList<Cita> buscarFuturasPorMedico(int codMedico) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
+		for (int i = 0; i < tamano(); i++) {
+			// filtrar por código de medico
+			if (obtener(i).getCodMedico() == codMedico) {
+				// generar un objeto de fecha con los datos de la cita
+				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
+				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
+				
+				// comparar con la fecha actual
+				LocalDateTime ahora = LocalDateTime.now();
+				if (fechaIngresada.isAfter(ahora)) {
+					aux.add(obtener(i));
+				}
+			}
+		}
+
+		if (aux.size() > 0)
+			return aux;
+
+		return null;
+	}
+	
+	public ArrayList<Cita> buscarFuturasPorPaciente(int codPaciente) {
+		ArrayList<Cita> aux = new ArrayList<Cita>();
+
+		for (int i = 0; i < tamano(); i++) {
+			// filtrar por código de paciente
+			if (obtener(i).getCodPaciente() == codPaciente) {
 				// generar un objeto de fecha con los datos de la cita
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
@@ -142,15 +223,15 @@ public class ArregloCitas {
 			String[] s;
 
 			// campos
-			int numCita, codPaciente, codConsultorio, estado;
-			String codMedico, fecha, hora, motivo;
+			int numCita, codPaciente, codMedico, codConsultorio, estado;
+			String fecha, hora, motivo;
 
 			br = new BufferedReader(new FileReader(file));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
 				numCita = Integer.parseInt(s[0].trim());
 				codPaciente = Integer.parseInt(s[1].trim());
-				codMedico = s[2].trim();
+				codMedico = Integer.parseInt(s[2].trim());
 				codConsultorio = Integer.parseInt(s[3].trim());
 				estado = Integer.parseInt(s[4].trim());
 				fecha = s[5].trim();
