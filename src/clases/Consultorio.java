@@ -89,4 +89,12 @@ public class Consultorio {
 	public static boolean validarPiso(int piso) {
 		return piso > 0;
 	}
+	
+	// validar que el nombre sea único y no exista en el sistema
+	public static boolean validarNombreUnico(String nombre) {
+		ArregloConsultorio arr = new ArregloConsultorio();
+		System.out.println("validar nombre: " + nombre);
+		System.out.println(arr.buscarNombre(nombre));
+		return arr.buscarNombre(nombre) == null;
+	}
 }

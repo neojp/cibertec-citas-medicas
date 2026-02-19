@@ -227,6 +227,11 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 			if (!Consultorio.validarPiso((Integer) spnPiso.getValue())) {
 				throw new Exception("Piso no puede ser menor a 1");
 			}
+			
+			// validar si el nombre es único
+			if (!Consultorio.validarNombreUnico(txtNombre.getText().trim())) {
+				throw new Exception("Nombre debe ser único y no puede ser repetido en la lista");
+			}
 		} catch(Exception e) {
 			// mostrar error de validación
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
