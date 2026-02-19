@@ -8,8 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import clases.Cita;
-import clases.Medico;
 import clases.Paciente;
 
 import javax.swing.JTextField;
@@ -33,7 +31,7 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 	private JLabel lblDni;
 	private JLabel lblEdad;
 	private JLabel lblEstado;
-	private JComboBox cboEstado;
+	private JComboBox<String> cboEstado;
 	private JButton btnCancelar;
 	private JButton btnAceptar;
 	private JTextField txtNombres;
@@ -93,9 +91,9 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		lblEstado.setBounds(10, 214, 137, 14);
 		contentPanel.add(lblEstado);
 		
-		cboEstado = new JComboBox();
+		cboEstado = new JComboBox<String>();
 		lblEstado.setLabelFor(cboEstado);
-		cboEstado.setModel(new DefaultComboBoxModel(Paciente.estados));
+		cboEstado.setModel(new DefaultComboBoxModel<String>(Paciente.estados));
 		cboEstado.setBounds(157, 210, 186, 22);
 		contentPanel.add(cboEstado);
 		

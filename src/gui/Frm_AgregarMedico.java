@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 
 import clases.Medico;
 import arreglo.ArregloMedico2;
-import libreria.Validacion;
 
 public class Frm_AgregarMedico extends JDialog implements ActionListener {
 

@@ -9,7 +9,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import clases.Cita;
 import clases.Medico;
 
 import javax.swing.JTextField;
@@ -18,8 +17,6 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 public class FormularioMedico extends JDialog implements ActionListener {
 
@@ -32,12 +29,12 @@ public class FormularioMedico extends JDialog implements ActionListener {
 	private JLabel lblEspecialidad;
 	private JLabel lblCmp;
 	private JLabel lblEstado;
-	private JComboBox cboEstado;
+	private JComboBox<String> cboEstado;
 	private JButton btnCancelar;
 	private JButton btnAceptar;
 	private JTextField txtNombres;
 	private JTextField txtApellidos;
-	private JComboBox cboEspecialidad;
+	private JComboBox<String> cboEspecialidad;
 	private JTextField txtCmp;
 
 	/**
@@ -88,9 +85,9 @@ public class FormularioMedico extends JDialog implements ActionListener {
 		lblEstado.setBounds(10, 158, 137, 14);
 		contentPanel.add(lblEstado);
 		
-		cboEstado = new JComboBox();
+		cboEstado = new JComboBox<String>();
 		lblEstado.setLabelFor(cboEstado);
-		cboEstado.setModel(new DefaultComboBoxModel(Medico.estados));
+		cboEstado.setModel(new DefaultComboBoxModel<String>(Medico.estados));
 		cboEstado.setBounds(157, 154, 186, 22);
 		contentPanel.add(cboEstado);
 		
@@ -105,8 +102,8 @@ public class FormularioMedico extends JDialog implements ActionListener {
 		txtApellidos.setBounds(157, 70, 186, 20);
 		contentPanel.add(txtApellidos);
 		
-		cboEspecialidad = new JComboBox();
-		cboEspecialidad.setModel(new DefaultComboBoxModel(Medico.especialidades));
+		cboEspecialidad = new JComboBox<String>();
+		cboEspecialidad.setModel(new DefaultComboBoxModel<String>(Medico.especialidades));
 		cboEspecialidad.setBounds(157, 97, 186, 22);
 		contentPanel.add(cboEspecialidad);
 		

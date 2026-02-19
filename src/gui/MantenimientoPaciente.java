@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import arreglo.ArregloPaciente;
 
 import javax.swing.SwingConstants;
-import java.awt.Panel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;

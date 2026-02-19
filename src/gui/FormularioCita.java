@@ -35,7 +35,7 @@ public class FormularioCita extends JDialog implements ActionListener {
 	private JLabel lblHora;
 	private JLabel lblEstado;
 	private JLabel lblMotivo;
-	private JComboBox cboEstado;
+	private JComboBox<String> cboEstado;
 	private JButton btnCancelar;
 	private JButton btnAceptar;
 	private JSpinner spnHoras;
@@ -43,9 +43,9 @@ public class FormularioCita extends JDialog implements ActionListener {
 	private JSpinner spnDia;
 	private JSpinner spnMes;
 	private JSpinner spnAno;
-	private JComboBox cboConsultorio;
-	private JComboBox cboMedico;
-	private JComboBox cboPaciente;
+	private JComboBox<String> cboConsultorio;
+	private JComboBox<String> cboMedico;
+	private JComboBox<String> cboPaciente;
 	private JScrollPane scp;
 	private JTextArea txtMotivo;
 
@@ -105,10 +105,10 @@ public class FormularioCita extends JDialog implements ActionListener {
 		lblMotivo.setBounds(10, 213, 137, 14);
 		contentPanel.add(lblMotivo);
 		
-		cboEstado = new JComboBox();
+		cboEstado = new JComboBox<String>();
 		if (action == "crear") cboEstado.setEnabled(false);
 		lblEstado.setLabelFor(cboEstado);
-		cboEstado.setModel(new DefaultComboBoxModel(Cita.estados));
+		cboEstado.setModel(new DefaultComboBoxModel<String>(Cita.estados));
 		cboEstado.setBounds(157, 181, 186, 22);
 		contentPanel.add(cboEstado);
 		
@@ -137,21 +137,21 @@ public class FormularioCita extends JDialog implements ActionListener {
 		spnAno.setBounds(267, 126, 45, 20);
 		contentPanel.add(spnAno);
 		
-		cboConsultorio = new JComboBox();
+		cboConsultorio = new JComboBox<String>();
 		lblConsultorio.setLabelFor(cboConsultorio);
-		cboConsultorio.setModel(new DefaultComboBoxModel(new String[] {"Nombre de Consultorio 1", "Nombre de Consultorio 2", "Nombre de Consultorio 3"}));
+		cboConsultorio.setModel(new DefaultComboBoxModel<String>(new String[] {"Nombre de Consultorio 1", "Nombre de Consultorio 2", "Nombre de Consultorio 3"}));
 		cboConsultorio.setBounds(157, 97, 186, 22);
 		contentPanel.add(cboConsultorio);
 		
-		cboMedico = new JComboBox();
+		cboMedico = new JComboBox<String>();
 		lblMedico.setLabelFor(cboMedico);
-		cboMedico.setModel(new DefaultComboBoxModel(new String[] {"Nombre de Médico 1", "Nombre de Médico 2", "Nombre de Médico 3"}));
+		cboMedico.setModel(new DefaultComboBoxModel<String>(new String[] {"Nombre de Médico 1", "Nombre de Médico 2", "Nombre de Médico 3"}));
 		cboMedico.setBounds(157, 69, 186, 22);
 		contentPanel.add(cboMedico);
 		
-		cboPaciente = new JComboBox();
+		cboPaciente = new JComboBox<String>();
 		lblPaciente.setLabelFor(cboPaciente);
-		cboPaciente.setModel(new DefaultComboBoxModel(new String[] {"Nombre de Paciente 1", "Nombre de Paciente 2", "Nombre de Paciente 3"}));
+		cboPaciente.setModel(new DefaultComboBoxModel<String>(new String[] {"Nombre de Paciente 1", "Nombre de Paciente 2", "Nombre de Paciente 3"}));
 		cboPaciente.setBounds(157, 41, 186, 22);
 		contentPanel.add(cboPaciente);
 		
