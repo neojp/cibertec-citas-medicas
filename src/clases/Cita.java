@@ -2,8 +2,8 @@ package clases;
 
 public class Cita {
 	// variables privadas
-	private int numCita, codPaciente, codMedico, codConsultorio, estado;
-	private String fecha, hora, motivo;
+	private int numCita, codPaciente, codConsultorio, estado;
+	private String codMedico, fecha, hora, motivo;
 	
 	// variables estaticas privadas
 	private static int indice = 0;
@@ -16,8 +16,7 @@ public class Cita {
 	};
 	
 	// constructor
-	public Cita(int numCita, int codPaciente, int codMedico, int codConsultorio, int estado, String fecha, String hora,
-			String motivo) {
+	public Cita(int numCita, int codPaciente, String codMedico, int codConsultorio, int estado, String fecha, String hora, String motivo) {
 		this.numCita = numCita;
 		this.codPaciente = codPaciente;
 		this.codMedico = codMedico;
@@ -41,10 +40,10 @@ public class Cita {
 	public void setCodPaciente(int codPaciente) {
 		this.codPaciente = codPaciente;
 	}
-	public int getCodMedico() {
+	public String getCodMedico() {
 		return codMedico;
 	}
-	public void setCodMedico(int codMedico) {
+	public void setCodMedico(String codMedico) {
 		this.codMedico = codMedico;
 	}
 	public int getCodConsultorio() {

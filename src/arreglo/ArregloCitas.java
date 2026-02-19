@@ -111,15 +111,15 @@ public class ArregloCitas {
 			String[] s;
 			
 			// campos
-			int numCita, codPaciente, codMedico, codConsultorio, estado;
-			String fecha, hora, motivo;
+			int numCita, codPaciente, codConsultorio, estado;
+			String codMedico, fecha, hora, motivo;
 			
 			br = new BufferedReader(new FileReader(file));
 			while ((linea = br.readLine()) != null) {
 				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
 				numCita = Integer.parseInt(s[0].trim());
 				codPaciente = Integer.parseInt(s[1].trim());
-				codMedico = Integer.parseInt(s[2].trim());
+				codMedico = s[2].trim();
 				codConsultorio = Integer.parseInt(s[3].trim());
 				estado = Integer.parseInt(s[4].trim());
 				fecha = s[5].trim();
