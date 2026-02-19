@@ -87,7 +87,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		scp.setBounds(10, 45, 572, 233);
 		getContentPane().add(scp);
 		
-		modelo = Libreria.crearModelo(new String[] {
+		modelo = Libreria.crearModeloTabla(new String[] {
 			"Código",
 			"Nombre",
 			"Piso",

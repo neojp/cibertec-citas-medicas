@@ -1,48 +1,45 @@
 package libreria;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Libreria {
-	// centra la ventana relativa al padre, la hace modal y la hace visible
-	public static <D extends JDialog, F extends JFrame> void setModalWindow(D ventana, F ventanaPadre) {
-		ventana.setLocationRelativeTo(ventanaPadre);
-		ventana.setModal(true);
-		ventana.setVisible(true);
-	}
-	public static <D extends JDialog> void setModalWindow(D ventana, D ventanaPadre) {
-		ventana.setLocationRelativeTo(ventanaPadre);
-		ventana.setModal(true);
-		ventana.setVisible(true);
-	}
-	
 	// redondear números enteros a 2 decimales
 	public static String redondear(double num) {
 		return String.format("%.2f", num);
 	}
 	
-	// tablas
+	// crear tablas con opciones predeterminadas que no permitan seleccionar más de 1 fila, seleccionar columnas o editar celdas 
 	public static JTable crearTabla() {
 		JTable tblTabla = new JTable();
-		tblTabla.setFocusable(false);
+
+		// incrementar la altura de la tabla
 		tblTabla.setFillsViewportHeight(true);
+		
+		// no permitir que se muestren celdas individuales como si estuvieran seleccionadas
+		tblTabla.setFocusable(false);
+		
+		// no permitir que se seleccionen columnas 
 		tblTabla.setColumnSelectionAllowed(false);
+		
+		// solo se puede seleccionar una fila a la vez
 		tblTabla.setRowSelectionAllowed(true);
+		tblTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		return tblTabla;
 	}
 
-	// modelo para tablas
-	public static DefaultTableModel crearModelo(String[] columnas) {
+	// crear modelo para tablas sin que las celdas puedan ser seleccionadas
+	public static DefaultTableModel crearModeloTabla(String[] columnas) {
 		return new DefaultTableModel(
-			// datos
+			// crear modelo sin datos
 			new Object[][] {
 			},
-			// columnas
+			// asignar columnas del parámetro
 			columnas
 		) {
-			// no dejar que las celdas sean editables
+			// no permitir que las celdas sean editables
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
