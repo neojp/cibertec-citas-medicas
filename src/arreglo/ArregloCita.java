@@ -221,6 +221,10 @@ public class ArregloCita {
 		arr.sort(Comparator.comparingInt(Cita::getNumCita));
 	}
 	
+	public void ordenarPorFecha() {
+		arr.sort(Comparator.comparing(Cita::getLocalDateTime));
+	}
+	
 	// archivos de texto
 	private void cargar() {
 		try {

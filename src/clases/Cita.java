@@ -1,5 +1,8 @@
 package clases;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import arreglo.ArregloCita;
 import gui.Principal;
 
@@ -83,6 +86,7 @@ public class Cita {
 		this.motivo = motivo;
 	}
 	
+	// getters de relaciones
 	public Paciente getPaciente() {
 		return Principal.getArrPacientes().buscarCodPaciente(getCodPaciente());
 	}
@@ -91,6 +95,13 @@ public class Cita {
 	}
 	public Consultorio getConsultorio() {
 		return Principal.getArrConsultorios().buscarCodConsultorio(getCodConsultorio());
+	}
+	
+	// convertir fecha y hora en LocalDateTime
+	public LocalDateTime getLocalDateTime() {
+		// generar un objeto de fecha con los datos de la cita
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		return LocalDateTime.parse(getFecha() + " " + getHora(), formato);
 	}
 	
 	// métodos estaticos públicos

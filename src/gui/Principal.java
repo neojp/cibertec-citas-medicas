@@ -153,49 +153,42 @@ public class Principal extends JFrame implements ActionListener {
 		}
 	}
 	protected void actionPerformedMntmPaciente(ActionEvent e) {
-		System.out.println("paciente");
 		MantenimientoPaciente ventana = new MantenimientoPaciente();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmMedico(ActionEvent e) {
-		System.out.println("medico");
 		MantenimientoMedico ventana = new MantenimientoMedico();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmConsultorio(ActionEvent e) {
-		System.out.println("consultorio");
 		MantenimientoConsultorio ventana = new MantenimientoConsultorio();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmRegistro(ActionEvent e) {
-		System.out.println("registro");
 		RegistroCitas ventana = new RegistroCitas();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmConsulta(ActionEvent e) {
-		System.out.println("consulta");
 		ConsultaCitas consultaCitas = new ConsultaCitas();
 		consultaCitas.setLocationRelativeTo(this);
 		consultaCitas.setModal(true);
 		consultaCitas.setVisible(true);
 	}
 	protected void actionPerformedMntmAcerca(ActionEvent e) {
-		System.out.println("acerca");
 		Acerca acer = new Acerca();
 		acer.setLocationRelativeTo(this);
 		acer.setModal(true);
 		acer.setVisible(true);
 	}
 	protected void actionPerformedMntmReporteCitas(ActionEvent e) {
-		System.out.println("reporte de citas");
 		Reporte ventana = new Reporte();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);

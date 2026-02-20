@@ -51,15 +51,6 @@ public class Libreria {
 		};
 	}
 	
-	public static Date strToDate(String str) {
-		try {
-			return new SimpleDateFormat("dd/MM/yyyy").parse(str);
-		} catch (ParseException e) {
-			System.out.println(e);
-		}
-		return null;
-	}
-	
 	public static Date strToTime(String str) {
 		try {
 			return new SimpleDateFormat("HH:mm").parse(str);

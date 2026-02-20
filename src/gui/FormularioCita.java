@@ -362,62 +362,67 @@ public class FormularioCita extends JDialog implements ActionListener {
 			DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 			LocalDateTime fechaForm = LocalDateTime.parse(leerFecha() + " " + leerHora(), formatoFecha);
 			
+			// TODO: revisar que si estamos editando, no sea el mismo numero de cita para evitar el error de que ya hay una cita disponible a esa hora
+			
 			// validar por disponibilidad de paciente
-			for (int i = 0; i < citasPorPaciente.size(); i++) {
-				Cita cita = citasPorPaciente.get(i);
-				
-				// solo revisar citas pendientes
-				if (cita.getEstado() == 0) {
-					// generar un objeto de fecha con los datos de la cita
-					LocalDateTime fechaInicio = LocalDateTime.parse(cita.getFecha() + " " + cita.getHora(), formatoFecha);
+			if (citasPorPaciente != null)
+				for (int i = 0; i < citasPorPaciente.size(); i++) {
+					Cita cita = citasPorPaciente.get(i);
 					
-					// generar un nuevo objeto de fecha con 1 hora más
-					LocalDateTime fechaFin = fechaInicio.plusHours(1);
-					
-					// comparar si la fecha y hora del formulario esta dentro del rango de 1hr de la cita 
-					if (fechaForm.equals(fechaInicio) || fechaForm.isAfter(fechaInicio) && fechaForm.isBefore(fechaFin)) {
-						throw new Exception("El paciente tiene una cita en este momento");
+					// solo revisar citas pendientes
+					if (cita.getEstado() == 0) {
+						// generar un objeto de fecha con los datos de la cita
+						LocalDateTime fechaInicio = LocalDateTime.parse(cita.getFecha() + " " + cita.getHora(), formatoFecha);
+						
+						// generar un nuevo objeto de fecha con 1 hora más
+						LocalDateTime fechaFin = fechaInicio.plusHours(1);
+						
+						// comparar si la fecha y hora del formulario esta dentro del rango de 1hr de la cita 
+						if (fechaForm.equals(fechaInicio) || fechaForm.isAfter(fechaInicio) && fechaForm.isBefore(fechaFin)) {
+							throw new Exception("El paciente tiene una cita en este momento");
+						}
 					}
 				}
-			}
 			
 			// validar por disponibilidad de médico
-			for (int i = 0; i < citasPorMedico.size(); i++) {
-				Cita cita = citasPorMedico.get(i);
-				
-				// solo revisar citas pendientes
-				if (cita.getEstado() == 0) {
-					// generar un objeto de fecha con los datos de la cita
-					LocalDateTime fechaInicio = LocalDateTime.parse(cita.getFecha() + " " + cita.getHora(), formatoFecha);
+			if (citasPorMedico != null)
+				for (int i = 0; i < citasPorMedico.size(); i++) {
+					Cita cita = citasPorMedico.get(i);
 					
-					// generar un nuevo objeto de fecha con 1 hora más
-					LocalDateTime fechaFin = fechaInicio.plusHours(1);
-					
-					// comparar si la fecha y hora del formulario esta dentro del rango de 1hr de la cita 
-					if (fechaForm.equals(fechaInicio) || fechaForm.isAfter(fechaInicio) && fechaForm.isBefore(fechaFin)) {
-						throw new Exception("El médico tiene una cita en este momento");
+					// solo revisar citas pendientes
+					if (cita.getEstado() == 0) {
+						// generar un objeto de fecha con los datos de la cita
+						LocalDateTime fechaInicio = LocalDateTime.parse(cita.getFecha() + " " + cita.getHora(), formatoFecha);
+						
+						// generar un nuevo objeto de fecha con 1 hora más
+						LocalDateTime fechaFin = fechaInicio.plusHours(1);
+						
+						// comparar si la fecha y hora del formulario esta dentro del rango de 1hr de la cita 
+						if (fechaForm.equals(fechaInicio) || fechaForm.isAfter(fechaInicio) && fechaForm.isBefore(fechaFin)) {
+							throw new Exception("El médico tiene una cita en este momento");
+						}
 					}
 				}
-			}
 			
 			// validar por disponibilidad de consultorio
-			for (int i = 0; i < citasPorConsultorio.size(); i++) {
-				Cita cita = citasPorConsultorio.get(i);
-				
-				// solo revisar citas pendientes
-				if (cita.getEstado() == 0) {
-					// generar un objeto de fecha con los datos de la cita
-					LocalDateTime fechaInicio = LocalDateTime.parse(cita.getFecha() + " " + cita.getHora(), formatoFecha);
+			if (citasPorConsultorio != null)
+				for (int i = 0; i < citasPorConsultorio.size(); i++) {
+					Cita cita = citasPorConsultorio.get(i);
 					
-					// generar un nuevo objeto de fecha con 1 hora más
-					LocalDateTime fechaFin = fechaInicio.plusHours(1);
-					
-					// comparar si la fecha y hora del formulario esta dentro del rango de 1hr de la cita 
-					if (fechaForm.equals(fechaInicio) || fechaForm.isAfter(fechaInicio) && fechaForm.isBefore(fechaFin)) {
-						throw new Exception("El consultorio tiene una cita en este momento");
+					// solo revisar citas pendientes
+					if (cita.getEstado() == 0) {
+						// generar un objeto de fecha con los datos de la cita
+						LocalDateTime fechaInicio = LocalDateTime.parse(cita.getFecha() + " " + cita.getHora(), formatoFecha);
+						
+						// generar un nuevo objeto de fecha con 1 hora más
+						LocalDateTime fechaFin = fechaInicio.plusHours(1);
+						
+						// comparar si la fecha y hora del formulario esta dentro del rango de 1hr de la cita 
+						if (fechaForm.equals(fechaInicio) || fechaForm.isAfter(fechaInicio) && fechaForm.isBefore(fechaFin)) {
+							throw new Exception("El consultorio tiene una cita en este momento");
+						}
 					}
 				}
-			}
 
 		} catch(Exception e) {
 			// mostrar error de validación

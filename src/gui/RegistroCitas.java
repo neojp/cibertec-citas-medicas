@@ -56,7 +56,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 		setBounds(100, 100, 820, 387);
 		getContentPane().setLayout(null);
 		
-		btnNuevo = new JButton("Agregar Nuevo");
+		btnNuevo = new JButton("Agregar Nueva");
 		btnNuevo.addActionListener(this);
 		btnNuevo.setBounds(10, 11, 138, 23);
 		getContentPane().add(btnNuevo);
@@ -73,12 +73,12 @@ public class RegistroCitas extends JDialog implements ActionListener {
 		btnEditar.addActionListener(this);
 		
 		btnCancelar = new JButton("Cancelar Cita");
-		btnCancelar.setBounds(109, 16, 115, 23);
+		btnCancelar.setBounds(208, 16, 115, 23);
 		pnlOpciones.add(btnCancelar);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(234, 16, 89, 23);
+		btnEliminar.setBounds(109, 16, 89, 23);
 		pnlOpciones.add(btnEliminar);
 		btnCancelar.addActionListener(this);
 		
