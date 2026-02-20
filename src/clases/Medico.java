@@ -126,4 +126,11 @@ public class Medico {
 		System.out.println(arr.buscarCmp(cmp));
 		return arr.buscarCmp(cmp) == null;
 	}
+	
+	public String getNombreCompleto() {
+		String str = this.nombres;
+		if (!this.apellidos.isEmpty())
+			str += " " + this.apellidos;
+		return str;
+	}
 }

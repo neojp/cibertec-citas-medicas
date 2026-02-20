@@ -109,9 +109,14 @@ public class ArregloMedico {
 		return null;
 	}
 	
-	// ordenar
+	// ordenar por código
 	public void ordenarPorCodigo() {
 		arr.sort(Comparator.comparingInt(Medico::getCodMedico));
+	}
+	
+	// ordenar alfabéticamente por nombre completo sin importar mayúsculas
+	public void ordenarPorNombreCompleto() {
+		arr.sort(Comparator.comparing(Medico::getNombreCompleto, String.CASE_INSENSITIVE_ORDER));
 	}
 	
 	// 	archivos de texto

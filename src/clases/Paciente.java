@@ -82,6 +82,13 @@ public class Paciente {
 		this.correo = correo;
 	}
 	
+	public String getNombreCompleto() {
+		String str = this.nombres;
+		if (!this.apellidos.isEmpty())
+			str += " " + this.apellidos;
+		return str;
+	}
+	
 	// metodos estaticos publicos
 	// generar código de paciente en base al último código disponible
 	public static int generarCodPaciente() {

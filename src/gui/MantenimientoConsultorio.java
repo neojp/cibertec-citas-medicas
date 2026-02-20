@@ -232,7 +232,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 			// mostrar un dialogo de confirmación antes de eliminarlo
 			int confirmar = JOptionPane.showConfirmDialog(
 				this, 
-				"¿Está seguro que quiere borrar este consultorio?", 
+				"¿Está seguro que quiere eliminar este consultorio?", 
 				"Confirmar Eliminación", 
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.WARNING_MESSAGE

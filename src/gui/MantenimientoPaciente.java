@@ -229,7 +229,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 			// mostrar un dialogo de confirmación antes de eliminarlo
 			int confirmar = JOptionPane.showConfirmDialog(
 				this, 
-				"¿Está seguro que quiere borrar este paciente?", 
+				"¿Está seguro que quiere eliminar este paciente?", 
 				"Confirmar Eliminación", 
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.WARNING_MESSAGE

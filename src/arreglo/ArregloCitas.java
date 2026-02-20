@@ -7,8 +7,10 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import clases.Cita;
+import clases.Consultorio;
 
 public class ArregloCitas {
 	// variables privadas
@@ -215,6 +217,11 @@ public class ArregloCitas {
 		return null;
 	}
 	
+	// ordenar por código
+	public void ordenarPorNumero() {
+		arr.sort(Comparator.comparingInt(Cita::getNumCita));
+	}
+	
 	// archivos de texto
 	private void cargar() {
 		try {
@@ -246,7 +253,7 @@ public class ArregloCitas {
 		}
 	}
 	
-	private void grabar() {
+	public void grabar() {
 		try {
 			PrintWriter pw;
 			String linea;

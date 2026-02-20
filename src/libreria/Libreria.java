@@ -1,5 +1,9 @@
 package libreria;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -45,5 +49,32 @@ public class Libreria {
 				return false;
 			}
 		};
+	}
+	
+	public static Date strToDate(String str) {
+		try {
+			return new SimpleDateFormat("dd/MM/yyyy").parse(str);
+		} catch (ParseException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+	
+	public static Date strToTime(String str) {
+		try {
+			return new SimpleDateFormat("HH:mm").parse(str);
+		} catch (ParseException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public static Date strToDate(String str) {
+		try {
+			return new SimpleDateFormat("dd/MM/yyyy").parse(str);
+		} catch (ParseException e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 }

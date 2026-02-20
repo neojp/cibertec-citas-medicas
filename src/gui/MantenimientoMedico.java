@@ -191,14 +191,14 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 			// mostrar un dialogo de confirmación antes de eliminarlo
 			int confirmar = JOptionPane.showConfirmDialog(
 				this, 
-				"¿Está seguro que quiere borrar este médico?", 
+				"¿Está seguro que quiere eliminar este médico?", 
 				"Confirmar Eliminación", 
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.WARNING_MESSAGE
 			);
 
 			if (confirmar == 0) {
-				// TODO: validar si existen citas futuras
+				// validar si existen citas futuras
 				ArrayList<Cita> citasFuturas = Principal.getArrCitas().buscarFuturasPorMedico(medico.getCodMedico());
 				if (citasFuturas != null) {
 					String msg = "El médico no puede ser eliminado porque tiene " + citasFuturas.size();
