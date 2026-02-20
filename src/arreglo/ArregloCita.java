@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import clases.Cita;
-import clases.Consultorio;
 
-public class ArregloCitas {
+public class ArregloCita {
 	// variables privadas
 	ArrayList<Cita> arr;
 	private String file = "src/main/resources/data/citas.txt";
 	
 	// constructor
-	public ArregloCitas() {
+	public ArregloCita() {
 		arr = new ArrayList<Cita>();
 		cargar();
 	}

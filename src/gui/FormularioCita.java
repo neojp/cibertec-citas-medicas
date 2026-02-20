@@ -9,13 +9,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import arreglo.ArregloCitas;
+import arreglo.ArregloCita;
 import arreglo.ArregloConsultorio;
 import arreglo.ArregloMedico;
 import arreglo.ArregloPaciente;
 import clases.Cita;
-import clases.Consultorio;
-import clases.Paciente;
 import libreria.CustomComboBoxItem;
 import libreria.Libreria;
 
@@ -25,8 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,7 +31,6 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
@@ -358,7 +353,7 @@ public class FormularioCita extends JDialog implements ActionListener {
 			
 			// validar por disponibilidad de citas			
 			// obtener todas las citas relacionadas al paciente, medico y consultorio relacionado a los datos del formulario
-			ArregloCitas arr = Principal.getArrCitas();
+			ArregloCita arr = Principal.getArrCitas();
 			ArrayList<Cita> citasPorMedico = arr.buscarCodMedico(leerCodMedico());
 			ArrayList<Cita> citasPorConsultorio = arr.buscarCodConsultorio(leerCodConsultorio());
 			ArrayList<Cita> citasPorPaciente = arr.buscarCodPaciente(leerCodPaciente());

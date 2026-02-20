@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import clases.Consultorio;
 import clases.Paciente;
 
 import javax.swing.JTextField;

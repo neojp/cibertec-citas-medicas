@@ -1,7 +1,6 @@
 package clases;
 
 import arreglo.ArregloCita;
-import arreglo.ArregloCitas;
 import gui.Principal;
 
 public class Cita {
@@ -100,7 +99,7 @@ public class Cita {
 		// siempre obtener la última versión del arreglo
 		// ordenar por código de forma ascendente
 		// y obtener el último código disponible para incrementar por 1
-		ArregloCitas arr = new ArregloCitas();
+		ArregloCita arr = new ArregloCita();
 		if (arr.tamano() > 0) {
 			arr.ordenarPorNumero();
 			indice = arr.obtener(arr.tamano() - 1).getNumCita();

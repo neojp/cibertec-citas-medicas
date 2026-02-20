@@ -1,7 +1,6 @@
 package clases;
 
 import arreglo.ArregloMedico;
-import arreglo.ArregloMedico;
 
 public class Medico {
 	// variables privadas

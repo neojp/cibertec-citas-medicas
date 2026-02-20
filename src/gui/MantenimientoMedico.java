@@ -13,10 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import arreglo.ArregloConsultorio;
 import arreglo.ArregloMedico;
 import clases.Cita;
-import clases.Consultorio;
 import clases.Medico;
 import libreria.Libreria;
 

@@ -1,6 +1,5 @@
 package clases;
 
-import arreglo.ArregloConsultorio;
 import arreglo.ArregloPaciente;
 
 public class Paciente {

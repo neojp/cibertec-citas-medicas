@@ -5,7 +5,6 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
@@ -13,14 +12,11 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import arreglo.ArregloCitas;
-import arreglo.ArregloConsultorio;
+import arreglo.ArregloCita;
 import clases.Cita;
 import clases.Consultorio;
 import clases.Medico;
 import clases.Paciente;
-import clases.Cita;
-import clases.Cita;
 import libreria.Libreria;
 
 import javax.swing.border.EtchedBorder;
@@ -35,7 +31,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 	private JScrollPane scp;
 	private JTable tblTabla;
 	private DefaultTableModel modelo;
-	private ArregloCitas arr = Principal.getArrCitas();
+	private ArregloCita arr = Principal.getArrCitas();
 	private JPanel pnlOpciones;
 	private JButton btnEliminar;
 

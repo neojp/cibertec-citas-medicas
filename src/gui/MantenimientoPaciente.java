@@ -14,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import arreglo.ArregloPaciente;
 import clases.Cita;
 import clases.Paciente;
-import clases.Paciente;
 import libreria.Libreria;
 
 import javax.swing.SwingConstants;

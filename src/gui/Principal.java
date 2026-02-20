@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import arreglo.ArregloCitas;
+import arreglo.ArregloCita;
 import arreglo.ArregloConsultorio;
 import arreglo.ArregloMedico;
 import arreglo.ArregloPaciente;
@@ -40,7 +40,7 @@ public class Principal extends JFrame implements ActionListener {
 	
 	// arreglos
 	private static ArregloConsultorio arrConsultorios = new ArregloConsultorio();
-	private static ArregloCitas arrCitas = new ArregloCitas();
+	private static ArregloCita arrCitas = new ArregloCita();
 	private static ArregloPaciente arrPacientes = new ArregloPaciente();
 	private static ArregloMedico arrMedicos = new ArregloMedico();
 
@@ -206,7 +206,7 @@ public class Principal extends JFrame implements ActionListener {
 		return arrConsultorios;
 	}
 
-	public static ArregloCitas getArrCitas() {
+	public static ArregloCita getArrCitas() {
 		return arrCitas;
 	}
 
