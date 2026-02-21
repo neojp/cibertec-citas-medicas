@@ -362,12 +362,13 @@ public class FormularioCita extends JDialog implements ActionListener {
 			DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 			LocalDateTime fechaForm = LocalDateTime.parse(leerFecha() + " " + leerHora(), formatoFecha);
 			
-			// TODO: revisar que si estamos editando, no sea el mismo numero de cita para evitar el error de que ya hay una cita disponible a esa hora
-			
 			// validar por disponibilidad de paciente
 			if (citasPorPaciente != null)
 				for (int i = 0; i < citasPorPaciente.size(); i++) {
 					Cita cita = citasPorPaciente.get(i);
+					
+					// ignorar si estamos editando esta cita
+					if (action.equals("editar") && cita.getNumCita() == leerNumCita()) continue;
 					
 					// solo revisar citas pendientes
 					if (cita.getEstado() == 0) {
@@ -389,6 +390,9 @@ public class FormularioCita extends JDialog implements ActionListener {
 				for (int i = 0; i < citasPorMedico.size(); i++) {
 					Cita cita = citasPorMedico.get(i);
 					
+					// ignorar si estamos editando esta cita
+					if (action.equals("editar") && cita.getNumCita() == leerNumCita()) continue;
+					
 					// solo revisar citas pendientes
 					if (cita.getEstado() == 0) {
 						// generar un objeto de fecha con los datos de la cita
@@ -408,6 +412,9 @@ public class FormularioCita extends JDialog implements ActionListener {
 			if (citasPorConsultorio != null)
 				for (int i = 0; i < citasPorConsultorio.size(); i++) {
 					Cita cita = citasPorConsultorio.get(i);
+					
+					// ignorar si estamos editando esta cita
+					if (action.equals("editar") && cita.getNumCita() == leerNumCita()) continue;
 					
 					// solo revisar citas pendientes
 					if (cita.getEstado() == 0) {
@@ -477,5 +484,9 @@ public class FormularioCita extends JDialog implements ActionListener {
 	
 	private int leerEstado() {
 		return cboEstado.getSelectedIndex();
+	}
+	
+	private int leerNumCita() {
+		return Integer.parseInt(txtNumCita.getText().trim());
 	}
 }
