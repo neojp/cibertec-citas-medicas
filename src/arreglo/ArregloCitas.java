@@ -1,12 +1,14 @@
 package arreglo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import clases.Cita;
 
@@ -49,22 +51,38 @@ public class ArregloCitas {
 		return null;
 	}
 	
+	public void deleteByPk(int numCita) {
+		for (int i = 0; i < tamano(); i++) {
+			Cita cita = obtener(i);
+			if (cita.getNumCita() == numCita) arr.remove(i);
+		}
+	}
+	
+	
 	public ArrayList<Cita> buscarCodPaciente(int codPaciente) {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
+		for (int i = 0; i < tamano(); i++) {
+			Cita cita = obtener(i);
+			if (cita.getCodPaciente() == codPaciente) aux.add(cita);			
+		}
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCodPaciente() == codPaciente)
-				aux.add(obtener(i));
-
-		if (aux.size() > 0)
-			return aux;
-
+		if (aux.size() > 0) return aux;
 		return null;
+	}
+
+	public List<Integer> getNumCitasByPaciente(int codPaciente) {
+		List<Integer> datesFiltered = new ArrayList<>();
+		for (int i = 0; i < tamano(); i++) {
+			Cita cita = obtener(i);
+			if (cita.getCodPaciente() == codPaciente) datesFiltered.add(cita.getNumCita());
+		}
+		
+		return datesFiltered;
 	}
 	
 	public ArrayList<Cita> buscarCodMedico(int codMedico) {
 		ArrayList<Cita> aux = new ArrayList<Cita>();
-
+		
 		for (int i = 0; i < tamano(); i++)
 			if (obtener(i).getCodMedico() == codMedico)
 				aux.add(obtener(i));
@@ -215,6 +233,24 @@ public class ArregloCitas {
 		return null;
 	}
 	
+	public int buscarFuturasPorPaciente(int codPaciente) {
+		int numFutureDates = 0;
+		
+		for (int i = 0; i < tamano(); i++) {
+			Cita cita = obtener(i);
+			if (cita.getCodPaciente() == codPaciente) {
+				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				String fechaTexto = cita.getFecha() + " " + cita.getHora();
+				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
+				LocalDateTime ahora = LocalDateTime.now();
+				
+				if (fechaIngresada.isAfter(ahora)) numFutureDates++;
+			}
+		}
+		
+		return numFutureDates;
+	}
+	
 	// archivos de texto
 	private void cargar() {
 		try {
@@ -251,6 +287,7 @@ public class ArregloCitas {
 			PrintWriter pw;
 			String linea;
 			Cita x;
+			this.createFileIfNotExists();
 			pw = new PrintWriter(new FileWriter(file));
 			for (int i=0; i<tamano(); i++) {
 				x = obtener(i);
@@ -268,6 +305,15 @@ public class ArregloCitas {
 		}
 		catch (Exception e) {
 			System.out.println("Error al grabar: " + e.getMessage());
+		}
+	}
+	
+	private void createFileIfNotExists() { 
+		File archivo = new File(file);
+		try {
+			if (!archivo.exists()) archivo.createNewFile();			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

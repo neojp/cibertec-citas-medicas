@@ -32,6 +32,7 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
+			JDialog.setDefaultLookAndFeelDecorated(true);
 			MantenimientoMedico dialog = new MantenimientoMedico();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

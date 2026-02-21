@@ -37,11 +37,14 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 	private JTextField txtNombres;
 	private JTextField txtApellidos;
 	private JTextField txtDni;
-	private JSpinner spnCapacidad;
+	private JSpinner spnEdad;
 	private JLabel lblCelular;
 	private JTextField txtCelular;
 	private JLabel lblCorreo;
 	private JTextField txtCorreo;
+	private boolean isSuccess = false;	
+	private Paciente paciente;
+	private String action;
 
 	/**
 	 * Create the dialog.
@@ -54,7 +57,13 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 	 * @param action "agregar" "editar"
 	 */
 	public FormularioPaciente(String action) {
-		setTitle("Paciente");
+		this.action = action;
+		
+		if ("agregar".equals(action))
+			setTitle("Agregar Paciente");
+		else
+			setTitle("Editar Paciente");
+		
 		setBounds(100, 100, 368, 318);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,10 +123,10 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		if (action == "editar") txtDni.setEditable(false);
 		contentPanel.add(txtDni);
 		
-		spnCapacidad = new JSpinner();
-		spnCapacidad.setModel(new SpinnerNumberModel(0, 0, 110, 1));
-		spnCapacidad.setBounds(157, 126, 45, 20);
-		contentPanel.add(spnCapacidad);
+		spnEdad = new JSpinner();
+		spnEdad.setModel(new SpinnerNumberModel(0, 0, 110, 1));
+		spnEdad.setBounds(157, 126, 45, 20);
+		contentPanel.add(spnEdad);
 		
 		lblCelular = new JLabel("Celular:");
 		lblCelular.setBounds(10, 157, 137, 14);
@@ -158,6 +167,7 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 				buttonPane.add(btnCancelar);
 			}
 		}
+		txtCodPaciente.setText(Paciente.genCodPaciente() + "");
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAceptar) {
@@ -167,10 +177,48 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 			actionPerformedBtnCancelar(e);
 		}
 	}
+	
+	public Paciente getPaciente() {
+		return paciente;
+	}
+	
+	public void fillWithData(Paciente data) {
+		this.paciente = data;
+		
+		txtCodPaciente.setText(data.getCodPaciente()+"");
+		txtNombres.setText(data.getNombres());
+		txtApellidos.setText(data.getApellidos());
+		txtDni.setText(data.getDni());
+		spnEdad.setValue(data.getEdad());
+		txtCelular.setText(data.getCelular());
+		txtCorreo.setText(data.getCorreo());
+		cboEstado.setSelectedIndex(data.getEstado());
+	}
+	
+	public boolean getSuccess() {
+		return this.isSuccess;
+	}
+	
+	
 	protected void actionPerformedBtnCancelar(ActionEvent e) {
 		setVisible(false);
 	}
 	protected void actionPerformedBtnAceptar(ActionEvent e) {
 		setVisible(false);
+		
+		// avisa que se dio al botón aceptar.
+		this.isSuccess = true;
+		
+		if (action.equals("agregar")) {
+			this.paciente = new Paciente();
+		}
+		
+		this.paciente.setNombres(txtNombres.getText());
+		this.paciente.setApellidos(txtApellidos.getText());
+		this.paciente.setEdad((int) spnEdad.getValue());
+		this.paciente.setDni(txtDni.getText());
+		this.paciente.setCelular(txtCelular.getText());
+		this.paciente.setCorreo(txtCorreo.getText());
+		this.paciente.setEstado(cboEstado.getSelectedIndex());
 	}
 }

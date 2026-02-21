@@ -1,6 +1,7 @@
 package arreglo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -127,6 +128,7 @@ public class ArregloConsultorio {
 			PrintWriter pw;
 			String linea;
 			Consultorio x;
+			createFileIfNotExists();
 			pw = new PrintWriter(new FileWriter(file));
 			for (int i=0; i<tamano(); i++) {
 				x = obtener(i);
@@ -142,6 +144,15 @@ public class ArregloConsultorio {
 		}
 		catch (Exception e) {
 			System.out.println("Error al grabar: " + e.getMessage());
+		}
+	}
+	
+	private void createFileIfNotExists() { 
+		File archivo = new File(file);
+		try {
+			if (!archivo.exists()) archivo.createNewFile();			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

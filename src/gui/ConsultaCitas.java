@@ -18,18 +18,25 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
-public class ConsultaCitas extends JDialog implements ActionListener {
+public class ConsultaCitas extends JDialog implements ActionListener, ItemListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnOk, btnBuscar;
 	private JPanel panelTipo, bodyPanel, buttonPane, panelBuscar;
-	private JLabel lblNewLabel, lblCodigo;
+	private JLabel lblConsultBy, lblCodigo;
+	private String consultType =  "paciente";
 	private JTextField txtCodigo;
 	private JComboBox<String> cboConsultar;
-	private JTable tblTabla;
-	private JScrollPane scp;
+	private JTable tblTabla = new JTable();
+	private DefaultTableModel tableModel;
+	private JScrollPane scpTable;
+	private Object[] headerTableP = {"Estado", "Fecha", "hora", "Médico", "Consultorio"};
+	private Object[] headerTableM = {"Estado", "Fecha", "Paciente", "Consultorio"};
+	private Object[] headerTableC = {"Fecha", "Ocupación", "Médico"};
 
 	/**
 	 * Launch the application.
@@ -50,7 +57,7 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 	 */
 	public ConsultaCitas() {
 		setTitle("Consulta de citas");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 380);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,12 +69,14 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 		panelTipo.setLayout(new BoxLayout(panelTipo, BoxLayout.X_AXIS));
 		panelTipo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
-		lblNewLabel = new JLabel("Consultar por: ");
-		panelTipo.add(lblNewLabel);
+		lblConsultBy = new JLabel("Consultar por: ");
+		panelTipo.add(lblConsultBy);
 
 		panelTipo.add(Box.createHorizontalStrut(100));
 
 		cboConsultar = new JComboBox<String>(new String[] { "Paciente", "Médico", "Consultorio", "Fecha"});
+		cboConsultar.addItemListener(this);
+		cboConsultar.addActionListener(this);
 		panelTipo.add(cboConsultar);
 		
 		contentPanel.add(Box.createVerticalStrut(10));
@@ -78,7 +87,7 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 		panelBuscar.setLayout(new BoxLayout(panelBuscar, BoxLayout.X_AXIS));
 		panelBuscar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 		
-		lblCodigo = new JLabel("Código paciente:");
+		lblCodigo = new JLabel("Código "+consultType+":");
 		panelBuscar.add(lblCodigo);
 		panelBuscar.add(Box.createHorizontalStrut(10));
 		
@@ -89,7 +98,8 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 		
 		panelBuscar.add(Box.createHorizontalStrut(10));
 		
-		btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("Consultar");
+		btnBuscar.addActionListener(this);
 		btnBuscar.setMaximumSize(new Dimension(150, 30));
 		btnBuscar.setBackground(new Color(64,64,128));
 		btnBuscar.setForeground(new Color(255,255,255));
@@ -102,18 +112,12 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 		contentPanel.add(bodyPanel);
 		bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
 		
-		String[] headerTable = {"Estado", "Fecha", "hora", "Médico", "Consultorio"};
-		String[][] tempData = {
-			{"activo", "04/03/26","14:30","Luis Manco", "20A"},
-			{"inactivo", "05/04/26", "15:00", "Maria Gomez", "11B"}
-		};
+		tableModel = new DefaultTableModel(null,headerTableP);
+		tblTabla.setModel(tableModel);
+		scpTable = new JScrollPane(tblTabla);
+		scpTable.setBorder(new EmptyBorder(20,0,20,0));
 		
-		DefaultTableModel modelo = new DefaultTableModel(tempData, headerTable);
-		tblTabla = new JTable(modelo);
-		scp = new JScrollPane(tblTabla);
-		scp.setBorder(new EmptyBorder(20,0,20,0));
-		
-		bodyPanel.add(scp);
+		bodyPanel.add(scpTable);
 				
 		
 		// BOTONES
@@ -133,11 +137,56 @@ public class ConsultaCitas extends JDialog implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnBuscar) {
+			actionPerformedBtnBuscar(e);
+		}
+		
 		if (e.getSource() == btnOk) {
 			actionPerformedBtnOk(e);
 		}
 	}
 	protected void actionPerformedBtnOk(ActionEvent e) {
 		this.dispose();
+	}
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			itemStateChangedCboConsultar(e);
+		}
+	}
+	protected void itemStateChangedCboConsultar(ItemEvent e) {
+		int index = cboConsultar.getSelectedIndex();
+		switch (index) {
+			case 0: consultType = "paciente"; break;
+			case 1: consultType = "medico"; break;
+			case 2: consultType = "consultorio"; break;
+			default: consultType = "fecha";
+		}
+		
+		changeInterface();
+		System.out.println("Indice actual: "+index);
+	}
+	
+	private void changeInterface() {
+		lblCodigo.setText("Código "+this.consultType+":");
+		Object[] newHeader = null;
+		Object[][] newData = null;
+		
+		System.out.println("tipo: " + this.consultType);
+		
+		switch (this.consultType) {
+			case "paciente": { newHeader = headerTableP; break; }
+			case "medico": { newHeader = headerTableM; break;}
+			case "consultorio": {newHeader = headerTableC; break;}
+			default: {newHeader = null;}
+		}
+		
+		tableModel.setDataVector(newData, newHeader);
+	}
+	
+	private void showResultSearch() {
+		tableModel.addRow(new Object[] {"hola","hola","hola","hola","hola"});
+	}
+	protected void actionPerformedBtnBuscar(ActionEvent e) {
+		showResultSearch();
 	}
 }

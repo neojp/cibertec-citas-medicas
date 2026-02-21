@@ -1,6 +1,7 @@
 package arreglo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -166,7 +167,9 @@ public class ArregloPaciente {
 			PrintWriter pw;
 			String linea;
 			Paciente x;
+			createFileIfNotExists();
 			pw = new PrintWriter(new FileWriter(file));
+			System.out.println(tamano());
 			for (int i=0; i<tamano(); i++) {
 				x = obtener(i);
 				linea = x.getCodPaciente() + ";" +
@@ -183,6 +186,17 @@ public class ArregloPaciente {
 		}
 		catch (Exception e) {
 			System.out.println("Error al grabar: " + e.getMessage());
+		}
+	}
+	
+	private void createFileIfNotExists() { 
+		File archivo = new File(file);
+		try {
+			boolean exists = archivo.exists();
+			System.out.print(exists);
+			if (!exists) archivo.createNewFile();			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

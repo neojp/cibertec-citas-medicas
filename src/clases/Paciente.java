@@ -1,6 +1,5 @@
 package clases;
 
-import arreglo.ArregloConsultorio;
 import arreglo.ArregloPaciente;
 
 public class Paciente {
@@ -17,6 +16,10 @@ public class Paciente {
 		"Activo"
 	};
 	
+	public Paciente() {
+		this(genCodPaciente(), 0, 0, "", "", "", "", "");
+	}
+
 	// constructor
 	public Paciente() {
 		this(generarCodPaciente(), 0, 0, "", "", "", "", "");
@@ -31,7 +34,7 @@ public class Paciente {
 		this.celular = celular;
 		this.correo = correo;
 	}
-
+	
 	// getters & setters
 	public int getCodPaciente() {
 		return codPaciente;
@@ -110,5 +113,18 @@ public class Paciente {
 		System.out.println("validar DNI: " + dni);
 		System.out.println(arr.buscarDni(dni));
 		return arr.buscarDni(dni) == null;
+	}
+	
+	public Object[] getToRow() {
+		return new Object[]{
+				codPaciente,
+				nombres,
+				apellidos,
+				dni,
+				edad,
+				celular,
+				correo,
+				estado
+			};
 	}
 }

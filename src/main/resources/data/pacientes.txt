@@ -1,0 +1,4 @@
+1001;26;0;brailop;sadsada;321312312;20321312;sadasd@gmail.com
+1005;13;1;braulio;sadasdsad;213123213;213213;1232132ewqe
+1007;20;1;Favio;Calderón;84783212;213213133123;favcalde@mail.com
+1008;26;1;Braulio;Saloma;72776984;996395959;brausalm@gnauk,con
