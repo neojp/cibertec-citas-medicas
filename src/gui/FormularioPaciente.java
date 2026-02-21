@@ -167,7 +167,7 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 				buttonPane.add(btnCancelar);
 			}
 		}
-		txtCodPaciente.setText(Paciente.genCodPaciente() + "");
+		txtCodPaciente.setText(Paciente.generarCodPaciente() + "");
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAceptar) {

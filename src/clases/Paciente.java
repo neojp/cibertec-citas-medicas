@@ -15,15 +15,12 @@ public class Paciente {
 		"Inactivo",
 		"Activo"
 	};
-	
-	public Paciente() {
-		this(genCodPaciente(), 0, 0, "", "", "", "", "");
-	}
 
 	// constructor
 	public Paciente() {
 		this(generarCodPaciente(), 0, 0, "", "", "", "", "");
 	}
+	
 	public Paciente(int codPaciente, int edad, int estado, String nombres, String apellidos, String dni, String celular, String correo) {
 		this.codPaciente = codPaciente;
 		this.edad = edad;

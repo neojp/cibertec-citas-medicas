@@ -208,30 +208,30 @@ public class ArregloCitas {
 		return null;
 	}
 	
-	public ArrayList<Cita> buscarFuturasPorPaciente(int codPaciente) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
-
-		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de paciente y estado pendiente
-			if (obtener(i).getCodPaciente() == codPaciente && obtener(i).getEstado() == 0) {
-				// generar un objeto de fecha con los datos de la cita
-				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
-				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
-				
-				// comparar con la fecha actual
-				LocalDateTime ahora = LocalDateTime.now();
-				if (fechaIngresada.isAfter(ahora)) {
-					aux.add(obtener(i));
-				}
-			}
-		}
-
-		if (aux.size() > 0)
-			return aux;
-
-		return null;
-	}
+//	public ArrayList<Cita> buscarFuturasPorPaciente(int codPaciente) {
+//		ArrayList<Cita> aux = new ArrayList<Cita>();
+//
+//		for (int i = 0; i < tamano(); i++) {
+//			// filtrar por código de paciente y estado pendiente
+//			if (obtener(i).getCodPaciente() == codPaciente && obtener(i).getEstado() == 0) {
+//				// generar un objeto de fecha con los datos de la cita
+//				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+//				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
+//				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
+//				
+//				// comparar con la fecha actual
+//				LocalDateTime ahora = LocalDateTime.now();
+//				if (fechaIngresada.isAfter(ahora)) {
+//					aux.add(obtener(i));
+//				}
+//			}
+//		}
+//
+//		if (aux.size() > 0)
+//			return aux;
+//
+//		return null;
+//	}
 	
 	public int buscarFuturasPorPaciente(int codPaciente) {
 		int numFutureDates = 0;
