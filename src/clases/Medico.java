@@ -2,8 +2,8 @@ package clases;
 
 public class Medico {
 	// variables privadas
-	private int  estado;
-	private String codMedico,nombres, apellidos, especialidad, cmp;
+	private int  estado, codMedico;
+	private String nombres, apellidos, especialidad, cmp;
 	
 	// variables estaticas privadas
 	private static int contador = 1;
@@ -19,7 +19,7 @@ public class Medico {
 	}
 	
 	// 4. CONSTRUCTOR PARA CARGAR DESDE ARCHIVO (Recibe el código ya existente)
-		public Medico(String codMedico, String nombres, String apellidos, String especialidad, String cmp, int estado) {
+		public Medico(int codMedico, String nombres, String apellidos, String especialidad, String cmp, int estado) {
 			this.codMedico = codMedico;
 			this.nombres = nombres;
 			this.apellidos = apellidos;
@@ -31,8 +31,8 @@ public class Medico {
 		//METODOS 
 		
 		//METODO QUE GENERA EL FORMATO M000001
-		private String generarCorrelativo() {
-			return String.format("M%05d", contador++);
+		private int generarCorrelativo() {
+			return contador++;
 		}
 		
 		// Convierte el objeto a una línea de texto para el archivo .txt
@@ -84,10 +84,10 @@ public class Medico {
 
 	
 	// getters & setters
-	public String getCodMedico() {
+	public int getCodMedico() {
 		return codMedico;
 	}
-	public void setCodMedico(String codMedico) {
+	public void setCodMedico(int codMedico) {
 		this.codMedico = codMedico;
 	}
 	public int getEstado() {

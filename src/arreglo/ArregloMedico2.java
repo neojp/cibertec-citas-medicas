@@ -37,7 +37,7 @@ public class ArregloMedico2 {
 				// SEPARAR LOS DATOS USANDO ; 
 				String[] d = linea.split(";");
 				// CREA EL OBJETO MEDICO USANDO LOS DATOS LEIDOS DEL ARCHIVO
-				Medico m = new Medico(d[0], d[1], d[2], d[3], d[4], Integer.parseInt(d[5]));
+				Medico m = new Medico(Integer.parseInt(d[0]), d[1], d[2], d[3], d[4], Integer.parseInt(d[5]));
 				arr.add(m);
 				
 				// EXTRAER EL NUMERO DEL CODIGO
@@ -64,7 +64,7 @@ public class ArregloMedico2 {
 	// MODIFICAR REGISTRO 
 	public void actualizar(Medico mActualizado) {
 	    for (int i = 0; i < tamano(); i++) {
-	        if (obtener(i).getCodMedico().equals(mActualizado.getCodMedico())) {
+	        if (obtener(i).getCodMedico() == mActualizado.getCodMedico()) {
 	            arr.set(i, mActualizado); // REEMPLAZA LOS DATOS VIEJOS POR  EL NUEVO
 	            guardar(); // ACTUALIZA  EL .TXT CON LA LISTA ACTUALIZADA
 	            break;
@@ -73,12 +73,11 @@ public class ArregloMedico2 {
 	}
 	
 	 // ELIMINAR REGISTRO 
-    public void eliminar(String codMedico) {
+    public void eliminar(int codMedico) {
 
         for (int i = 0; i < arr.size(); i++) {
 
-            if (arr.get(i).getCodMedico()
-                    .equalsIgnoreCase(codMedico)) {
+            if (arr.get(i).getCodMedico() == codMedico) {
 
                 arr.remove(i);
                 guardar();
@@ -100,9 +99,9 @@ public class ArregloMedico2 {
 
 	//  MÉTODOS DE BÚSQUEDA 
 
-	public Medico buscarCodMedico(String codMedico) {
+	public Medico buscarCodMedico(int codMedico) {
 		for (Medico x : arr) {
-			if (x.getCodMedico().equalsIgnoreCase(codMedico))
+			if (x.getCodMedico() == codMedico)
 				return x;
 		}
 		return null;

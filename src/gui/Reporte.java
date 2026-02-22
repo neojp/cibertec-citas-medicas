@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglo.ArregloCitas;
 import arreglo.ArregloConsultorio;
-import arreglo.ArregloMedico;
 import arreglo.ArregloMedico2;
 import arreglo.ArregloPaciente;
 import clases.Cita;
@@ -321,7 +320,7 @@ public class Reporte extends JDialog implements ActionListener {
 
 	            for (int j = 0; j < ac.tamano(); j++) {
 	                Cita c = ac.obtener(j);
-	                if (c.getCodMedico().equals(m.getCodMedico())) {
+	                if (c.getCodMedico() == m.getCodMedico()) {
 	                    total++;
 	                    estado = Cita.estados[c.getEstado()];
 	                }

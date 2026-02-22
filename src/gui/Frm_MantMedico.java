@@ -324,7 +324,7 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 	        }
 
 	        // BUSCAR MÉDICO
-	        Medico m = objArreglo.buscarCodMedico(cod);
+	        Medico m = objArreglo.buscarCodMedico(Integer.parseInt(cod));
 
 	        if (m != null) {
 
@@ -393,7 +393,7 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 
 	        if (respuesta == JOptionPane.YES_OPTION) {
 
-	            objArreglo.eliminar(cod);
+	            objArreglo.eliminar(Integer.parseInt(cod));
 	            txtCodMedico.setText(Medico.proximoCodigo());
 
 	            MENSAJEINFORMACION("MÉDICO ELIMINADO CORRECTAMENTE (´;︵;`)");
