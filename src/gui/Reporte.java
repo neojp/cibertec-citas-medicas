@@ -8,6 +8,17 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import arreglo.ArregloCitas;
+import arreglo.ArregloConsultorio;
+import arreglo.ArregloMedico;
+import arreglo.ArregloMedico2;
+import arreglo.ArregloPaciente;
+import clases.Cita;
+import clases.Consultorio;
+import clases.Medico;
+import clases.Paciente;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
@@ -22,6 +33,19 @@ public class Reporte extends JDialog implements ActionListener {
 	private DefaultTableModel modelo;
 	private JScrollPane scp;
 
+	/*Declarar objetos globales
+	private ArregloCitas ac= new ArregloCitas();
+	private ArregloConsultorio aco=new ArregloConsultorio();
+	private ArregloMedico am=new ArregloMedico();
+	private ArregloPaciente ap=new ArregloPaciente();*/
+	
+	//Declarar objetos globales
+	private ArregloCitas ac = Principal.getArrCitas();
+	private ArregloConsultorio aco = Principal.getArrConsultorios();
+	private ArregloMedico2 am = Principal.getArrMedicos();
+	private ArregloPaciente ap = Principal.getArrPacientes();
+
+	
 		public static void main(String[] args) {
 		try {
 			Reporte dialog = new Reporte();
@@ -32,6 +56,7 @@ public class Reporte extends JDialog implements ActionListener {
 		}
 	}
 
+	
 	public Reporte() {
 		setTitle("Reporte");
 		setBounds(100, 100, 900, 450);
@@ -74,38 +99,309 @@ public class Reporte extends JDialog implements ActionListener {
 	}
 
 	private void generarReporte() {
-		int opcion = cboReporte.getSelectedIndex();
-		modelo.setRowCount(0);
-		modelo.setColumnCount(0);
 
-		switch (opcion) {
-			case 0: // Por Paciente
-				modelo.setColumnIdentifiers(new String[]{"Código","Paciente", "Fecha", "Hora", "Médico", "Consultorio", "Estado"});
-				break;
-			case 1: // Por Médico
-				modelo.setColumnIdentifiers(new String[]{"Código","Médico", "Especialidad", "Fecha", "Estado"});
-				break;
-			case 2: // Por Consultorio
-			    modelo.setColumnIdentifiers(new String[]{"Consultorio", "Fecha"});
-			    break;	    
-			case 3: // Por Fecha
-				modelo.setColumnIdentifiers(new String[]{"Fecha", "Cod. Paciente", "Paciente","Cod. Médico","Médico","Especialidad"});
-				break;
-			case 4: // Pacientes con citas Pendientes//NO SE SI COLOCARLE MOTIVO
-				modelo.setColumnIdentifiers(new String[]{"Código", "Paciente","Fecha Cita", "Especialidad"});
-				break;
-			case 5: // Citas por médico 
-				modelo.setColumnIdentifiers(new String[]{"Código","Médico", "Especialidad", "Total", "Estado"});
-				break;   
-			case 6: // Citas por consultorio 
-			    modelo.setColumnIdentifiers(new String[]{"Cod Consultorio", "Fecha","Total Citas"});
-			    break;			    
-								
-			case 7: // Agenda por día
-				modelo.setColumnIdentifiers(new String[]{"Hora", "Cod. Paciente","Paciente","Cod.Médico", "Médico", "Consultorio"});
-				break;
-		}
-	}
+	    int opcion = cboReporte.getSelectedIndex();
+	    modelo.setRowCount(0);
+	    modelo.setColumnCount(0);
 
+	    java.time.format.DateTimeFormatter formatterFecha =
+	            java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	    java.time.format.DateTimeFormatter formatterHora =
+	            java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+
+	    switch (opcion) {
+
+
+	    case 0: // ORDENAdo POR PACIENTE, FECHA y HORA
+
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Código","Paciente", "Fecha", "Hora",
+	                "Médico", "Consultorio", "Estado"
+	        });
+
+	        java.util.List<Cita> lista0 = new java.util.ArrayList<>();
+	        for (int i = 0; i < ac.tamano(); i++)
+	            lista0.add(ac.obtener(i));
+
+	        lista0.sort((c1, c2) -> {
+
+	            int cmpPaciente = Integer.compare(c1.getCodPaciente(), c2.getCodPaciente());
+	            if (cmpPaciente != 0) return cmpPaciente;
+
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            int cmpFecha = f1.compareTo(f2);
+	            if (cmpFecha != 0) return cmpFecha;
+
+	            java.time.LocalTime h1 = java.time.LocalTime.parse(c1.getHora(), formatterHora);
+	            java.time.LocalTime h2 = java.time.LocalTime.parse(c2.getHora(), formatterHora);
+	            return h1.compareTo(h2);
+	        });
+
+	        for (Cita c : lista0) {
+	            Paciente p = ap.buscarCodPaciente(c.getCodPaciente());
+	            Medico m = am.buscarCodMedico(c.getCodMedico());
+	            Consultorio co = aco.buscarCodConsultorio(c.getCodConsultorio());
+
+	            modelo.addRow(new Object[]{
+	                    c.getCodPaciente(),
+	                    p.getNombres()+" "+p.getApellidos(),
+	                    c.getFecha(),
+	                    c.getHora(),
+	                    m.getNombres()+" "+m.getApellidos(),
+	                    co.getCodConsultorio(),
+	                    Cita.estados[c.getEstado()]
+	            });
+	        }
+	        break;
+
+	  
+	    case 1: // ORDENAdo POR CODIGO MEDICO y FECHA
+	  
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Código","Médico","Especialidad","Fecha","Estado"
+	        });
+
+	        java.util.List<Cita> lista1 = new java.util.ArrayList<>();
+	        for (int i = 0; i < ac.tamano(); i++)
+	            lista1.add(ac.obtener(i));
+
+	        lista1.sort((c1, c2) -> {
+
+	            int cmpMed = Integer.compare(c1.getCodMedico(), c2.getCodMedico());
+	            if (cmpMed != 0) return cmpMed;
+
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            return f1.compareTo(f2);
+	        });
+
+	        for (Cita c : lista1) {
+	            Medico m = am.buscarCodMedico(c.getCodMedico());
+
+	            modelo.addRow(new Object[]{
+	                    c.getCodMedico(),
+	                    m.getNombres()+" "+m.getApellidos(),
+	                    m.getEspecialidad(),
+	                    c.getFecha(),
+	                    Cita.estados[c.getEstado()]
+	            });
+	        }
+	        break;
+
+	    case 2: // ORDENADO POR CONSULTORIO, FECHA y HORA
+	  
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Consultorio","Fecha","Hora","Estado"
+	        });
+
+	        java.util.List<Cita> lista2 = new java.util.ArrayList<>();
+	        for (int i = 0; i < ac.tamano(); i++)
+	            lista2.add(ac.obtener(i));
+
+	        lista2.sort((c1, c2) -> {
+
+	            int cmpCons = Integer.compare(c1.getCodConsultorio(), c2.getCodConsultorio());
+	            if (cmpCons != 0) return cmpCons;
+
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            int cmpFecha = f1.compareTo(f2);
+	            if (cmpFecha != 0) return cmpFecha;
+
+	            java.time.LocalTime h1 = java.time.LocalTime.parse(c1.getHora(), formatterHora);
+	            java.time.LocalTime h2 = java.time.LocalTime.parse(c2.getHora(), formatterHora);
+	            return h1.compareTo(h2);
+	        });
+
+	        for (Cita c : lista2) {
+	            modelo.addRow(new Object[]{
+	                    c.getCodConsultorio(),
+	                    c.getFecha(),
+	                    c.getHora(),
+	                    Cita.estados[c.getEstado()]
+	            });
+	        }
+	        break;
+
+	   
+	    case 3: // ORDENADO POR FECHA PROXIMA
+	    
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Fecha","Cod.Paciente","Paciente","Cod.Médico","Médico"
+	        });
+
+	        java.util.List<Cita> lista3 = new java.util.ArrayList<>();
+	        for (int i = 0; i < ac.tamano(); i++)
+	            lista3.add(ac.obtener(i));
+
+	        lista3.sort((c1, c2) -> {
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            return f1.compareTo(f2);
+	        });
+
+	        for (Cita c : lista3) {
+	            Paciente p = ap.buscarCodPaciente(c.getCodPaciente());
+	            Medico m = am.buscarCodMedico(c.getCodMedico());
+
+	            modelo.addRow(new Object[]{
+	                    c.getFecha(),
+	                    p.getCodPaciente(),
+	                    p.getNombres()+" "+p.getApellidos(),
+	                    m.getCodMedico(),
+	                    m.getNombres()+" "+m.getApellidos()
+	            });
+	        }
+	        break;
+
+	   
+	    case 4: // ORDENADO POR PACIENTE Y FECHA 
+	   
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Código","Paciente","Fecha","Especialidad"
+	        });
+
+	        java.util.List<Cita> lista4 = new java.util.ArrayList<>();
+
+	        for (int i = 0; i < ac.tamano(); i++) {
+	            if (ac.obtener(i).getEstado() == 0)
+	                lista4.add(ac.obtener(i));
+	        }
+
+	        lista4.sort((c1, c2) -> {
+
+	            int cmpPac = Integer.compare(c1.getCodPaciente(), c2.getCodPaciente());
+	            if (cmpPac != 0) return cmpPac;
+
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            return f1.compareTo(f2);
+	        });
+
+	        for (Cita c : lista4) {
+	            Paciente p = ap.buscarCodPaciente(c.getCodPaciente());
+	            Medico m = am.buscarCodMedico(c.getCodMedico());
+
+	            modelo.addRow(new Object[]{
+	                    p.getCodPaciente(),
+	                    p.getNombres()+" "+p.getApellidos(),
+	                    c.getFecha(),
+	                    m.getEspecialidad()
+	            });
+	        }
+	        break;
+
+	   
+	    case 5: // ORDENADO POR CODIGO MEDICO Y ESTADO
+	 
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Código","Médico","Especialidad","Total","Estado"
+	        });
+
+	        java.util.List<Medico> listaMed = new java.util.ArrayList<>();
+	        for (int i = 0; i < am.tamano(); i++)
+	            listaMed.add(am.obtener(i));
+
+	        listaMed.sort((m1, m2) ->
+	                Integer.compare(m1.getCodMedico(), m2.getCodMedico())
+	        );
+
+	        for (Medico m : listaMed) {
+
+	            int total = 0;
+	            String estado = "N/A";
+
+	            for (int j = 0; j < ac.tamano(); j++) {
+	                Cita c = ac.obtener(j);
+	                if (c.getCodMedico().equals(m.getCodMedico())) {
+	                    total++;
+	                    estado = Cita.estados[c.getEstado()];
+	                }
+	            }
+
+	            modelo.addRow(new Object[]{
+	                    m.getCodMedico(),
+	                    m.getNombres()+" "+m.getApellidos(),
+	                    m.getEspecialidad(),
+	                    total,
+	                    estado
+	            });
+	        }
+	        break;
+
+	   
+	    case 6: // ORDENADO POR CONSULTORIO Y FECHA
 	
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Consultorio","Fecha","Total"
+	        });
+
+	        java.util.List<Cita> lista6 = new java.util.ArrayList<>();
+	        for (int i = 0; i < ac.tamano(); i++)
+	            lista6.add(ac.obtener(i));
+
+	        lista6.sort((c1, c2) -> {
+
+	            int cmp = Integer.compare(c1.getCodConsultorio(), c2.getCodConsultorio());
+	            if (cmp != 0) return cmp;
+
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            return f1.compareTo(f2);
+	        });
+
+	        for (Cita c : lista6) {
+	            modelo.addRow(new Object[]{
+	                    c.getCodConsultorio(),
+	                    c.getFecha(),
+	                    1
+	            });
+	        }
+	        break;
+
+	   
+	    case 7: // ORDENADO POR FECHA Y HORA
+	   
+
+	        modelo.setColumnIdentifiers(new String[]{
+	                "Fecha","Hora","Paciente","Médico","Consultorio"
+	        });
+
+	        java.util.List<Cita> lista7 = new java.util.ArrayList<>();
+	        for (int i = 0; i < ac.tamano(); i++)
+	            lista7.add(ac.obtener(i));
+
+	        lista7.sort((c1, c2) -> {
+
+	            java.time.LocalDate f1 = java.time.LocalDate.parse(c1.getFecha(), formatterFecha);
+	            java.time.LocalDate f2 = java.time.LocalDate.parse(c2.getFecha(), formatterFecha);
+	            int cmpFecha = f1.compareTo(f2);
+	            if (cmpFecha != 0) return cmpFecha;
+
+	            java.time.LocalTime h1 = java.time.LocalTime.parse(c1.getHora(), formatterHora);
+	            java.time.LocalTime h2 = java.time.LocalTime.parse(c2.getHora(), formatterHora);
+	            return h1.compareTo(h2);
+	        });
+
+	        for (Cita c : lista7) {
+	            modelo.addRow(new Object[]{
+	                    c.getFecha(),
+	                    c.getHora(),
+	                    c.getCodPaciente(),
+	                    c.getCodMedico(),
+	                    c.getCodConsultorio()
+	            });
+	        }
+	        break;
+	    }
+	}
 }
