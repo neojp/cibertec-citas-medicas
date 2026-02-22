@@ -2,3 +2,5 @@
 1005;13;1;braulio;sadasdsad;213123213;213213;1232132ewqe
 1007;20;1;Favio;Calderón;84783212;213213133123;favcalde@mail.com
 1008;26;1;Braulio;Saloma;72776984;996395959;brausalm@gnauk,con
+1009;7;0;Brau;Sal;72776985;123456789;bra@sal.com
+1011;0;0;Braulio;Calderon;72776989;27277171772;bra2@gmail.com

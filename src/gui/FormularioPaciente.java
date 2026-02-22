@@ -8,12 +8,16 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import arreglo.ArregloPaciente;
 import clases.Paciente;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
@@ -72,9 +76,10 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		
 		txtCodPaciente = new JTextField();
 		txtCodPaciente.setEditable(false);
+		txtCodPaciente.setColumns(10);
+		txtCodPaciente.setName("codigo paciente");
 		txtCodPaciente.setBounds(157, 11, 186, 20);
 		contentPanel.add(txtCodPaciente);
-		txtCodPaciente.setColumns(10);
 		
 		lblCodPaciente = new JLabel("Código de Paciente:");
 		lblCodPaciente.setBounds(10, 14, 137, 14);
@@ -109,16 +114,19 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		txtNombres = new JTextField();
 		lblNombres.setLabelFor(txtNombres);
 		txtNombres.setColumns(10);
+		txtNombres.setName("nombres");
 		txtNombres.setBounds(157, 42, 186, 20);
 		contentPanel.add(txtNombres);
 		
 		txtApellidos = new JTextField();
 		txtApellidos.setColumns(10);
+		txtApellidos.setName("apellidos");
 		txtApellidos.setBounds(157, 70, 186, 20);
 		contentPanel.add(txtApellidos);
 		
 		txtDni = new JTextField();
 		txtDni.setColumns(10);
+		txtDni.setName("dni");
 		txtDni.setBounds(157, 98, 186, 20);
 		if (action == "editar") txtDni.setEditable(false);
 		contentPanel.add(txtDni);
@@ -134,6 +142,7 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		
 		txtCelular = new JTextField();
 		txtCelular.setColumns(10);
+		txtCelular.setName("celular");
 		txtCelular.setBounds(157, 154, 186, 20);
 		contentPanel.add(txtCelular);
 		
@@ -143,6 +152,7 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		
 		txtCorreo = new JTextField();
 		txtCorreo.setColumns(10);
+		txtCorreo.setName("correo");
 		txtCorreo.setBounds(157, 182, 186, 20);
 		contentPanel.add(txtCorreo);
 		{
@@ -168,7 +178,36 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 			}
 		}
 		txtCodPaciente.setText(Paciente.generarCodPaciente() + "");
+		
+		txtDni.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!Character.isDigit(c)) {
+					e.consume();
+					return;
+				}
+				
+				if(txtDni.getText().length() >= 8) {
+					e.consume();
+				}
+			}
+		});
+		
+		txtCelular.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!Character.isDigit(c)) {
+					e.consume();
+					return;
+				}
+				
+				if(txtCelular.getText().length() >= 9) {
+					e.consume();
+				}
+			}
+		});
 	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAceptar) {
 			actionPerformedBtnAceptar(e);
@@ -204,21 +243,75 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		setVisible(false);
 	}
 	protected void actionPerformedBtnAceptar(ActionEvent e) {
-		setVisible(false);
-		
-		// avisa que se dio al botón aceptar.
-		this.isSuccess = true;
-		
-		if (action.equals("agregar")) {
-			this.paciente = new Paciente();
+		try {
+			validateForm();
+			setVisible(false);
+			
+			// avisa que se dio al botón aceptar.
+			this.isSuccess = true;
+			
+			if (action.equals("agregar")) {
+				this.paciente = new Paciente();
+			}
+			
+			this.paciente.setNombres(txtNombres.getText());
+			this.paciente.setApellidos(txtApellidos.getText());
+			this.paciente.setEdad((int) spnEdad.getValue());
+			this.paciente.setDni(txtDni.getText());
+			this.paciente.setCelular(txtCelular.getText());
+			this.paciente.setCorreo(txtCorreo.getText());
+			this.paciente.setEstado(cboEstado.getSelectedIndex());
+		} catch (Exception err) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(this, err.getMessage(), "Formulario", JOptionPane.WARNING_MESSAGE);
+			System.out.println(err.getMessage());
 		}
 		
-		this.paciente.setNombres(txtNombres.getText());
-		this.paciente.setApellidos(txtApellidos.getText());
-		this.paciente.setEdad((int) spnEdad.getValue());
-		this.paciente.setDni(txtDni.getText());
-		this.paciente.setCelular(txtCelular.getText());
-		this.paciente.setCorreo(txtCorreo.getText());
-		this.paciente.setEstado(cboEstado.getSelectedIndex());
+	}
+	
+	private void validateForm() throws Exception {
+		onlyNumField(txtDni, 8);
+		isUniqueDni();
+		onlyNumField(txtCelular, 9);
+		isValidateEmail();
+		isFullFields();
+	}
+	
+	private void onlyNumField(JTextField field, int length) throws Exception {
+		String text = field.getText().trim();
+		String fieldName = field.getName().replace("txt", "").toLowerCase();
+		if(!text.matches("\\d+")) genError("El campo "+fieldName+" no es valido, por favor ingrese uno valido");
+		if(text.length() < length) genError("El campo "+fieldName+" debe tener como minimo "+length+ " digitos");
+	}
+	
+	private void isValidateEmail() throws Exception {
+		String text = txtCorreo.getText().trim();
+		if(!text.contains("@") || !text.contains(".")) genError("El campo correo no es valido, por favor ingrese uno valido");
+	}
+	
+	private void isFullFields() throws Exception {
+		JTextField[] fields = { txtCodPaciente, txtNombres, txtApellidos, txtDni, txtCelular, txtCorreo };
+		for (JTextField field : fields) {
+			String fieldName = field.getName().toLowerCase();
+			if (field.getText().trim().isEmpty()) {
+				genError("No puede haber campos vacios por favor complete el campo " + fieldName);
+			}
+		}
+	}
+	
+	private void isUniqueDni() throws Exception {
+		ArregloPaciente pacientes = Principal.getArrPacientes();
+		for (int i = 0; i < pacientes.tamano(); i++) {
+			Paciente paciente = pacientes.obtener(i);
+			String pacienteDni = paciente.getDni().trim();
+			String fieldDni = txtDni.getText().trim();
+			System.out.println(pacienteDni+ " compare "+fieldDni);
+			if(pacienteDni.equals(fieldDni))
+				genError("Ya existe un usuario con dni: "+paciente.getDni());
+		}
+	}
+	
+	private void genError(String message) throws Exception {
+		throw new Exception(message);
 	}
 }
