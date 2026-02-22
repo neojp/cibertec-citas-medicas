@@ -3,24 +3,22 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
 public class RegistroCitas extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnNuevo;
+	private JButton btnConsultar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
-	private JScrollPane scp;
+	private JLabel lblOpciones;
+	private JScrollPane scrollPane;
 	private JTable tblTabla;
-	private JPanel pnlOpciones;
 
 	/**
 	 * Launch the application.
@@ -48,30 +46,29 @@ public class RegistroCitas extends JDialog implements ActionListener {
 		btnNuevo.setBounds(10, 11, 138, 23);
 		getContentPane().add(btnNuevo);
 		
-		pnlOpciones = new JPanel();
-		pnlOpciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Opciones de filas seleccionadas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pnlOpciones.setBounds(10, 289, 572, 48);
-		getContentPane().add(pnlOpciones);
-		pnlOpciones.setLayout(null);
+		btnConsultar = new JButton("Consultar");
+		btnConsultar.addActionListener(this);
+		btnConsultar.setBounds(10, 314, 89, 23);
+		getContentPane().add(btnConsultar);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(10, 16, 89, 23);
-		pnlOpciones.add(btnEditar);
 		btnEditar.addActionListener(this);
-		
-		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(109, 16, 89, 23);
-		pnlOpciones.add(btnEliminar);
-		btnEliminar.addActionListener(this);
+
+		btnEditar.setBounds(109, 314, 89, 23);
+		getContentPane().add(btnEditar);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
 		btnEliminar.setBounds(209, 314, 89, 23);
 		getContentPane().add(btnEliminar);
 		
-		scp = new JScrollPane();
-		scp.setBounds(10, 45, 572, 233);
-		getContentPane().add(scp);
+		lblOpciones = new JLabel("Opciones de las filas seleccionadas");
+		lblOpciones.setBounds(10, 289, 288, 14);
+		getContentPane().add(lblOpciones);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 45, 572, 233);
+		getContentPane().add(scrollPane);
 		
 		tblTabla = new JTable();
 		tblTabla.setModel(new DefaultTableModel(
@@ -82,7 +79,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 			}
 		));
 		tblTabla.setFillsViewportHeight(true);
-		scp.setViewportView(tblTabla);
+		scrollPane.setViewportView(tblTabla);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEliminar) {
@@ -90,6 +87,9 @@ public class RegistroCitas extends JDialog implements ActionListener {
 		}
 		if (e.getSource() == btnEditar) {
 			actionPerformedBtnEditar(e);
+		}
+		if (e.getSource() == btnConsultar) {
+			actionPerformedBtnConsultar(e);
 		}
 		if (e.getSource() == btnNuevo) {
 			actionPerformedBtnNuevo(e);
@@ -101,8 +101,10 @@ public class RegistroCitas extends JDialog implements ActionListener {
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
+	protected void actionPerformedBtnConsultar(ActionEvent e) {
+	}
 	protected void actionPerformedBtnEditar(ActionEvent e) {
-		FormularioCita ventana = new FormularioCita("editar");
+		FormularioCita ventana = new FormularioCita();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);

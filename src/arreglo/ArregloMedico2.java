@@ -24,7 +24,7 @@ public class ArregloMedico2 {
 			System.out.println("Error al guardar: " + e.getMessage());
 		}
 	}
-
+	// CARGAR DESDE ARCHIVO DE TEXTO GUARDADO
 	private void cargar() {
 		// INTENTO ABRIR Y LEER EL ARCHIVO DE DATOS
 		try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
@@ -35,7 +35,7 @@ public class ArregloMedico2 {
 			// LEER EL ARCHIVO LINEA POR LINEA HASTA EL FINAL
 			while ((linea = br.readLine()) != null) {
 				// SEPARAR LOS DATOS USANDO ; 
-				String[] d = linea.split(";", -1);  // partir a traves de punto y coma, permitir cadenas vacías
+				String[] d = linea.split(";");
 				// CREA EL OBJETO MEDICO USANDO LOS DATOS LEIDOS DEL ARCHIVO
 				Medico m = new Medico(d[0], d[1], d[2], d[3], d[4], Integer.parseInt(d[5]));
 				arr.add(m);
@@ -53,13 +53,42 @@ public class ArregloMedico2 {
 			System.out.println("Error al cargar: " + e.getMessage());
 		}
 	}
+	
+	// AGREGAR REGISTRO
+		public void adicionar(Medico m) {
+			arr.add(m);
+			guardar(); // CADA VEZ QUE AGREGAMOS, SE ACTUALIZA EL ARCHIVO
+		}
+	
+	
+	// MODIFICAR REGISTRO 
+	public void actualizar(Medico mActualizado) {
+	    for (int i = 0; i < tamano(); i++) {
+	        if (obtener(i).getCodMedico().equals(mActualizado.getCodMedico())) {
+	            arr.set(i, mActualizado); // REEMPLAZA LOS DATOS VIEJOS POR  EL NUEVO
+	            guardar(); // ACTUALIZA  EL .TXT CON LA LISTA ACTUALIZADA
+	            break;
+	        }
+	    }
+	}
+	
+	 // ELIMINAR REGISTRO 
+    public void eliminar(String codMedico) {
+
+        for (int i = 0; i < arr.size(); i++) {
+
+            if (arr.get(i).getCodMedico()
+                    .equalsIgnoreCase(codMedico)) {
+
+                arr.remove(i);
+                guardar();
+                return;
+            }
+        }
+    }
 
 	
 
-	public void adicionar(Medico x) {
-		arr.add(x);
-		guardar(); // CADA VEZ QUE AGREGAMOS, SE ACTUALIZA EL ARCHIVO
-	}
 
 	public int tamano() {
 		return arr.size();
@@ -86,4 +115,6 @@ public class ArregloMedico2 {
 		}
 		return null;
 	}
+	
+	
 }

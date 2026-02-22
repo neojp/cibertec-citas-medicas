@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import arreglo.ArregloCitas;
 import arreglo.ArregloConsultorio;
-import arreglo.ArregloMedico;
+import arreglo.ArregloMedico2;
 import arreglo.ArregloPaciente;
 
 import javax.swing.JMenuBar;
@@ -42,7 +42,7 @@ public class Principal extends JFrame implements ActionListener {
 	private static ArregloConsultorio arrConsultorios = new ArregloConsultorio();
 	private static ArregloCitas arrCitas = new ArregloCitas();
 	private static ArregloPaciente arrPacientes = new ArregloPaciente();
-	private static ArregloMedico arrMedicos = new ArregloMedico();
+	private static ArregloMedico2 arrMedicos = new ArregloMedico2();
 
 	/**
 	 * Launch the application.
@@ -161,7 +161,7 @@ public class Principal extends JFrame implements ActionListener {
 	}
 	protected void actionPerformedMntmMedico(ActionEvent e) {
 		System.out.println("medico");
-		MantenimientoMedico ventana = new MantenimientoMedico();
+		Frm_MantMedico ventana = new Frm_MantMedico();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
@@ -214,7 +214,7 @@ public class Principal extends JFrame implements ActionListener {
 		return arrPacientes;
 	}
 
-	public static ArregloMedico getArrMedicos() {
+	public static ArregloMedico2 getArrMedicos() {
 		return arrMedicos;
 	}
 }

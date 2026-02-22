@@ -5,7 +5,6 @@ import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -18,7 +17,6 @@ import clases.Cita;
 import clases.Consultorio;
 import libreria.Libreria;
 
-import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 

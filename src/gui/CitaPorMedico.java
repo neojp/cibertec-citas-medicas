@@ -1,0 +1,87 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
+public class CitaPorMedico extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+	private final JPanel contentPanel = new JPanel();
+	private JTextField txtCodigo;
+	private JLabel lblCodigo;
+	private JScrollPane scrollPane;
+	private JTextField txtS;
+	private JLabel lblCmp;
+	private JTextField txtCmp;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			CitaPorMedico dialog = new CitaPorMedico();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public CitaPorMedico() {
+		setTitle("Citas por Médico");
+		setBounds(100, 100, 450, 365);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		txtCodigo = new JTextField();
+		txtCodigo.setBounds(98, 42, 86, 20);
+		contentPanel.add(txtCodigo);
+		txtCodigo.setColumns(10);
+		
+		lblCodigo = new JLabel("Código:");
+		lblCodigo.setBounds(20, 45, 68, 14);
+		contentPanel.add(lblCodigo);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(28, 74, 375, 199);
+		contentPanel.add(scrollPane);
+		
+		txtS = new JTextField();
+		scrollPane.setViewportView(txtS);
+		txtS.setColumns(10);
+		{
+			JButton btnBuscar = new JButton("Buscar");
+			btnBuscar.setBounds(315, 10, 86, 23);
+			contentPanel.add(btnBuscar);
+			btnBuscar.setActionCommand("OK");
+			getRootPane().setDefaultButton(btnBuscar);
+		}
+		
+		lblCmp = new JLabel("CMP:");
+		lblCmp.setBounds(20, 14, 68, 14);
+		contentPanel.add(lblCmp);
+		
+		txtCmp = new JTextField();
+		txtCmp.setColumns(10);
+		txtCmp.setBounds(98, 11, 86, 20);
+		contentPanel.add(txtCmp);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		}
+	}
+}
