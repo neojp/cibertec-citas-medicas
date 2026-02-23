@@ -1,22 +1,16 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Medico;
-import arreglos.ArregloMedico;
+import arreglo.ArregloMedico;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
 import javax.swing.JScrollPane;
@@ -105,7 +99,7 @@ public class MantenimientoM extends JDialog implements ActionListener {
 		getContentPane().add(lblEsp);
 		
 		cboEspecialidad = new JComboBox<String>(Medico.especialidades); 
-		cboEspecialidad.setModel(new DefaultComboBoxModel(new String[] {"SELECCIONE >>>>", "ANESTESIOLOGÍA", "CARDIOLOGÍA", "CIRUGÍA GENERAL", "CIRUGÍA PLÁSTICA", "DERMATOLOGÍA", "ENDOCRINOLOGÍA", "GASTROENTEROLOGÍA", "GINECOLOGÍA Y OBSTETRICIA", "MEDICINA FAMILIAR", "MEDICINA FÍSICA Y REHABILITACIÓN", "MEDICINA GENERAL", "MEDICINA INTERNA", "NEFROLOGÍA", "NEUMOLOGÍA", "NEUROLOGÍA", "OFTALMOLOGÍA", "ONCOLOGÍA", "OTORRINOLARINGOLOGÍA", "PEDIATRÍA", "PSIQUIATRÍA", "RADIOLOGÍA", "TRAUMATOLOGÍA", "UROLOGÍA"}));
+		cboEspecialidad.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECCIONE >>>>", "ANESTESIOLOGÍA", "CARDIOLOGÍA", "CIRUGÍA GENERAL", "CIRUGÍA PLÁSTICA", "DERMATOLOGÍA", "ENDOCRINOLOGÍA", "GASTROENTEROLOGÍA", "GINECOLOGÍA Y OBSTETRICIA", "MEDICINA FAMILIAR", "MEDICINA FÍSICA Y REHABILITACIÓN", "MEDICINA GENERAL", "MEDICINA INTERNA", "NEFROLOGÍA", "NEUMOLOGÍA", "NEUROLOGÍA", "OFTALMOLOGÍA", "ONCOLOGÍA", "OTORRINOLARINGOLOGÍA", "PEDIATRÍA", "PSIQUIATRÍA", "RADIOLOGÍA", "TRAUMATOLOGÍA", "UROLOGÍA"}));
 	    cboEspecialidad.setFont(new Font("Tahoma", Font.PLAIN, 13));
 	    cboEspecialidad.setBounds(154, 110, 243, 25);
 	    getContentPane().add(cboEspecialidad);
@@ -127,7 +121,7 @@ public class MantenimientoM extends JDialog implements ActionListener {
 		
 		cboEstado = new JComboBox<String>();
 	    cboEstado.setFont(new Font("Tahoma", Font.PLAIN, 13));
-	    cboEstado.setModel(new DefaultComboBoxModel(new String[] {"ACTIVO", "INACTIVO"}));
+	    cboEstado.setModel(new DefaultComboBoxModel<String>(new String[] {"ACTIVO", "INACTIVO"}));
 	    cboEstado.setBounds(659, 110, 124, 25);
 	    getContentPane().add(cboEstado);
 		
@@ -260,7 +254,7 @@ public class MantenimientoM extends JDialog implements ActionListener {
 	protected void actionPerformedBtnModificar(ActionEvent e) {
 		try {
 			int cod = Integer.parseInt(txtCodMedico.getText());
-			Medico m = objArreglo.buscar(cod);
+			Medico m = objArreglo.buscarCodMedico(cod);
 			if (m != null) {
 				String nom = txtNombre.getText().trim().toUpperCase();
 				String ape = txtApellidos.getText().trim().toUpperCase();
@@ -277,7 +271,7 @@ public class MantenimientoM extends JDialog implements ActionListener {
 				m.setCmp(cmp);
 				m.setEstado(cboEstado.getSelectedIndex());
 
-				objArreglo.grabarArchivo();
+				objArreglo.actualizar();
 				MENSAJEINFORMACION("REGISTRO ACTUALIZADO.");
 				listar();
 				limpiar();
@@ -287,7 +281,7 @@ public class MantenimientoM extends JDialog implements ActionListener {
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
 		try {
 			int cod = Integer.parseInt(txtCodMedico.getText());
-			Medico m = objArreglo.buscar(cod);
+			Medico m = objArreglo.buscarCodMedico(cod);
 			if (m != null) {
 				int rpta = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR ESTE MÉDICO?", "SISTEMA", JOptionPane.YES_NO_OPTION);
 				if (rpta == JOptionPane.YES_OPTION) {

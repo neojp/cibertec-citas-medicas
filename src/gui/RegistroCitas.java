@@ -209,7 +209,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 				consultorioNombre(arr.obtener(i)),
 				arr.obtener(i).getFecha(),
 				arr.obtener(i).getHora(),				
-				Cita.estados[arr.obtener(i).getEstado()], // mostrar el label del estado
+				Cita.ESTADOS[arr.obtener(i).getEstado()], // mostrar el label del estado
 				arr.obtener(i).getMotivo()
 			};
 			
@@ -228,6 +228,7 @@ public class RegistroCitas extends JDialog implements ActionListener {
 	private String medicoNombre(Cita cita) {
 		String nombre = "";
 		Medico medico = Principal.getArrMedicos().buscarCodMedico(cita.getCodMedico());
+		System.out.println("Medico encontrado: " + (medico != null ? medico.getNombreCompleto() : "null"));
 		if (medico != null)
 			nombre = medico.getNombreCompleto();
 		return nombre;

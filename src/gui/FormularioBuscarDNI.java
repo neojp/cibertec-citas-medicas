@@ -2,8 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-
+import java.awt.Dimension;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -28,41 +28,43 @@ public class FormularioBuscarDNI extends JDialog implements ActionListener {
 	 */
 	public FormularioBuscarDNI() {
 		setTitle("Buscar por DNI");
-		setBounds(100, 100, 198, 110);
+		setBounds(100, 100, 280, 95);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		txtDNI = new JTextField();
-		txtDNI.setBounds(88, 11, 86, 20);
-		contentPanel.add(txtDNI);
-		txtDNI.setColumns(10);
-		
 		lblDNI = new JLabel("DNI");
 		lblDNI.setLabelFor(txtDNI);
-		lblDNI.setBounds(10, 14, 68, 14);
+		lblDNI.setBounds(10, 15, 70, 25);
 		contentPanel.add(lblDNI);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				btnBuscar = new JButton("Buscar");
-				btnBuscar.setBackground(new Color(64,64,128));
-				btnBuscar.setForeground(new Color(255,255,255));
-				btnBuscar.addActionListener(this);
-				btnBuscar.setActionCommand("OK");
-				buttonPane.add(btnBuscar);
-				getRootPane().setDefaultButton(btnBuscar);
-			}
-		}
+
+		txtDNI = new JTextField();
+		txtDNI.setBounds(90, 14, 180, 30);
+		contentPanel.add(txtDNI);
+		txtDNI.setColumns(10);
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.X_AXIS));
+		buttonPane.setBorder(new EmptyBorder(10,10,10,10));
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(new Color(64,64,128));
+		btnBuscar.setForeground(new Color(255,255,255));
+		btnBuscar.addActionListener(this);
+		btnBuscar.setActionCommand("OK");
+		btnBuscar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+		buttonPane.add(btnBuscar);
+		
+		getContentPane().add(buttonPane,BorderLayout.SOUTH);
+		getRootPane().setDefaultButton(btnBuscar);
 	}
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnBuscar) {
 			actionPerformedBtnBuscar(e);
 		}
 	}
+
 	protected void actionPerformedBtnBuscar(ActionEvent e) {
 		empezarBusqueda = true;
 		setVisible(false);

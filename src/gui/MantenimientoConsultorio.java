@@ -28,7 +28,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	private JButton btnNuevo;
 	private JButton btnEditar;
 	private JButton btnEliminar;
-	private JButton btnBuscarCMP;
+	private JButton btnLimpiar;
 	private JScrollPane scp;
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
@@ -80,10 +80,10 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		pnlOpciones.add(btnEliminar);
 		btnEliminar.addActionListener(this);
 		
-		btnBuscarCMP = new JButton("CMP");
-		btnBuscarCMP.addActionListener(this);
-		btnBuscarCMP.setBounds(493, 11, 89, 23);
-		getContentPane().add(btnBuscarCMP);
+		btnLimpiar = new JButton("Limpiar");
+		btnLimpiar.addActionListener(this);
+		btnLimpiar.setBounds(493, 11, 89, 23);
+		getContentPane().add(btnLimpiar);
 		
 		scp = new JScrollPane();
 		scp.setBounds(10, 45, 572, 233);
@@ -123,8 +123,8 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 		if (e.getSource() == btnBuscarCodigo) {
 			actionPerformedBtnBuscarCodigo(e);
 		}
-		if (e.getSource() == btnBuscarCMP) {
-			actionPerformedBtnBuscarCMP(e);
+		if (e.getSource() == btnLimpiar) {
+			listar();
 		}
 		if (e.getSource() == btnNuevo) {
 			actionPerformedBtnNuevo(e);
@@ -132,23 +132,23 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 	}
 	
 	// TODO: filtrar la tabla por CMP
-	protected void actionPerformedBtnBuscarCMP(ActionEvent e) {
-		// inicializar el JDialog en modo modal y espera a que se oculte
-		FormularioBuscarCMP ventana = new FormularioBuscarCMP();
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
+	// protected void actionPerformedBtnBuscarCMP(ActionEvent e) {
+	// 	// inicializar el JDialog en modo modal y espera a que se oculte
+	// 	FormularioBuscarCMP ventana = new FormularioBuscarCMP();
+	// 	ventana.setLocationRelativeTo(this);
+	// 	ventana.setModal(true);
+	// 	ventana.setVisible(true);
 		
-		if (ventana.getEmpezarBusqueda()) {
-			// este codigo espera a que la ventana se oculte
-			// se obtiene el CMP del JTextField en la ventana
-			String cmp = ventana.leerCMP();
-			System.out.println("Iniciar busqueda con CMP: " + cmp);
-		}
+	// 	if (ventana.getEmpezarBusqueda()) {
+	// 		// este codigo espera a que la ventana se oculte
+	// 		// se obtiene el CMP del JTextField en la ventana
+	// 		String cmp = ventana.leerCMP();
+	// 		System.out.println("Iniciar busqueda con CMP: " + cmp);
+	// 	}
 		
-		// y ahora se cierra la ventana
-		ventana.dispose();
-	}
+	// 	// y ahora se cierra la ventana
+	// 	ventana.dispose();
+	// }
 
 	// TODO: filtrar la tabla por código
 	protected void actionPerformedBtnBuscarCodigo(ActionEvent e) {
@@ -163,6 +163,7 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 			// se obtiene el codigo del JTextField en la ventana
 			String codigo = ventana.leerCodigo();
 			System.out.println("Iniciar busqueda con codigo: " + codigo);
+			listar(Integer.parseInt(codigo));
 		}
 		
 		// y ahora se cierra la ventana
@@ -285,6 +286,29 @@ public class MantenimientoConsultorio extends JDialog implements ActionListener 
 				arr.obtener(i).getUbicacion(),
 				arr.obtener(i).getCapacidad(),
 				Consultorio.estados[arr.obtener(i).getEstado()] // mostrar el label del estado
+			};
+			
+			// agregar fila
+			modelo.addRow(fila);
+		}
+	}
+
+	void listar(int codigo) {
+		// limpiar tabla
+		modelo.setRowCount(0);
+		
+		// buscar consultorio por código
+		Consultorio consultorio = arr.buscarCodConsultorio(codigo);
+		
+		if (consultorio != null) {
+			// crear fila con datos del consultorio
+			Object[] fila = {
+				consultorio.getCodConsultorio(),
+				consultorio.getNombre(),
+				consultorio.getPiso(),
+				consultorio.getUbicacion(),
+				consultorio.getCapacidad(),
+				Consultorio.estados[consultorio.getEstado()] // mostrar el label del estado
 			};
 			
 			// agregar fila

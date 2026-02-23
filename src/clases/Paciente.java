@@ -128,7 +128,7 @@ public class Paciente {
 				edad,
 				celular,
 				correo,
-				estado
+				estados[estado]
 			};
 	}
 }

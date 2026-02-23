@@ -22,7 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 import clases.Medico;
-import arreglo.ArregloMedico2;
+import arreglo.ArregloMedico;
 
 public class Frm_MantMedico extends JDialog implements ActionListener {
 
@@ -37,7 +37,7 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 	private JComboBox<String> cboEspecialidad;
 	private JComboBox<String> cboEstado;
 	private JButton btnAgregar;
-	private ArregloMedico2 objArreglo = new ArregloMedico2();
+	private ArregloMedico objArreglo = new ArregloMedico();
 	private JButton btnCancelarRegistro;
 	private JButton btnModificar;
 	private JButton btnEliminar;
@@ -227,7 +227,7 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 		
 		LISTAR();
         LIMPIAR();
-        txtCodMedico.setText(Medico.proximoCodigo());
+        txtCodMedico.setText(Medico.generarCodMedico() + "");
 }
 
 	public void actionPerformed(ActionEvent e) {
@@ -266,7 +266,7 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 
 		    LISTAR();
 		    LIMPIAR();
-		    txtCodMedico.setText(Medico.proximoCodigo());
+		    txtCodMedico.setText(Medico.generarCodMedico() + ""); // ACTUALIZA EL CODIGO PARA EL PROXIMO MEDICO
 
 		    MENSAJEINFORMACION("MEDICO REGISTRADO CORRECTAMENTE EN BD.");
 
@@ -297,7 +297,7 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 		if (e.getSource() == btnCancelarRegistro) {
 		    LIMPIAR();
 		    btnAgregar.setEnabled(true);
-		    txtCodMedico.setText(Medico.proximoCodigo());
+		    txtCodMedico.setText(Medico.generarCodMedico() + ""); // ACTUALIZA EL CODIGO PARA EL PROXIMO MEDICO
 		}
 
 	}
@@ -336,9 +336,9 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 	            m.setEstado(estIndex - 1);
 
 	            // GUARDAR CAMBIOS
-	            objArreglo.actualizar(m);        
+	            objArreglo.actualizar();
 	            btnAgregar.setEnabled(true);
-	            txtCodMedico.setText(Medico.proximoCodigo());
+	            txtCodMedico.setText(Medico.generarCodMedico() + ""); // ACTUALIZA EL CODIGO PARA EL PROXIMO MEDICO
 	            MENSAJEINFORMACION("MÉDICO ACTUALIZADO CORRECTAMENTE...");
 	            // REFRESCAR TABLA
 	            LISTAR();
@@ -392,14 +392,14 @@ public class Frm_MantMedico extends JDialog implements ActionListener {
 	        );
 
 	        if (respuesta == JOptionPane.YES_OPTION) {
-
-	            objArreglo.eliminar(Integer.parseInt(cod));
-	            txtCodMedico.setText(Medico.proximoCodigo());
+				Medico medico = objArreglo.buscarCodMedico(Integer.parseInt(cod));
+	            objArreglo.eliminar(medico);
+	            txtCodMedico.setText(Medico.generarCodMedico() + ""); // ACTUALIZA EL CODIGO PARA EL PROXIMO MEDICO
 
 	            MENSAJEINFORMACION("MÉDICO ELIMINADO CORRECTAMENTE (´;︵;`)");
 	            LISTAR();
 	            LIMPIAR();
-	            txtCodMedico.setText(Medico.proximoCodigo());
+	            txtCodMedico.setText(Medico.generarCodMedico() + ""); // ACTUALIZA EL CODIGO PARA EL PROXIMO MEDICO
 	        }
 
 	    } catch (Exception ex) {

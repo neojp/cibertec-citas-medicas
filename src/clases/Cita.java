@@ -127,4 +127,46 @@ public class Cita {
 	public String nombreEstado() {
 		return ESTADOS[estado];
 	}
+
+	public Object[] getToRow(Object[] currentHeader) {
+
+		// Crear un arreglo con el tamaño del header
+		Object[] row = new Object[currentHeader.length];
+
+		// Llenar el arreglo según el orden del header
+		for (int i = 0; i < currentHeader.length; i++) {
+			System.out.println("Header: " + currentHeader[i].toString().toLowerCase());
+			switch (currentHeader[i].toString().toLowerCase()) {
+				case "numcita":
+					row[i] = getNumCita();
+					break;
+				case "paciente":
+					row[i] = getPaciente() != null ? getPaciente().getNombreCompleto() : "";
+					break;
+				case "médico":
+					row[i] = getMedico() != null ? getMedico().getNombreCompleto() : "";
+					break;
+				case "consultorio":
+					row[i] = getConsultorio() != null ? getConsultorio().getNombre() : "";
+					break;
+				case "fecha":
+					row[i] = getFecha();
+					break;
+				case "hora":
+					row[i] = getHora();
+					break;
+				case "estado":
+					row[i] = nombreEstado();
+					break;
+				case "motivo":
+					row[i] = getMotivo();
+					break;
+				case "ocupación":
+					row[i] = getConsultorio() != null ? getConsultorio().getCapacidad() : "";
+					break;
+			}
+		}
+
+		return row;
+	}
 }

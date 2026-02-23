@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -13,6 +14,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.JOptionPane;
+
+import arreglo.ArregloMedico;
+import clases.Cita;
+import clases.Medico;
 
 public class MantenimientoMedico extends JDialog implements ActionListener {
 
@@ -26,6 +32,9 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 	private JLabel lblBuscar;
 	private JTable tblTabla;
 	private JPanel pnlOpciones;
+
+	private DefaultTableModel modelo;
+	private ArregloMedico arr = Principal.getArrMedicos();
 
 	/**
 	 * Launch the application.
@@ -56,7 +65,9 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		getContentPane().add(btnNuevo);
 		
 		pnlOpciones = new JPanel();
-		pnlOpciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Opciones de filas seleccionadas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlOpciones.setBorder(new TitledBorder(
+				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+				"Opciones de filas seleccionadas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlOpciones.setBounds(10, 289, 572, 48);
 		getContentPane().add(pnlOpciones);
 		pnlOpciones.setLayout(null);
@@ -79,15 +90,19 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		scp = new JScrollPane();
 		scp.setBounds(10, 45, 572, 233);
 		getContentPane().add(scp);
-		
-		tblTabla = new JTable();
-		tblTabla.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"C\u00F3digo", "Nombres", "Apellidos", "Especialidad", "CMP", "Estado"
-			}
-		));
+
+		// MODELO NO EDITABLE
+		modelo = new DefaultTableModel(
+		    new Object[][] {},
+		    new String[] { "Código", "Nombres", "Apellidos", "Especialidad", "CMP", "Estado" }
+		) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false; // ninguna celda es editable
+		    }
+		};
+
+		tblTabla = new JTable(modelo);
 		tblTabla.setFillsViewportHeight(true);
 		scp.setViewportView(tblTabla);
 		
@@ -98,9 +113,13 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		
 		lblBuscar = new JLabel("Buscar por:");
 		lblBuscar.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblBuscar.setBounds(323, 15, 66, 14);
+		lblBuscar.setBounds(260, 15, 124, 14);
 		getContentPane().add(lblBuscar);
+
+		// CARGAR MÉDICOS REGISTRADOS
+		load();
 	}
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEliminar) {
 			actionPerformedBtnEliminar(e);
@@ -118,27 +137,20 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 			actionPerformedBtnNuevo(e);
 		}
 	}
+
+	// ============= NUEVO =============
 	protected void actionPerformedBtnNuevo(ActionEvent e) {
-		// codigo por Braulio
-		// CrearEditar creareditar = new CrearEditar("agregar", "medico");
-		// creareditar.setLocationRelativeTo(this);
-		// creareditar.setModal(true);
-		// creareditar.setVisible(true);
-		
-		// codigo por Javier
-		Frm_AgregarMedico ventana = new Frm_AgregarMedico();
+		FormularioMedico ventana = new FormularioMedico();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
-		
-		// codigo por Joan
-		// FormularioMedico ventana = new FormularioMedico();
-		// ventana.setLocationRelativeTo(this);
-		// ventana.setModal(true);
-		// ventana.setVisible(true);
+		arr.adicionar(ventana.getMedico());
+
+		// Al cerrar la ventana, recargamos la tabla (asumiendo que el formulario guarda en arr)
+		load();
 	}
-	protected void actionPerformedBtnConsultar(ActionEvent e) {
-	}
+
+	// ============= BUSCAR POR NOMBRE =============
 	protected void actionPerformedBtnBuscarNombre(ActionEvent e) {
 		// inicializar el JDialog en modo modal y espera a que se oculte
 		FormularioBuscarNombre ventana = new FormularioBuscarNombre();
@@ -147,38 +159,186 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 		ventana.setVisible(true);
 		
 		if (ventana.getEmpezarBusqueda()) {
-			// este codigo espera a que la ventana se oculte
-			// se obtiene el CMP del JTextField en la ventana
 			String nombre = ventana.leerNombre();
 			System.out.println("Iniciar busqueda con nombre: " + nombre);
+			load(nombre);
 		}
 		
-		// y ahora se cierra la ventana
 		ventana.dispose();
 	}
+
+	// ============= BUSCAR POR CÓDIGO =============
 	protected void actionPerformedBtnBuscarCodigo(ActionEvent e) {
-		// inicializar el JDialog en modo modal y espera a que se oculte
 		FormularioBuscarCodigo ventana = new FormularioBuscarCodigo();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 		
 		if (ventana.getEmpezarBusqueda()) {
-			// este codigo espera a que la ventana se oculte
-			// se obtiene el codigo del JTextField en la ventana
 			String codigo = ventana.leerCodigo();
 			System.out.println("Iniciar busqueda con codigo: " + codigo);
+			try {
+				int cod = Integer.parseInt(codigo);
+				load(cod);
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(this, "El código debe ser numérico.", getTitle(),
+						JOptionPane.WARNING_MESSAGE);
+			}
 		}
 		
-		// y ahora se cierra la ventana
 		ventana.dispose();
 	}
+
+	// ============= ELIMINAR (por ahora vacío) =============
 	protected void actionPerformedBtnEliminar(ActionEvent e) {
+		Medico medico = getMedico();
+		if (medico == null) {
+			JOptionPane.showMessageDialog(this, "Seleccione un médico", getTitle(), JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		int confirm = JOptionPane.showConfirmDialog(this,
+				"¿Desea eliminar al medico " + medico.getNombres() + " " + medico.getApellidos() + "?", getTitle(),
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+		if (confirm == 1) return;
+
+		int nFutureDates = Principal.getArrCitas().contarFuturasPorPaciente(medico.getCodMedico());
+
+		if (nFutureDates > 0) {
+			String msg = "El consultorio no puede ser eliminado porque tiene " + nFutureDates;
+			if (nFutureDates == 1)
+				msg += " cita futura";
+			else
+				msg += " citas futuras";
+
+			JOptionPane.showMessageDialog(this, msg, "Error de validación", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		ArrayList<Cita> citas = Principal.getArrCitas().buscarPorMedico(medico.getCodMedico());
+		if (citas.size() > 0) {
+			for (Cita c : citas) {
+				Principal.getArrCitas().eliminar(c);
+			}
+			JOptionPane.showMessageDialog(this, "El médico tenía citas pasadas, por lo que se eliminaron", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		arr.eliminar(medico);
+		deleteRow(tblTabla.getSelectedRow());
 	}
+
+	// ============= EDITAR =============
 	protected void actionPerformedBtnEditar(ActionEvent e) {
-		FormularioMedico ventana = new FormularioMedico("editar");
-		ventana.setLocationRelativeTo(this);
-		ventana.setModal(true);
-		ventana.setVisible(true);
+
+	    int fila = tblTabla.getSelectedRow();
+
+	    if (fila == -1) {
+	        JOptionPane.showMessageDialog(this, "Seleccione un médico", getTitle(),
+	                JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
+
+	    int codigo = Integer.parseInt(tblTabla.getValueAt(fila, 0).toString());
+
+	    FormularioMedico ventana = new FormularioMedico("editar");
+
+	    ventana.setCodigoMedico(codigo);   // ← usa tu método
+		ventana.llenarFormulario(arr.buscarCodMedico(codigo)); // opcional: llenar todo el formulario
+
+	    ventana.setLocationRelativeTo(this);
+	    ventana.setModal(true);
+	    ventana.setVisible(true);
+
+	    load(); // recargar tabla
+	}
+	
+	private void load() {
+		modelo.setRowCount(0);
+		for (int i = 0; i < arr.tamano(); i++) {
+			Medico m = arr.obtener(i);
+			Object[] row = {
+				m.getCodMedico(),             // ajusta si se llama distinto
+				m.getNombres(),
+				m.getApellidos(),
+				m.getEspecialidad(),
+				m.getCmp(),                   // ajusta si se llama distinto
+				Medico.estados[m.getEstado()] // si tienes un arreglo de estados como en Paciente
+			};
+			modelo.addRow(row);
+		}
+	}
+
+	// ============= CARGAR POR CÓDIGO =============
+	private void load(int codigo) {
+		modelo.setRowCount(0);
+		boolean encontrado = false;
+
+		for (int i = 0; i < arr.tamano(); i++) {
+			Medico m = arr.obtener(i);
+			if (m.getCodMedico() == codigo) {  // ajusta si tu getter es otro
+				Object[] row = {
+					m.getCodMedico(),
+					m.getNombres(),
+					m.getApellidos(),
+					m.getEspecialidad(),
+					m.getCmp(),
+					Medico.estados[m.getEstado()]
+				};
+				modelo.addRow(row);
+				encontrado = true;
+				break;
+			}
+		}
+
+		if (!encontrado) {
+			JOptionPane.showMessageDialog(this, "No se encontró el código ingresado.", getTitle(),
+					JOptionPane.INFORMATION_MESSAGE);
+			load(); // opcional: volver a mostrar todos
+		}
+	}
+
+	// ============= CARGAR POR NOMBRE =============
+	private void load(String nombre) {
+		modelo.setRowCount(0);
+		boolean encontrado = false;
+
+		for (int i = 0; i < arr.tamano(); i++) {
+			Medico m = arr.obtener(i);
+
+			// puedes usar equalsIgnoreCase, startsWith, contains, etc.
+			if (m.getNombres().equalsIgnoreCase(nombre)) {
+				Object[] row = {
+					m.getCodMedico(),
+					m.getNombres(),
+					m.getApellidos(),
+					m.getEspecialidad(),
+					m.getCmp(),
+					Medico.estados[m.getEstado()]
+				};
+				modelo.addRow(row);
+				encontrado = true;
+			}
+		}
+
+		if (!encontrado) {
+			JOptionPane.showMessageDialog(this, "No se encontró el nombre ingresado.", getTitle(),
+					JOptionPane.INFORMATION_MESSAGE);
+			load(); // opcional: volver a mostrar todos
+		}
+	}
+
+	private void deleteRow(int row) {
+		if (row != -1) {
+			modelo.removeRow(row);
+		}
+	}
+
+	private Medico getMedico() {
+		int indice = tblTabla.getSelectedRow();
+		if (indice != -1) {
+			return arr.obtener(indice);
+		}
+		return null;
 	}
 }

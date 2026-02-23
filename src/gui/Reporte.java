@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import arreglo.ArregloCita;
 import arreglo.ArregloConsultorio;
 import arreglo.ArregloMedico;
-import arreglo.ArregloMedico2;
 import arreglo.ArregloPaciente;
 import clases.Cita;
 import clases.Consultorio;
@@ -152,7 +151,7 @@ public class Reporte extends JDialog implements ActionListener {
 	                    c.getHora(),
 	                    m.getNombres()+" "+m.getApellidos(),
 	                    co.getCodConsultorio(),
-	                    Cita.estados[c.getEstado()]
+	                    Cita.ESTADOS[c.getEstado()]
 	            });
 	        }
 	        break;
@@ -187,7 +186,7 @@ public class Reporte extends JDialog implements ActionListener {
 	                    m.getNombres()+" "+m.getApellidos(),
 	                    m.getEspecialidad(),
 	                    c.getFecha(),
-	                    Cita.estados[c.getEstado()]
+	                    Cita.ESTADOS[c.getEstado()]
 	            });
 	        }
 	        break;
@@ -223,7 +222,7 @@ public class Reporte extends JDialog implements ActionListener {
 	                    c.getCodConsultorio(),
 	                    c.getFecha(),
 	                    c.getHora(),
-	                    Cita.estados[c.getEstado()]
+	                    Cita.ESTADOS[c.getEstado()]
 	            });
 	        }
 	        break;
@@ -256,7 +255,7 @@ public class Reporte extends JDialog implements ActionListener {
 	                    p.getNombres()+" "+p.getApellidos(),
 	                    m.getCodMedico(),
 	                    m.getNombres()+" "+m.getApellidos(),
-	                    Cita.estados[c.getEstado()]
+	                    Cita.ESTADOS[c.getEstado()]
 	            });
 	        }
 	        break;
@@ -324,7 +323,7 @@ public class Reporte extends JDialog implements ActionListener {
 	                Cita c = ac.obtener(j);
 	                if (c.getCodMedico() == m.getCodMedico()) {
 	                    total++;
-	                    estado = Cita.estados[c.getEstado()];
+	                    estado = Cita.ESTADOS[c.getEstado()];
 	                }
 	            }
 

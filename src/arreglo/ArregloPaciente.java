@@ -134,7 +134,25 @@ public class ArregloPaciente {
 	public void ordenarPorNombreCompleto() {
 		arr.sort(Comparator.comparing(Paciente::getNombreCompleto, String.CASE_INSENSITIVE_ORDER));
 	}
+	public Paciente buscarPorCodigo(int codigo) {
+	    for (int i = 0; i < tamano(); i++) {
+	        if (obtener(i).getCodPaciente() == codigo) {
+	            return obtener(i);
+	        }
+	    }
+	    return null;
+	}
 
+	public Paciente buscarPorDni(String dni) {
+	    for (int i = 0; i < tamano(); i++) {
+	        if (obtener(i).getDni().equals(dni)) {
+	            return obtener(i);
+	        }
+	    }
+	    return null;
+	}
+	       
+	 	   
 	// archivos de texto
 	private void cargar() {
 		try {

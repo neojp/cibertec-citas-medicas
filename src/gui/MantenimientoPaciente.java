@@ -3,16 +3,16 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-
-import arreglo.ArregloCita;
 import arreglo.ArregloPaciente;
+import clases.Cita;
 import clases.Paciente;
 
 import javax.swing.SwingConstants;
@@ -24,10 +24,7 @@ import java.awt.Color;
 public class MantenimientoPaciente extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JButton btnNuevo;
-	private JButton btnEditar;
-	private JButton btnEliminar;
-	private JButton btnBuscarDNI;
+	private JButton btnNuevo, btnEditar, btnEliminar,btnBuscarDNI, btnCleanSearch;
 	private JScrollPane scp;
 	private JButton btnBuscarCodigo;
 	private JLabel lblBuscar;
@@ -82,10 +79,20 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		pnlOpciones.add(btnEliminar);
 		btnEliminar.addActionListener(this);
 
+		btnBuscarCodigo = new JButton("Código");
+		btnBuscarCodigo.addActionListener(this);
+		btnBuscarCodigo.setBounds(292, 11, 89, 23);
+		getContentPane().add(btnBuscarCodigo);
+
 		btnBuscarDNI = new JButton("DNI");
 		btnBuscarDNI.addActionListener(this);
-		btnBuscarDNI.setBounds(493, 11, 89, 23);
+		btnBuscarDNI.setBounds(392, 11, 89, 23);
 		getContentPane().add(btnBuscarDNI);
+
+		btnCleanSearch = new JButton("Limpiar");
+		btnCleanSearch.addActionListener(this);
+		btnCleanSearch.setBounds(492, 11, 89, 23);
+		getContentPane().add(btnCleanSearch);
 
 		scp = new JScrollPane();
 		scp.setBounds(10, 45, 572, 233);
@@ -95,17 +102,13 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 				new String[] { "Código", "Nombres", "Apellidos", "DNI", "Edad", "Celular", "Correo", "Estado" });
 		tblTabla = new JTable();
 		tblTabla.setModel(modelo);
+		tblTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblTabla.setFillsViewportHeight(true);
 		scp.setViewportView(tblTabla);
 
-		btnBuscarCodigo = new JButton("Código");
-		btnBuscarCodigo.addActionListener(this);
-		btnBuscarCodigo.setBounds(394, 11, 89, 23);
-		getContentPane().add(btnBuscarCodigo);
-
 		lblBuscar = new JLabel("Buscar por:");
 		lblBuscar.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblBuscar.setBounds(321, 15, 69, 14);
+		lblBuscar.setBounds(210, 15, 69, 14);
 		getContentPane().add(lblBuscar);
 
 		load();
@@ -124,6 +127,11 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		if (e.getSource() == btnBuscarDNI) {
 			actionPerformedBtnBuscarDNI(e);
 		}
+
+		if (e.getSource() == btnCleanSearch) {
+			load();
+		}
+
 		if (e.getSource() == btnNuevo) {
 			actionPerformedBtnNuevo(e);
 		}
@@ -228,12 +236,12 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 			return;
 		}
 		
-		List<Integer> numCitas = Principal.getArrCitas().getNumCitasByPaciente(paciente.getCodPaciente());
-		if (numCitas.size() > 0) {
-			ArregloCita citas = Principal.getArrCitas();
-			for (int i = 0; i < numCitas.size(); i++) {
-				citas.deleteByPk(numCitas.get(i));
+		ArrayList<Cita> citas = Principal.getArrCitas().buscarPorPaciente(paciente.getCodPaciente());
+		if (citas.size() > 0) {
+			for (Cita c : citas) {
+				Principal.getArrCitas().eliminar(c);
 			}
+			JOptionPane.showMessageDialog(this, "El paciente tenía citas pasadas, por lo que se eliminaron", "Anuncio", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		arr.eliminar(paciente);

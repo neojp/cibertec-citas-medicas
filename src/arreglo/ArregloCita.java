@@ -1,319 +1,266 @@
 package arreglo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Comparator;
 
 import clases.Cita;
 
 public class ArregloCita {
-	// variables privadas
-	ArrayList<Cita> arr;
-	private String file = "src/main/resources/data/citas.txt";
-	
-	// constructor
-	public ArregloCita() {
-		arr = new ArrayList<Cita>();
-		cargar();
-	}
-	
-	// operaciones públicas básicas
-	public void adicionar(Cita x) {
-		arr.add(x);
-		grabar();
-	}
-	
-	public int tamano() {
-		return arr.size();
-	}
-	
-	public Cita obtener(int i) {
-		return arr.get(i);
-	}
-	
-	public void eliminar(Cita x) {
-		arr.remove(x);
-		grabar();
-	}
-	
-	// buscar
-	public Cita buscarNumCita(int numCita) {
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getNumCita() == numCita)
-				return obtener(i);
 
-		return null;
-	}
-	
-	public void deleteByPk(int numCita) {
-		for (int i = 0; i < tamano(); i++) {
-			Cita cita = obtener(i);
-			if (cita.getNumCita() == numCita) arr.remove(i);
-		}
-	}
-	
-	public ArrayList<Cita> buscarCodPaciente(int codPaciente) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
-		for (int i = 0; i < tamano(); i++) {
-			Cita cita = obtener(i);
-			if (cita.getCodPaciente() == codPaciente) aux.add(cita);			
-		}
+    private ArrayList<Cita> arr;
+    private String file = "src/main/resources/data/citas.txt";
 
-		if (aux.size() > 0) return aux;
-		return null;
-	}
+    // Constructor
+    public ArregloCita() {
+        arr = new ArrayList<>();
+        cargar();
+    }
 
-	public List<Integer> getNumCitasByPaciente(int codPaciente) {
-		List<Integer> datesFiltered = new ArrayList<>();
-		for (int i = 0; i < tamano(); i++) {
-			Cita cita = obtener(i);
-			if (cita.getCodPaciente() == codPaciente) datesFiltered.add(cita.getNumCita());
-		}
-		
-		return datesFiltered;
-	}
-	
-	public ArrayList<Cita> buscarCodMedico(int codMedico) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
-		
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCodMedico() == codMedico)
-				aux.add(obtener(i));
+    // =========================
+    // MÉTODOS BÁSICOS
+    // =========================
 
-		if (aux.size() > 0)
-			return aux;
+    public void adicionar(Cita x) {
+        arr.add(x);
+        grabar();
+    }
 
-		return null;
-	}
+    public void eliminar(Cita x) {
+        arr.remove(x);
+        grabar();
+    }
 
-	public ArrayList<Cita> buscarCodConsultorio(int codConsultorio) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
+    public void eliminarPorCodigo(int numCita) {
+        arr.removeIf(c -> c.getNumCita() == numCita);
+        grabar();
+    }
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCodConsultorio() == codConsultorio)
-				aux.add(obtener(i));
+    public void actualizarArchivo() {
+        grabar();
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    public int tamano() {
+        return arr.size();
+    }
 
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarEstado(int estado) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
+    public Cita obtener(int i) {
+        return arr.get(i);
+    }
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getEstado() == estado)
-				aux.add(obtener(i));
+    public Cita buscarNumCita(int numCita) {
+        for (Cita c : arr)
+            if (c.getNumCita() == numCita)
+                return c;
+        return null;
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    // =========================
+    // 🔹 MÉTODO AGREGADO PARA COMPATIBILIDAD
+    // =========================
 
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarFecha(String fecha) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
+    // Este método evita el error:
+    // "The method buscarCodConsultorio(int) is undefined"
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getFecha().equalsIgnoreCase(fecha))
-				aux.add(obtener(i));
+    public ArrayList<Cita> buscarCodConsultorio(int codConsultorio) {
+        return buscarPorConsultorio(codConsultorio);
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    // =========================
+    // GENERAR CÓDIGO
+    // =========================
 
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarHora(String hora) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
+    public int proximoCodigo() {
+        if (arr.isEmpty()) return 1001;
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getHora().equalsIgnoreCase(hora))
-				aux.add(obtener(i));
+        int max = arr.stream()
+                     .mapToInt(Cita::getNumCita)
+                     .max()
+                     .orElse(1000);
 
-		if (aux.size() > 0)
-			return aux;
+        return max + 1;
+    }
 
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarMotivo(String motivo) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
+    // =========================
+    // BÚSQUEDAS (DEVUELVEN LISTAS)
+    // =========================
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getMotivo().equalsIgnoreCase(motivo))
-				aux.add(obtener(i));
+    public ArrayList<Cita> buscarPorPaciente(int codPaciente) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr)
+            if (c.getCodPaciente() == codPaciente)
+                lista.add(c);
+        return lista;
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    public ArrayList<Cita> buscarPorMedico(int codMedico) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr)
+            if (c.getCodMedico() == codMedico)
+                lista.add(c);
+        return lista;
+    }
 
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarFuturasPorConsultorio(int codConsultorio) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
+    public ArrayList<Cita> buscarPorConsultorio(int codConsultorio) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr)
+            if (c.getCodConsultorio() == codConsultorio)
+                lista.add(c);
+        return lista;
+    }
 
-		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de consultorio y estado pendiente
-			if (obtener(i).getCodConsultorio() == codConsultorio && obtener(i).getEstado() == 0) {
-				// generar un objeto de fecha con los datos de la cita
-				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
-				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
-				
-				// comparar con la fecha actual
-				LocalDateTime ahora = LocalDateTime.now();
-				if (fechaIngresada.isAfter(ahora)) {
-					aux.add(obtener(i));
-				}
-			}
-		}
+    public ArrayList<Cita> buscarPorEstado(int estado) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr)
+            if (c.getEstado() == estado)
+                lista.add(c);
+        return lista;
+    }
 
-		if (aux.size() > 0)
-			return aux;
-
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarFuturasPorMedico(int codMedico) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
-
-		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de medico y estado pendiente
-			if (obtener(i).getCodMedico() == codMedico && obtener(i).getEstado() == 0) {
-				// generar un objeto de fecha con los datos de la cita
-				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
-				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
-				
-				// comparar con la fecha actual
-				LocalDateTime ahora = LocalDateTime.now();
-				if (fechaIngresada.isAfter(ahora)) {
-					aux.add(obtener(i));
-				}
-			}
-		}
-
-		if (aux.size() > 0)
-			return aux;
-
-		return null;
-	}
-	
-	public ArrayList<Cita> buscarFuturasPorPaciente(int codPaciente) {
-		ArrayList<Cita> aux = new ArrayList<Cita>();
-
-		for (int i = 0; i < tamano(); i++) {
-			// filtrar por código de paciente y estado pendiente
-			if (obtener(i).getCodPaciente() == codPaciente && obtener(i).getEstado() == 0) {
-				// generar un objeto de fecha con los datos de la cita
-				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-				String fechaTexto = obtener(i).getFecha() + " " + obtener(i).getHora();
-				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
-				
-				// comparar con la fecha actual
-				LocalDateTime ahora = LocalDateTime.now();
-				if (fechaIngresada.isAfter(ahora)) {
-					aux.add(obtener(i));
-				}
-			}
-		}
-
-		if (aux.size() > 0)
-			return aux;
-
-		return null;
-	}
-	
-	public int contarFuturasPorPaciente(int codPaciente) {
-		int numFutureDates = 0;
-		
-		for (int i = 0; i < tamano(); i++) {
-			Cita cita = obtener(i);
-			if (cita.getCodPaciente() == codPaciente) {
-				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-				String fechaTexto = cita.getFecha() + " " + cita.getHora();
-				LocalDateTime fechaIngresada = LocalDateTime.parse(fechaTexto, formato);
-				LocalDateTime ahora = LocalDateTime.now();
-				
-				if (fechaIngresada.isAfter(ahora)) numFutureDates++;
+    public ArrayList<Cita> buscarPorFecha(String fecha) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr) {
+			System.out.println("Comparando: " + c.getFecha() + " con " + fecha);
+            if (c.getFecha().equalsIgnoreCase(fecha)){
+				lista.add(c);
 			}
 		}
 		
-		return numFutureDates;
-	}
-	
-	// archivos de texto
-	private void cargar() {
-		try {
-			BufferedReader br;
-			String linea;
-			String[] s;
+        return lista;
+    }
 
-			// campos
-			int numCita, codPaciente, codMedico, codConsultorio, estado;
-			String fecha, hora, motivo;
+    public ArrayList<Cita> buscarPorHora(String hora) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr)
+            if (c.getHora().equalsIgnoreCase(hora))
+                lista.add(c);
+        return lista;
+    }
 
-			br = new BufferedReader(new FileReader(file));
-			while ((linea = br.readLine()) != null) {
-				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
-				numCita = Integer.parseInt(s[0].trim());
-				codPaciente = Integer.parseInt(s[1].trim());
-				codMedico = Integer.parseInt(s[2].trim());
-				codConsultorio = Integer.parseInt(s[3].trim());
-				estado = Integer.parseInt(s[4].trim());
-				fecha = s[5].trim();
-				hora = s[6].trim();
-				motivo = s[7].trim();
-				arr.add(new Cita(numCita, codPaciente, codMedico, codConsultorio, estado, fecha, hora, motivo));
-			}
-			br.close();
-		}
-		catch (Exception e) {
-			System.out.println("Error al cargar: " + e.getMessage());
-		}
-	}
-	
-	public void grabar() {
-		try {
-			PrintWriter pw;
-			String linea;
-			Cita x;
-			this.createFileIfNotExists();
-			pw = new PrintWriter(new FileWriter(file));
-			for (int i=0; i<tamano(); i++) {
-				x = obtener(i);
-				linea = x.getNumCita() + ";" +
-						x.getCodPaciente() + ";" +
-						x.getCodMedico() + ";" +
-						x.getCodConsultorio() + ";" +
-						x.getEstado() + ";" +
-						x.getFecha() + ";" +
-						x.getHora() + ";";
-						x.getMotivo();
-				pw.println(linea);
-			}
-			pw.close();
-		}
-		catch (Exception e) {
-			System.out.println("Error al grabar: " + e.getMessage());
-		}
-	}
-	
-	private void createFileIfNotExists() { 
-		File archivo = new File(file);
-		try {
-			if (!archivo.exists()) archivo.createNewFile();			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+    public ArrayList<Cita> buscarPorMotivo(String motivo) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        for (Cita c : arr)
+            if (c.getMotivo().equalsIgnoreCase(motivo))
+                lista.add(c);
+        return lista;
+    }
+
+    // =========================
+    // CITAS FUTURAS
+    // =========================
+
+    public ArrayList<Cita> buscarFuturasPorPaciente(int codPaciente) {
+        return filtrarFuturas(c -> c.getCodPaciente() == codPaciente);
+    }
+
+    public ArrayList<Cita> buscarFuturasPorMedico(int codMedico) {
+        return filtrarFuturas(c -> c.getCodMedico() == codMedico);
+    }
+
+    public ArrayList<Cita> buscarFuturasPorConsultorio(int codConsultorio) {
+        return filtrarFuturas(c -> c.getCodConsultorio() == codConsultorio);
+    }
+
+    private ArrayList<Cita> filtrarFuturas(java.util.function.Predicate<Cita> condicion) {
+        ArrayList<Cita> lista = new ArrayList<>();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime ahora = LocalDateTime.now();
+
+        for (Cita c : arr) {
+            if (condicion.test(c) && c.getEstado() == 0) {
+
+                LocalDateTime fechaCita =
+                        LocalDateTime.parse(c.getFecha() + " " + c.getHora(), formato);
+
+                if (fechaCita.isAfter(ahora))
+                    lista.add(c);
+            }
+        }
+        return lista;
+    }
+
+    public int contarFuturasPorPaciente(int codPaciente) {
+        return buscarFuturasPorPaciente(codPaciente).size();
+    }
+
+    // =========================
+    // ORDENAMIENTOS
+    // =========================
+
+    public void ordenarPorFecha() {
+        arr.sort(Comparator.comparing(Cita::getLocalDateTime));
+    }
+
+    public void ordenarPorNumero() {
+        arr.sort(Comparator.comparingInt(Cita::getNumCita));
+    }
+
+    // =========================
+    // ARCHIVOS
+    // =========================
+
+    private void cargar() {
+        try {
+            File archivo = new File(file);
+            if (!archivo.exists()) return;
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] s = linea.split(";", -1);
+
+                arr.add(new Cita(
+                        Integer.parseInt(s[0].trim()),
+                        Integer.parseInt(s[1].trim()),
+                        Integer.parseInt(s[2].trim()),
+                        Integer.parseInt(s[3].trim()),
+                        Integer.parseInt(s[4].trim()),
+                        s[5].trim(),
+                        s[6].trim(),
+                        s[7].trim()
+                ));
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println("Error al cargar: " + e.getMessage());
+        }
+    }
+
+    public void grabar() {
+        try {
+            crearArchivoSiNoExiste();
+
+            PrintWriter pw = new PrintWriter(new FileWriter(file));
+
+            for (Cita c : arr) {
+                pw.println(
+                        c.getNumCita() + ";" +
+                        c.getCodPaciente() + ";" +
+                        c.getCodMedico() + ";" +
+                        c.getCodConsultorio() + ";" +
+                        c.getEstado() + ";" +
+                        c.getFecha() + ";" +
+                        c.getHora() + ";" +
+                        c.getMotivo()
+                );
+            }
+
+            pw.close();
+        } catch (Exception e) {
+            System.out.println("Error al grabar: " + e.getMessage());
+        }
+    }
+
+    private void crearArchivoSiNoExiste() {
+        try {
+            File archivo = new File(file);
+            if (!archivo.exists())
+                archivo.createNewFile();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

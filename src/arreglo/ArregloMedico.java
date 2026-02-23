@@ -1,173 +1,204 @@
 package arreglo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import clases.Consultorio;
 import clases.Medico;
 
 public class ArregloMedico {
-	// variables privadas
-	ArrayList<Medico> arr;
-	private String file = "src/main/resources/data/medicos.txt";
-	
-	// constructor
-	public ArregloMedico() {
-		arr = new ArrayList<Medico>();
-		cargar();
-	}
-	
-	// operaciones públicas básicas
-	public void adicionar(Medico x) {
-		arr.add(x);
-		grabar();
-	}
-	
-	public int tamano() {
-		return arr.size();
-	}
-	
-	public Medico obtener(int i) {
-		return arr.get(i);
-	}
-	
-	public void eliminar(Medico x) {
-		arr.remove(x);
-		grabar();
-	}
-	
-	// buscar
-	public Medico buscarCodMedico(int codMedico) {
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCodMedico() == codMedico)
-				return obtener(i);
 
-		return null;
-	}
-	
-	public ArrayList<Medico> buscarEstado(int estado) {
-		ArrayList<Medico> aux = new ArrayList<Medico>();
+    private ArrayList<Medico> medicos;
+    private String file = "src/main/resources/data/medicos.txt";
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getEstado() == estado)
-				aux.add(obtener(i));
+    // =========================
+    // CONSTRUCTOR
+    // =========================
+    public ArregloMedico() {
+        medicos = new ArrayList<>();
+        cargar();
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    // =========================
+    // MÉTODOS BÁSICOS
+    // =========================
 
-		return null;
-	}
-	
-	public ArrayList<Medico> buscarNombres(String nombres) {
-		ArrayList<Medico> aux = new ArrayList<Medico>();
+    public void adicionar(Medico m) {
+        medicos.add(m);
+        grabar();
+    }
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getNombres().equalsIgnoreCase(nombres))
-				aux.add(obtener(i));
+    public void eliminar(Medico m) {
+        medicos.remove(m);
+        grabar();
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    public int tamano() {
+        return medicos.size();
+    }
 
-		return null;
-	}
-	
-	public ArrayList<Medico> buscarApellidos(String apellidos) {
-		ArrayList<Medico> aux = new ArrayList<Medico>();
+    public Medico obtener(int i) {
+        return medicos.get(i);
+    }
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getApellidos().equalsIgnoreCase(apellidos))
-				aux.add(obtener(i));
+    public void actualizar() {
+        grabar();
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    // =========================
+    // BÚSQUEDAS
+    // =========================
 
-		return null;
-	}
-	
-	public ArrayList<Medico> buscarEspecialidad(String especialidad) {
-		ArrayList<Medico> aux = new ArrayList<Medico>();
+    public Medico buscarCodMedico(int codMedico) {
+        for (Medico m : medicos) {
+            if (m.getCodMedico() == codMedico)
+                return m;
+        }
+        return null;
+    }
 
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getEspecialidad().equalsIgnoreCase(especialidad))
-				aux.add(obtener(i));
+    public Medico buscarPorCmp(String cmp) {
+        for (Medico m : medicos) {
+            if (m.getCmp().equalsIgnoreCase(cmp))
+                return m;
+        }
+        return null;
+    }
 
-		if (aux.size() > 0)
-			return aux;
+    public ArrayList<Medico> buscarEstado(int estado) {
+        ArrayList<Medico> lista = new ArrayList<>();
+        for (Medico m : medicos) {
+            if (m.getEstado() == estado)
+                lista.add(m);
+        }
+        return lista;
+    }
 
-		return null;
-	}
+    public ArrayList<Medico> buscarNombres(String nombres) {
+        ArrayList<Medico> lista = new ArrayList<>();
+        for (Medico m : medicos) {
+            if (m.getNombres().equalsIgnoreCase(nombres))
+                lista.add(m);
+        }
+        return lista;
+    }
 
-	public Medico buscarCmp(String cmp) {
-		for (int i = 0; i < tamano(); i++)
-			if (obtener(i).getCmp().equalsIgnoreCase(cmp))
-				return obtener(i);
-		
-		return null;
-	}
-	
-	// ordenar por código
-	public void ordenarPorCodigo() {
-		arr.sort(Comparator.comparingInt(Medico::getCodMedico));
-	}
-	
-	// ordenar alfabéticamente por nombre completo sin importar mayúsculas
-	public void ordenarPorNombreCompleto() {
-		arr.sort(Comparator.comparing(Medico::getNombreCompleto, String.CASE_INSENSITIVE_ORDER));
-	}
-	
-	// 	archivos de texto
-	private void cargar() {
-		try {
-			BufferedReader br;
-			String linea;
-			String[] s;
-			
-			// campos
-			int codMedico, estado;
-			String nombres, apellidos, especialidad, cmp;
-			
-			br = new BufferedReader(new FileReader(file));
-			while ((linea = br.readLine()) != null) {
-				s = linea.split(";", -1); // partir a traves de punto y coma, permitir cadenas vacías
-				codMedico = Integer.parseInt(s[0].trim());
-				nombres = s[1].trim();
-				apellidos = s[2].trim();
-				especialidad = s[3].trim();
-				cmp = s[4].trim();
-				estado = Integer.parseInt(s[5].trim());
-				arr.add(new Medico(codMedico, nombres, apellidos, especialidad, cmp, estado));
-			}
-			br.close();
-		}
-		catch (Exception e) {
-			System.out.println("Error al cargar: " + e.getMessage());
-		}
-	}
-	
-	public void grabar() {
-		try {
-			PrintWriter pw;
-			String linea;
-			Medico x;
-			pw = new PrintWriter(new FileWriter(file));
-			for (int i=0; i<tamano(); i++) {
-				x = obtener(i);
-				linea = x.getCodMedico() + ";" +
-						x.getNombres() + ";" +
-						x.getApellidos() + ";" +
-						x.getEspecialidad() + ";" +
-						x.getCmp() + ";" +
-						x.getEstado();
-				pw.println(linea);
-			}
-			pw.close();
-		}
-		catch (Exception e) {
-			System.out.println("Error al grabar: " + e.getMessage());
-		}
-	}
+    public ArrayList<Medico> buscarApellidos(String apellidos) {
+        ArrayList<Medico> lista = new ArrayList<>();
+        for (Medico m : medicos) {
+            if (m.getApellidos().equalsIgnoreCase(apellidos))
+                lista.add(m);
+        }
+        return lista;
+    }
+
+    public ArrayList<Medico> buscarEspecialidad(String especialidad) {
+        ArrayList<Medico> lista = new ArrayList<>();
+        for (Medico m : medicos) {
+            if (m.getEspecialidad().equalsIgnoreCase(especialidad))
+                lista.add(m);
+        }
+        return lista;
+    }
+
+    // =========================
+    // GENERAR PRÓXIMO CÓDIGO
+    // =========================
+
+    public int proximoCodigo() {
+        if (medicos.isEmpty())
+            return 501;
+
+        int max = medicos.stream()
+                .mapToInt(Medico::getCodMedico)
+                .max()
+                .orElse(500);
+
+        return max + 1;
+    }
+
+    // =========================
+    // ORDENAMIENTOS
+    // =========================
+
+    public void ordenarPorCodigo() {
+        medicos.sort(Comparator.comparingInt(Medico::getCodMedico));
+    }
+
+    public void ordenarPorNombreCompleto() {
+        medicos.sort(Comparator.comparing(
+                Medico::getNombreCompleto,
+                String.CASE_INSENSITIVE_ORDER));
+    }
+
+    // =========================
+    // ARCHIVOS
+    // =========================
+
+    private void cargar() {
+        try {
+            File archivo = new File(file);
+            if (!archivo.exists())
+                return;
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] d = linea.split(";", -1);
+
+                int cod = Integer.parseInt(d[0].trim());
+                String nom = d[1].trim();
+                String ape = d[2].trim();
+                String esp = d[3].trim();
+                String cmp = d[4].trim();
+                int est = Integer.parseInt(d[5].trim());
+
+                medicos.add(new Medico(cod, nom, ape, esp, cmp, est));
+            }
+
+            br.close();
+
+        } catch (Exception e) {
+            System.out.println("Error al cargar: " + e.getMessage());
+        }
+    }
+
+    public void grabar() {
+        try {
+            crearArchivoSiNoExiste();
+
+            PrintWriter pw = new PrintWriter(new FileWriter(file));
+
+            for (Medico m : medicos) {
+                pw.println(
+                        m.getCodMedico() + ";" +
+                        m.getNombres() + ";" +
+                        m.getApellidos() + ";" +
+                        m.getEspecialidad() + ";" +
+                        m.getCmp() + ";" +
+                        m.getEstado()
+                );
+            }
+
+            pw.close();
+
+        } catch (Exception e) {
+            System.out.println("Error al grabar: " + e.getMessage());
+        }
+    }
+
+    private void crearArchivoSiNoExiste() {
+        try {
+            File archivo = new File(file);
+            if (!archivo.exists())
+                archivo.createNewFile();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

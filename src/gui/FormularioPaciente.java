@@ -196,12 +196,12 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 		txtCelular.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
-				if (!Character.isDigit(c)) {
+				if (!Character.isDigit(c) && c != '+' && c != '-' && c != ' ') {
 					e.consume();
 					return;
 				}
 				
-				if(txtCelular.getText().length() >= 9) {
+				if(txtCelular.getText().length() >= 15) {
 					e.consume();
 				}
 			}
@@ -271,8 +271,10 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 	
 	private void validateForm() throws Exception {
 		onlyNumField(txtDni, 8);
-		isUniqueDni();
-		onlyNumField(txtCelular, 9);
+		if (action.equals("agregar")) {
+			isUniqueDni();
+		}
+		onlyNumField(txtCelular, 15);
 		isValidateEmail();
 		isFullFields();
 	}
@@ -280,7 +282,7 @@ public class FormularioPaciente extends JDialog implements ActionListener {
 	private void onlyNumField(JTextField field, int length) throws Exception {
 		String text = field.getText().trim();
 		String fieldName = field.getName().replace("txt", "").toLowerCase();
-		if(!text.matches("\\d+")) genError("El campo "+fieldName+" no es valido, por favor ingrese uno valido");
+		if(!text.matches("^[0-9\\+\\-\\s]+$")) genError("El campo "+fieldName+" no es valido, por favor ingrese uno valido");
 		if(text.length() < length) genError("El campo "+fieldName+" debe tener como minimo "+length+ " digitos");
 	}
 	

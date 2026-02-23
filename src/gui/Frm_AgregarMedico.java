@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import clases.Medico;
-import arreglo.ArregloMedico2;
+import arreglo.ArregloMedico;
 
 public class Frm_AgregarMedico extends JDialog implements ActionListener {
 
@@ -24,7 +24,7 @@ public class Frm_AgregarMedico extends JDialog implements ActionListener {
 	private DefaultTableModel modelo;
 
 	
-	ArregloMedico2 objArreglo = new ArregloMedico2();
+	ArregloMedico objArreglo = new ArregloMedico();
 	private JLabel lblMensaje;
 
 	public static void main(String[] args) {
@@ -142,7 +142,7 @@ public class Frm_AgregarMedico extends JDialog implements ActionListener {
 		scrollPane.setViewportView(tblBDMedico);
 
 		// --- CARGA INICIAL ---
-		txtCodMedico.setText(Medico.proximoCodigo());
+		txtCodMedico.setText(Medico.generarCodMedico() + ""); // MUESTRA EL CODIGO DEL PROXIMO MEDICO A REGISTRAR
 		listar();
 		txtNombre.requestFocus();
 	}
@@ -182,7 +182,7 @@ public class Frm_AgregarMedico extends JDialog implements ActionListener {
 			// ACTUAALIZO MI FORMULARIO 
 			listar();
 			limpiar();
-			txtCodMedico.setText(Medico.proximoCodigo());
+			txtCodMedico.setText(Medico.generarCodMedico() + ""); // ACTUALIZA EL CODIGO PARA EL PROXIMO MEDICO
 			JOptionPane.showMessageDialog(this, "Médico registrado correctamente.");
 			
 		} catch (Exception ex) {

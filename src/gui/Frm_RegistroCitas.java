@@ -1,30 +1,23 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+// import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import arreglos.ArregloCitas;
-import arreglos.ArregloMedico;
-import clases.Cita;
-import clases.Medico;
+// import arreglo.ArregloMedico;
+// import clases.Medico;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -35,10 +28,10 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
 	private JLabel lblNum;
 	private JTextField txtNumCita;
 	private JLabel lblPac;
-	private JComboBox cboPaciente;
+	private JComboBox<String> cboPaciente;
 	private JLabel lblMed;
-	private JComboBox cboMedico;
-	private JComboBox cboConsultorio;
+	private JComboBox<String> cboMedico;
+	private JComboBox<String> cboConsultorio;
 	private JLabel lblFec;
 	private JTextField txtFecha;
 	private JLabel lblHor;
@@ -46,17 +39,18 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
 	private JLabel blMot;
 	private JTextField txtMotivo;
 	private JLabel lblEst;
-	private JComboBox cboEstado;
+	private JComboBox<String> cboEstado;
 	private JButton btnAdicionar;
 	private JButton btnModificar;
 	private JButton btnCancelar;
 	private JButton btnLimpiar;
 	private JScrollPane scrollPane;
 	private JTable tblCitas;
+	private String[] ESTADOS = {"PENDIENTE","ATENDIDA","CANCELADA"};
+	
 	
 	// INSTANCIAS DE LOS ARREGLOS
-		private ArregloCitas objCita = new ArregloCitas();
-		private ArregloMedico objMed = new ArregloMedico();
+		// private ArregloMedico objMed = new ArregloMedico();
 
 	
 	
@@ -94,7 +88,7 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
 		lblPac.setBounds(20, 60, 80, 25);
 		getContentPane().add(lblPac);
 		
-		cboPaciente = new JComboBox();
+		cboPaciente = new JComboBox<String>();
 		cboPaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		cboPaciente.setBounds(110, 60, 219, 25);
 		getContentPane().add(cboPaciente);
@@ -105,7 +99,7 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
 		lblMed.setBounds(377, 60, 80, 25);
 		getContentPane().add(lblMed);
 		
-		cboMedico = new JComboBox();
+		cboMedico = new JComboBox<String>();
 		cboMedico.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		cboMedico.setBounds(467, 60, 268, 25);
 		getContentPane().add(cboMedico);
@@ -116,7 +110,7 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
         lblCon.setBounds(20, 100, 80, 25);
         getContentPane().add(lblCon);
         
-        cboConsultorio = new JComboBox();
+        cboConsultorio = new JComboBox<String>();
         cboConsultorio.setFont(new Font("Tahoma", Font.PLAIN, 13));
         cboConsultorio.setBounds(110, 100, 219, 25);
         getContentPane().add(cboConsultorio);
@@ -163,9 +157,9 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
         lblEst.setBounds(480, 140, 60, 25);
         getContentPane().add(lblEst);
         
-        cboEstado = new JComboBox();
+        cboEstado = new JComboBox<String>();
         cboEstado.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        cboEstado.setModel(new DefaultComboBoxModel(new String[] {"PENDIENTE","ATENDIDA","CANCELADA"}));
+        cboEstado.setModel(new DefaultComboBoxModel<String>(ESTADOS));
         cboEstado.setEnabled(false);
         cboEstado.setBounds(550, 141, 190, 25);
         getContentPane().add(cboEstado);
@@ -236,12 +230,6 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
         });
 	}
 	
-
-	
-	
-	
-	
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnLimpiar) {
 			actionPerformedBtnLimpiar(e);
@@ -269,69 +257,52 @@ public class Frm_RegistroCitas extends JDialog implements ActionListener {
 		
 	}
 	
-	private void cargarCombos() {
-		cboMedico.addItem("SELECCIONE MÉDICO");
-		for (int i = 0; i < objMed.tamano(); i++) {
-			Medico m = objMed.obtener(i);
-			cboMedico.addItem(m.getCodMedico() + " - " + m.getNombres() + " " + m.getApellidos());
-		}
+	// private void cargarCombos() {
+	// 	cboMedico.addItem("SELECCIONE MÉDICO");
+	// 	for (int i = 0; i < objMed.tamano(); i++) {
+	// 		Medico m = objMed.obtener(i);
+	// 		cboMedico.addItem(m.getCodMedico() + " - " + m.getNombres() + " " + m.getApellidos());
+	// 	}
 		
-		//PACIENTE
-		cboPaciente.addItem("SELECCIONE PACIENTE");
-		// for(int i=0; i < objPac.tamano(); i++) ...
+	// 	//PACIENTE
+	// 	cboPaciente.addItem("SELECCIONE PACIENTE");
+	// 	// for(int i=0; i < objPac.tamano(); i++) ...
 		
-		cboConsultorio.setModel(new DefaultComboBoxModel<>(new String[] {"SELECCIONE", "CONS. 101", "CONS. 102", "CONS. 201"}));
-	}
-	
+	// 	cboConsultorio.setModel(new DefaultComboBoxModel<>(new String[] {"SELECCIONE", "CONS. 101", "CONS. 102", "CONS. 201"}));
+	// }
 
+	// //METODO ESTADO INICIAR DE CAJAS DE TEXTO Y LOS COMBOS
+	// 	private void estadoInicial() {
+	// 	    txtNumCita.setEditable(false);
+	// 	    cboEstado.setEnabled(false);
+	// 	    btnAdicionar.setEnabled(true);
+	// 	    btnModificar.setEnabled(false);
+	// 	    btnCancelar.setEnabled(false);
+	// 	    tblCitas.clearSelection();
+	// 	}
 	
 	
-	
-	
-			
-	
-		
-		
-		
-		
-		
-		
-		
-		
-	
-	
-	//METODO ESTADO INICIAR DE CAJAS DE TEXTO Y LOS COMBOS
-		private void estadoInicial() {
-		    txtNumCita.setEditable(false);
-		    cboEstado.setEnabled(false);
-		    btnAdicionar.setEnabled(true);
-		    btnModificar.setEnabled(false);
-		    btnCancelar.setEnabled(false);
-		    tblCitas.clearSelection();
-		}
-	
-	
-	//METODO LIMPIAR
-		private void limpiar() {
+	// //METODO LIMPIAR
+	// 	private void limpiar() {
 
-		    txtNumCita.setText("");
-		    txtFecha.setText("");
-		    txtHora.setText("");
-		    txtMotivo.setText("");
+	// 	    txtNumCita.setText("");
+	// 	    txtFecha.setText("");
+	// 	    txtHora.setText("");
+	// 	    txtMotivo.setText("");
 
-		    cboPaciente.setSelectedIndex(0);
-		    cboMedico.setSelectedIndex(0);
-		    cboConsultorio.setSelectedIndex(0);
-		    cboEstado.setSelectedIndex(0);
-		    estadoInicial();
-		}
+	// 	    cboPaciente.setSelectedIndex(0);
+	// 	    cboMedico.setSelectedIndex(0);
+	// 	    cboConsultorio.setSelectedIndex(0);
+	// 	    cboEstado.setSelectedIndex(0);
+	// 	    estadoInicial();
+	// 	}
 		
-		//METODO PARA MENSAJE ERROR
-				private void MENSAJEERROR(String texto) {
-					JOptionPane.showMessageDialog(this, texto, "ERROR", JOptionPane.ERROR_MESSAGE);
-						}
-				//METODO PARA MENSAJE DE CONFIRMACION
-				private void MENSAJEINFORMACION(String texto) {
-						    JOptionPane.showMessageDialog(this, texto, "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
-						}
+	// 	//METODO PARA MENSAJE ERROR
+	// 			private void MENSAJEERROR(String texto) {
+	// 				JOptionPane.showMessageDialog(this, texto, "ERROR", JOptionPane.ERROR_MESSAGE);
+	// 					}
+	// 			//METODO PARA MENSAJE DE CONFIRMACION
+	// 			private void MENSAJEINFORMACION(String texto) {
+	// 					    JOptionPane.showMessageDialog(this, texto, "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
+	// 					}
 }

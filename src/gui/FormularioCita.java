@@ -129,7 +129,7 @@ public class FormularioCita extends JDialog implements ActionListener {
 		cboEstado = new JComboBox<String>();
 		if (action == "crear") cboEstado.setEnabled(false);
 		lblEstado.setLabelFor(cboEstado);
-		cboEstado.setModel(new DefaultComboBoxModel<String>(Cita.estados));
+		cboEstado.setModel(new DefaultComboBoxModel<String>(Cita.ESTADOS));
 		cboEstado.setBounds(157, 181, 297, 22);
 		contentPanel.add(cboEstado);
 		
@@ -354,10 +354,9 @@ public class FormularioCita extends JDialog implements ActionListener {
 			// validar por disponibilidad de citas			
 			// obtener todas las citas relacionadas al paciente, medico y consultorio relacionado a los datos del formulario
 			ArregloCita arr = Principal.getArrCitas();
-			ArrayList<Cita> citasPorMedico = arr.buscarCodMedico(leerCodMedico());
-			ArrayList<Cita> citasPorConsultorio = arr.buscarCodConsultorio(leerCodConsultorio());
-			ArrayList<Cita> citasPorPaciente = arr.buscarCodPaciente(leerCodPaciente());
-			
+			ArrayList<Cita> citasPorMedico = arr.buscarPorMedico(leerCodMedico());
+			ArrayList<Cita> citasPorConsultorio = arr.buscarPorConsultorio(leerCodConsultorio());
+			ArrayList<Cita> citasPorPaciente = arr.buscarPorPaciente(leerCodPaciente());
 			// generar un objeto de fecha con los datos del formulario
 			DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 			LocalDateTime fechaForm = LocalDateTime.parse(leerFecha() + " " + leerHora(), formatoFecha);

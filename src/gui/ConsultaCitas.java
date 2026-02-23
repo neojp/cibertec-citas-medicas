@@ -10,15 +10,28 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import arreglo.ArregloCita;
+import arreglo.ArregloMedico;
+import arreglo.ArregloConsultorio;
+import arreglo.ArregloPaciente;
+import clases.Cita;
+import libreria.CustomComboBoxItem;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.awt.event.ItemEvent;
 
 public class ConsultaCitas extends JDialog implements ActionListener, ItemListener {
@@ -28,15 +41,18 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 	private JButton btnOk, btnBuscar;
 	private JPanel panelTipo, bodyPanel, buttonPane, panelBuscar;
 	private JLabel lblConsultBy, lblCodigo;
-	private String consultType =  "paciente";
-	private JTextField txtCodigo;
+	private String consultType =  "Paciente";
 	private JComboBox<String> cboConsultar;
 	private JTable tblTabla = new JTable();
 	private DefaultTableModel tableModel;
 	private JScrollPane scpTable;
-	private Object[] headerTableP = {"Estado", "Fecha", "hora", "Médico", "Consultorio"};
+	private JComboBox<CustomComboBoxItem> cboSearch;
+	private JSpinner spnFecha;
+	private Object[] headerTableP = {"Estado", "Fecha", "Hora", "Médico", "Consultorio"};
 	private Object[] headerTableM = {"Estado", "Fecha", "Paciente", "Consultorio"};
-	private Object[] headerTableC = {"Fecha", "Ocupación", "Médico"};
+	private Object[] headerTableC = {"Estado", "Fecha", "Ocupación", "Médico"};
+	private Object[] headerTableF = {"Estado", "Hora", "Paciente", "Médico", "Consultorio"};
+	private Object[] currentHeader = headerTableP;
 
 	/**
 	 * Launch the application.
@@ -87,14 +103,34 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 		panelBuscar.setLayout(new BoxLayout(panelBuscar, BoxLayout.X_AXIS));
 		panelBuscar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 		
-		lblCodigo = new JLabel("Código "+consultType+":");
+		lblCodigo = new JLabel(consultType + ":");
 		panelBuscar.add(lblCodigo);
 		panelBuscar.add(Box.createHorizontalStrut(10));
+
+			
+		// cambiar el formato del spinner a día/mes/año
+		spnFecha = new JSpinner();
+		spnFecha.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_YEAR));
+		JSpinner.DateEditor fechaEditor = new JSpinner.DateEditor(spnFecha, "dd/MM/yyyy");
+		spnFecha.setEditor(fechaEditor);
+		panelBuscar.add(spnFecha);
+		spnFecha.setVisible(false);
 		
-		txtCodigo = new JTextField();
-		txtCodigo.setColumns(10);
-		txtCodigo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-		panelBuscar.add(txtCodigo);
+		//cbo para buscar por paciente, médico o consultorio
+		cboSearch = new JComboBox<CustomComboBoxItem>();
+		cboSearch.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+		//por defecto paciente
+		ArregloPaciente arrConsultorio = new ArregloPaciente();
+		arrConsultorio.ordenarPorNombreCompleto();
+		for (int i = 0; i < arrConsultorio.tamano(); i++)
+			if (arrConsultorio.obtener(i).getEstado() == 1)
+				cboSearch.addItem(
+					new CustomComboBoxItem(
+						arrConsultorio.obtener(i).getCodPaciente(),
+						arrConsultorio.obtener(i).getNombreCompleto()
+					)
+				);
+		panelBuscar.add(cboSearch);
 		
 		panelBuscar.add(Box.createHorizontalStrut(10));
 		
@@ -104,6 +140,7 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 		btnBuscar.setBackground(new Color(64,64,128));
 		btnBuscar.setForeground(new Color(255,255,255));
 		panelBuscar.add(btnBuscar);
+		getRootPane().setDefaultButton(btnBuscar);
 		
 		
 		
@@ -133,7 +170,6 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 		btnOk.setBackground(new Color(64,64,128));
 		btnOk.setForeground(new Color(255,255,255));
 		buttonPane.add(btnOk);
-		getRootPane().setDefaultButton(btnOk);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -156,10 +192,10 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 	protected void itemStateChangedCboConsultar(ItemEvent e) {
 		int index = cboConsultar.getSelectedIndex();
 		switch (index) {
-			case 0: consultType = "paciente"; break;
-			case 1: consultType = "medico"; break;
-			case 2: consultType = "consultorio"; break;
-			default: consultType = "fecha";
+			case 0: consultType = "Paciente"; break;
+			case 1: consultType = "Médico"; break;
+			case 2: consultType = "Consultorio"; break;
+			default: consultType = "Fecha";
 		}
 		
 		changeInterface();
@@ -167,26 +203,109 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 	}
 	
 	private void changeInterface() {
-		lblCodigo.setText("Código "+this.consultType+":");
-		Object[] newHeader = null;
+		if (this.consultType.equals("Fecha")) {
+			spnFecha.setVisible(true);
+			cboSearch.setVisible(false);
+			lblCodigo.setText("Fecha (dd/mm/aa):");
+			lblCodigo.setLabelFor(spnFecha);
+		} else {
+			lblCodigo.setText(this.consultType+":");
+			spnFecha.setVisible(false);
+			cboSearch.setVisible(true);
+			lblCodigo.setLabelFor(cboSearch);
+		}
 		Object[][] newData = null;
 		
 		System.out.println("tipo: " + this.consultType);
 		
 		switch (this.consultType) {
-			case "paciente": { newHeader = headerTableP; break; }
-			case "medico": { newHeader = headerTableM; break;}
-			case "consultorio": {newHeader = headerTableC; break;}
-			default: {newHeader = null;}
+			case "Paciente": { currentHeader = headerTableP;break;}
+			case "Médico": { currentHeader = headerTableM; break;}
+			case "Consultorio": {currentHeader = headerTableC; break;}
+			case "Fecha": {currentHeader = headerTableF; break;}
+			default: {currentHeader = null;}
 		}
 		
-		tableModel.setDataVector(newData, newHeader);
+		loadItemsCboSearch();
+		tableModel.setDataVector(newData, currentHeader);
 	}
 	
 	private void showResultSearch() {
-		tableModel.addRow(new Object[] {"hola","hola","hola","hola","hola"});
+		ArrayList<Cita> citas = new ArrayList<Cita>();
+		if (this.consultType.equals("Paciente")) {
+			citas = new ArregloCita().buscarPorPaciente(cboSearch.getItemAt(cboSearch.getSelectedIndex()).getValue());
+		} else if (this.consultType.equals("Medico")) {
+			citas = new ArregloCita().buscarPorMedico(cboSearch.getItemAt(cboSearch.getSelectedIndex()).getValue());
+		} else if (this.consultType.equals("Consultorio")) {
+			citas = new ArregloCita().buscarPorConsultorio(cboSearch.getItemAt(cboSearch.getSelectedIndex()).getValue());
+		} else {
+			citas = new ArregloCita().buscarPorFecha(leerFecha());
+		}
+
+		if (citas == null || citas.isEmpty()) {
+			tableModel.setRowCount(0);
+			JOptionPane.showMessageDialog(this, "No se encontraron citas para el criterio seleccionado.", "Resultado de búsqueda", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		for (Cita cita : citas) {
+			tableModel.addRow(cita.getToRow(currentHeader));
+		}
 	}
+
+	private void loadItemsCboSearch() {
+		cboSearch.removeAllItems();
+		
+		switch (this.consultType) {
+			case "Paciente": {
+				ArregloPaciente arr = new ArregloPaciente();
+				arr.ordenarPorNombreCompleto();
+				for (int i = 0; i < arr.tamano(); i++)
+					if (arr.obtener(i).getEstado() == 1)
+						cboSearch.addItem(new CustomComboBoxItem(
+							arr.obtener(i).getCodPaciente(),
+							arr.obtener(i).getNombreCompleto()
+						));
+				break;
+			}
+			case "Médico": {
+				ArregloMedico arr = new ArregloMedico();
+				arr.ordenarPorNombreCompleto();
+				for (int i = 0; i < arr.tamano(); i++)
+					if (arr.obtener(i).getEstado() == 1)
+						cboSearch.addItem(new CustomComboBoxItem(
+							arr.obtener(i).getCodMedico(),
+							arr.obtener(i).getNombreCompleto()
+						));
+				break;
+			}
+			case "Consultorio": {
+				ArregloConsultorio arr = new ArregloConsultorio();
+				for (int i = 0; i < arr.tamano(); i++)
+					if (arr.obtener(i).getEstado() == 1)
+						cboSearch.addItem(new CustomComboBoxItem(
+							arr.obtener(i).getCodConsultorio(),
+							arr.obtener(i).getNombre()
+						));
+				break;
+			}
+			case "Fecha": {
+				cboSearch.setVisible(false);
+				break;
+			}
+		}
+	}
+
 	protected void actionPerformedBtnBuscar(ActionEvent e) {
 		showResultSearch();
+	}
+
+		// leer la fecha y darle formato (dd/MM/yyyy)
+	private String leerFecha() {
+		// obtener el editor del spinner
+		JSpinner.DateEditor editor = (JSpinner.DateEditor) spnFecha.getEditor();
+
+		// formatear la fecha
+		return editor.getFormat().format(spnFecha.getValue());
 	}
 }

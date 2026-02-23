@@ -1,12 +1,10 @@
 package gui;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,15 +12,11 @@ import javax.swing.table.DefaultTableModel;
 import arreglo.ArregloCita;
 import arreglo.ArregloPaciente;
 import clases.Cita;
-import clases.Paciente;
 import libreria.CustomComboBoxItem;
 import libreria.Libreria;
 
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
 import javax.swing.JComboBox;
 
 public class ConsultaPorPaciente extends JDialog implements ActionListener {
@@ -110,31 +104,30 @@ public class ConsultaPorPaciente extends JDialog implements ActionListener {
 		// limpiar tabla
 		modelo.setRowCount(0);
 		
-		// detenerse método si no hay paciente seleccionado
+		// detener método si no hay paciente seleccionado
 		if (cboPaciente.getSelectedIndex() == -1) return;
 		
 		int codPaciente = ((CustomComboBoxItem) cboPaciente.getSelectedItem()).getValue();
 		
 		ArregloCita arr = new ArregloCita();
 		arr.ordenarPorFecha();
-		ArrayList<Cita> citas = arr.buscarCodPaciente(codPaciente);
 		
-		if (citas == null) return;
+		ArrayList<Cita> citas = arr.buscarPorPaciente(codPaciente);
 		
-		// iterar el arreglo y llenar la tabla con datos del paciente
+		if (citas == null || citas.isEmpty()) return;
+		
+		// iterar el arreglo y llenar la tabla
 		for (int i = 0; i < citas.size(); i++) {
-			// crear fila con datos del paciente
 			Object[] fila = {
 					citas.get(i).getNumCita(),
 					citas.get(i).getMedico().getNombreCompleto(),
 					citas.get(i).getConsultorio().getNombre(),
 					citas.get(i).getFecha(),
 					citas.get(i).getHora(),
-					Cita.estados[citas.get(i).getEstado()], // mostrar el label del estado
+					Cita.ESTADOS[citas.get(i).getEstado()],
 					citas.get(i).getMotivo()
 			};
 			
-			// agregar fila
 			modelo.addRow(fila);
 		}
 	}
