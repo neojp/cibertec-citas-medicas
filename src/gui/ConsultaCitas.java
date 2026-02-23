@@ -231,6 +231,7 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 	}
 	
 	private void showResultSearch() {
+		tableModel.setRowCount(0);
 		ArrayList<Cita> citas = new ArrayList<Cita>();
 		if (this.consultType.equals("Paciente")) {
 			citas = new ArregloCita().buscarPorPaciente(cboSearch.getItemAt(cboSearch.getSelectedIndex()).getValue());
@@ -243,7 +244,6 @@ public class ConsultaCitas extends JDialog implements ActionListener, ItemListen
 		}
 
 		if (citas == null || citas.isEmpty()) {
-			tableModel.setRowCount(0);
 			JOptionPane.showMessageDialog(this, "No se encontraron citas para el criterio seleccionado.", "Resultado de búsqueda", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
