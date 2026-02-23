@@ -9,6 +9,7 @@ public class Medico {
 	
 	// variables estaticas privadas
 	private static int contador = 1;
+	private static int indice = 1;
 
 	// constructor
 	public Medico() {
@@ -17,7 +18,7 @@ public class Medico {
 
 	// 3. CONSTRUCTOR PARA NUEVOS REGISTROS
 	public Medico(String nombres, String apellidos, String especialidad, String cmp, int estado) {
-		this.codMedico = generarCorrelativo();
+		this.codMedico = generarCodigoCorrelativo();
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.especialidad = especialidad;
@@ -37,9 +38,13 @@ public class Medico {
 
 		//METODOS 
 		
-		//METODO QUE GENERA EL FORMATO M000001
-		private int generarCorrelativo() {
-			return contador++;
+    		// MÉTODO ESTÁTICO PARA GENERAR CÓDIGO ÚNICO 
+		public static int generarCodigoCorrelativo(ArregloMedico objArreglo) {
+        		if (objArreglo.tamano() == 0) {
+        		    return 501; 
+        		} else {
+        		    return objArreglo.obtener(objArreglo.tamano() - 1).getCodMedico() + 1;
+        		}
 		}
 		
 		// Convierte el objeto a una línea de texto para el archivo .txt

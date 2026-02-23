@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglo.ArregloCita;
 import arreglo.ArregloConsultorio;
+import arreglo.ArregloMedico;
 import arreglo.ArregloMedico2;
 import arreglo.ArregloPaciente;
 import clases.Cita;
@@ -41,7 +42,7 @@ public class Reporte extends JDialog implements ActionListener {
 	//Declarar objetos globales
 	private ArregloCita ac = Principal.getArrCitas();
 	private ArregloConsultorio aco = Principal.getArrConsultorios();
-	private ArregloMedico2 am = Principal.getArrMedicos();
+	private ArregloMedico am = Principal.getArrMedicos();
 	private ArregloPaciente ap = Principal.getArrPacientes();
 
 	
@@ -232,7 +233,7 @@ public class Reporte extends JDialog implements ActionListener {
 	    
 
 	        modelo.setColumnIdentifiers(new String[]{
-	                "Fecha","Cod.Paciente","Paciente","Cod.Médico","Médico"
+	                "Fecha","Cod.Paciente","Paciente","Cod.Médico","Médico","Estado"
 	        });
 
 	        java.util.List<Cita> lista3 = new java.util.ArrayList<>();
@@ -254,7 +255,8 @@ public class Reporte extends JDialog implements ActionListener {
 	                    p.getCodPaciente(),
 	                    p.getNombres()+" "+p.getApellidos(),
 	                    m.getCodMedico(),
-	                    m.getNombres()+" "+m.getApellidos()
+	                    m.getNombres()+" "+m.getApellidos(),
+	                    Cita.estados[c.getEstado()]
 	            });
 	        }
 	        break;

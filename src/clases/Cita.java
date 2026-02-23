@@ -15,11 +15,9 @@ public class Cita {
 	private static int indice = 0;
 	
 	// variables estaticas publicas
-	public static String[] estados = new String[] {
-		"Pendiente",
-		"Atendida",
-		"Cancelada"
-	};
+
+    /// Constante para los estados (final para que no se modifique)
+	public static final String[] ESTADOS = {"PENDIENTE","ATENDIDA", "CANCELADA"};
 	
 	// constructor
 	public Cita() {
@@ -120,5 +118,13 @@ public class Cita {
 		indice++;
 
 		return indice;
+	}
+
+	public static String[] getEstados() {
+		return ESTADOS;
+	}
+
+	public String nombreEstado() {
+		return ESTADOS[estado];
 	}
 }
