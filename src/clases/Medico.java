@@ -1,13 +1,20 @@
 package clases;
 
+import arreglo.ArregloMedico;
+
 public class Medico {
 	// variables privadas
-	private int  estado, codMedico;
+	private int  codMedico, estado;
 	private String nombres, apellidos, especialidad, cmp;
 	
 	// variables estaticas privadas
 	private static int contador = 1;
-	
+
+	// constructor
+	public Medico() {
+		this(generarCodMedico(), "", "", "", "", 0);
+	}
+
 	// 3. CONSTRUCTOR PARA NUEVOS REGISTROS
 	public Medico(String nombres, String apellidos, String especialidad, String cmp, int estado) {
 		this.codMedico = generarCorrelativo();
@@ -119,6 +126,46 @@ public class Medico {
 	}
 	public void setCmp(String cmp) {
 		this.cmp = cmp;
+	}
+	public int getEspecialidadIndex() {
+		for (int i = 0; i < Medico.especialidades.length; i++)
+			if (Medico.especialidades[i].equalsIgnoreCase(especialidad))
+				return i;
+
+		return -1;
+	}
+
+	// métodos estaticos públicos
+	// generar código de médico en base al último código disponible
+	public static int generarCodMedico() {
+		// siempre obtener la última versión del arreglo
+		// ordenar por código de forma ascendente
+		// y obtener el último código disponible para incrementar por 1
+		ArregloMedico arr = new ArregloMedico();
+		if (arr.tamano() > 0) {
+			arr.ordenarPorCodigo();
+			indice = arr.obtener(arr.tamano() - 1).getCodMedico();
+		}
+
+		// incrementar el indice por 1
+		indice++;
+
+		return indice;
+	}
+	
+	// validar que el CMP sea único y no exista en el sistema
+	public static boolean validarCmpUnico(String cmp) {
+		ArregloMedico arr = new ArregloMedico();
+		System.out.println("validar cmp: " + cmp);
+		System.out.println(arr.buscarCmp(cmp));
+		return arr.buscarCmp(cmp) == null;
+	}
+	
+	public String getNombreCompleto() {
+		String str = this.nombres;
+		if (!this.apellidos.isEmpty())
+			str += " " + this.apellidos;
+		return str;
 	}
 	
 }

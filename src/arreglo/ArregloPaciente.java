@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import clases.Consultorio;
 import clases.Paciente;
 
 public class ArregloPaciente {
@@ -126,11 +125,16 @@ public class ArregloPaciente {
 		return null;
 	}
 	
-	// ordenar
+	// ordenar por código
 	public void ordenarPorCodigo() {
 		arr.sort(Comparator.comparingInt(Paciente::getCodPaciente));
 	}
 	
+	// ordenar alfabéticamente por nombre sin importar mayúsculas
+	public void ordenarPorNombreCompleto() {
+		arr.sort(Comparator.comparing(Paciente::getNombreCompleto, String.CASE_INSENSITIVE_ORDER));
+	}
+
 	// archivos de texto
 	private void cargar() {
 		try {

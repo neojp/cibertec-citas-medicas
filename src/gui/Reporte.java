@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import arreglo.ArregloCitas;
+import arreglo.ArregloCita;
 import arreglo.ArregloConsultorio;
 import arreglo.ArregloMedico2;
 import arreglo.ArregloPaciente;
@@ -33,13 +33,13 @@ public class Reporte extends JDialog implements ActionListener {
 	private JScrollPane scp;
 
 	/*Declarar objetos globales
-	private ArregloCitas ac= new ArregloCitas();
+	private ArregloCita ac= new ArregloCita();
 	private ArregloConsultorio aco=new ArregloConsultorio();
 	private ArregloMedico am=new ArregloMedico();
 	private ArregloPaciente ap=new ArregloPaciente();*/
 	
 	//Declarar objetos globales
-	private ArregloCitas ac = Principal.getArrCitas();
+	private ArregloCita ac = Principal.getArrCitas();
 	private ArregloConsultorio aco = Principal.getArrConsultorios();
 	private ArregloMedico2 am = Principal.getArrMedicos();
 	private ArregloPaciente ap = Principal.getArrPacientes();

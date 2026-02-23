@@ -10,8 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Consultorio;
-import clases.Medico;
-
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -86,7 +84,7 @@ public class FormularioConsultorio extends JDialog implements ActionListener {
 		lblNombre.setBounds(10, 45, 137, 14);
 		contentPanel.add(lblNombre);
 		
-		lblPiso = new JLabel("Piso:");
+		lblPiso = new JLabel("Pisos:");
 		lblPiso.setBounds(10, 73, 137, 14);
 		contentPanel.add(lblPiso);
 		

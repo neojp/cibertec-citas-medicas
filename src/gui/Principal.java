@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import arreglo.ArregloCitas;
+import arreglo.ArregloCita;
 import arreglo.ArregloConsultorio;
-import arreglo.ArregloMedico2;
+import arreglo.ArregloMedico;
 import arreglo.ArregloPaciente;
 
 import javax.swing.JMenuBar;
@@ -40,9 +40,9 @@ public class Principal extends JFrame implements ActionListener {
 	
 	// arreglos
 	private static ArregloConsultorio arrConsultorios = new ArregloConsultorio();
-	private static ArregloCitas arrCitas = new ArregloCitas();
+	private static ArregloCita arrCitas = new ArregloCita();
 	private static ArregloPaciente arrPacientes = new ArregloPaciente();
-	private static ArregloMedico2 arrMedicos = new ArregloMedico2();
+	private static ArregloMedico arrMedicos = new ArregloMedico();
 
 	/**
 	 * Launch the application.
@@ -153,49 +153,42 @@ public class Principal extends JFrame implements ActionListener {
 		}
 	}
 	protected void actionPerformedMntmPaciente(ActionEvent e) {
-		System.out.println("paciente");
 		MantenimientoPaciente ventana = new MantenimientoPaciente();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmMedico(ActionEvent e) {
-		System.out.println("medico");
-		Frm_MantMedico ventana = new Frm_MantMedico();
+		MantenimientoMedico ventana = new MantenimientoMedico();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmConsultorio(ActionEvent e) {
-		System.out.println("consultorio");
 		MantenimientoConsultorio ventana = new MantenimientoConsultorio();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmRegistro(ActionEvent e) {
-		System.out.println("registro");
 		RegistroCitas ventana = new RegistroCitas();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
 		ventana.setVisible(true);
 	}
 	protected void actionPerformedMntmConsulta(ActionEvent e) {
-		System.out.println("consulta");
 		ConsultaCitas consultaCitas = new ConsultaCitas();
 		consultaCitas.setLocationRelativeTo(this);
 		consultaCitas.setModal(true);
 		consultaCitas.setVisible(true);
 	}
 	protected void actionPerformedMntmAcerca(ActionEvent e) {
-		System.out.println("acerca");
 		Acerca acer = new Acerca();
 		acer.setLocationRelativeTo(this);
 		acer.setModal(true);
 		acer.setVisible(true);
 	}
 	protected void actionPerformedMntmReporteCitas(ActionEvent e) {
-		System.out.println("reporte de citas");
 		Reporte ventana = new Reporte();
 		ventana.setLocationRelativeTo(this);
 		ventana.setModal(true);
@@ -206,7 +199,7 @@ public class Principal extends JFrame implements ActionListener {
 		return arrConsultorios;
 	}
 
-	public static ArregloCitas getArrCitas() {
+	public static ArregloCita getArrCitas() {
 		return arrCitas;
 	}
 
@@ -214,7 +207,7 @@ public class Principal extends JFrame implements ActionListener {
 		return arrPacientes;
 	}
 
-	public static ArregloMedico2 getArrMedicos() {
+	public static ArregloMedico getArrMedicos() {
 		return arrMedicos;
 	}
 }

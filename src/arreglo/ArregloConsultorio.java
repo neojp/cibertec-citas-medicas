@@ -89,9 +89,14 @@ public class ArregloConsultorio {
 		return null;
 	}
 	
-	// ordenar
+	// ordenar por código
 	public void ordenarPorCodigo() {
 		arr.sort(Comparator.comparingInt(Consultorio::getCodConsultorio));
+	}
+	
+	// ordenar alfabéticamente por nombre sin importar mayúsculas
+	public void ordenarPorNombre() {
+		arr.sort(Comparator.comparing(Consultorio::getNombre, String.CASE_INSENSITIVE_ORDER));
 	}
 	
 	// archivos de texto

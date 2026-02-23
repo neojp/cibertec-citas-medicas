@@ -1,5 +1,11 @@
 package clases;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import arreglo.ArregloCita;
+import gui.Principal;
+
 public class Cita {
 	// variables privadas
 	private int numCita, codMedico, codPaciente, codConsultorio, estado;
@@ -16,6 +22,9 @@ public class Cita {
 	};
 	
 	// constructor
+	public Cita() {
+		this(generarNumCita(), 0, 0, 0, 0, "", "", "");
+	}
 	public Cita(int numCita, int codPaciente, int codMedico, int codConsultorio, int estado, String fecha, String hora, String motivo) {
 		this.numCita = numCita;
 		this.codPaciente = codPaciente;
@@ -77,8 +86,39 @@ public class Cita {
 		this.motivo = motivo;
 	}
 	
-	// metodos estaticos publicos
+	// getters de relaciones
+	public Paciente getPaciente() {
+		return Principal.getArrPacientes().buscarCodPaciente(getCodPaciente());
+	}
+	public Medico getMedico() {
+		return Principal.getArrMedicos().buscarCodMedico(getCodMedico());
+	}
+	public Consultorio getConsultorio() {
+		return Principal.getArrConsultorios().buscarCodConsultorio(getCodConsultorio());
+	}
+	
+	// convertir fecha y hora en LocalDateTime
+	public LocalDateTime getLocalDateTime() {
+		// generar un objeto de fecha con los datos de la cita
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		return LocalDateTime.parse(getFecha() + " " + getHora(), formato);
+	}
+	
+	// métodos estaticos públicos
+	// generar número de cita en base al último número disponible
 	public static int generarNumCita() {
-		return indice + 1;
+		// siempre obtener la última versión del arreglo
+		// ordenar por código de forma ascendente
+		// y obtener el último código disponible para incrementar por 1
+		ArregloCita arr = new ArregloCita();
+		if (arr.tamano() > 0) {
+			arr.ordenarPorNumero();
+			indice = arr.obtener(arr.tamano() - 1).getNumCita();
+		}
+
+		// incrementar el indice por 1
+		indice++;
+
+		return indice;
 	}
 }

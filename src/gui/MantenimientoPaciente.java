@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import arreglo.ArregloCitas;
+import arreglo.ArregloCita;
 import arreglo.ArregloPaciente;
 import clases.Paciente;
 
@@ -215,7 +215,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 
 		if (confirm == 1) return;
 
-		int nFutureDates = Principal.getArrCitas().buscarFuturasPorPaciente(paciente.getCodPaciente());
+		int nFutureDates = Principal.getArrCitas().contarFuturasPorPaciente(paciente.getCodPaciente());
 
 		if (nFutureDates > 0) {
 			String msg = "El consultorio no puede ser eliminado porque tiene " + nFutureDates;
@@ -230,7 +230,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		
 		List<Integer> numCitas = Principal.getArrCitas().getNumCitasByPaciente(paciente.getCodPaciente());
 		if (numCitas.size() > 0) {
-			ArregloCitas citas = Principal.getArrCitas();
+			ArregloCita citas = Principal.getArrCitas();
 			for (int i = 0; i < numCitas.size(); i++) {
 				citas.deleteByPk(numCitas.get(i));
 			}
