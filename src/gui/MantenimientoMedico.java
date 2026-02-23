@@ -203,11 +203,11 @@ public class MantenimientoMedico extends JDialog implements ActionListener {
 
 		if (confirm == 1) return;
 
-		int nFutureDates = Principal.getArrCitas().contarFuturasPorPaciente(medico.getCodMedico());
+		ArrayList<Cita> citasFuturas = Principal.getArrCitas().buscarFuturasPorMedico(medico.getCodMedico());
 
-		if (nFutureDates > 0) {
-			String msg = "El consultorio no puede ser eliminado porque tiene " + nFutureDates;
-			if (nFutureDates == 1)
+		if (citasFuturas.size() > 0) {
+			String msg = "El medico no puede ser eliminado porque tiene " + citasFuturas.size();
+			if (citasFuturas.size() == 1)
 				msg += " cita futura";
 			else
 				msg += " citas futuras";

@@ -226,7 +226,7 @@ public class MantenimientoPaciente extends JDialog implements ActionListener {
 		int nFutureDates = Principal.getArrCitas().contarFuturasPorPaciente(paciente.getCodPaciente());
 
 		if (nFutureDates > 0) {
-			String msg = "El consultorio no puede ser eliminado porque tiene " + nFutureDates;
+			String msg = "El paciente  no puede ser eliminado porque tiene " + nFutureDates;
 			if (nFutureDates == 1)
 				msg += " cita futura";
 			else
